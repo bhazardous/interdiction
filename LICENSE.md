@@ -1,5 +1,6 @@
 # ARMA PUBLIC LICENSE SHARE ALIKE (APL-SA)
 ![alt text](http://www.bistudio.com/assets/img/licenses/APL-SA.png "APL-SA")
+
 Full license text available at http://www.bistudio.com/community/licenses/arma-public-license-share-alike
 ## Brief summary of this Licence
 PLEASE, NOTE THAT THIS SUMMARY HAS NO LEGAL EFFECT AND IS ONLY OF AN INFORMATORY NATURE DESIGNED FOR YOU TO GET THE BASIC INFORMATION ABOUT THE CONTENT OF THIS LICENCE. THE ONLY LEGALLY BINDING PROVISIONS ARE THOSE IN THE ORIGINAL AND FULL TEXT OF THIS LICENCE.
