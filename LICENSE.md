@@ -1,5 +1,5 @@
 # ARMA PUBLIC LICENSE SHARE ALIKE (APL-SA)
-![alt text](http://www.bistudio.com/assets/img/licenses/APL-SA.png "APL-SA")
+[![](http://www.bistudio.com/assets/img/licenses/APL-SA.png)](http://www.bistudio.com/community/licenses/arma-public-license-share-alike)
 
 Full license text available at http://www.bistudio.com/community/licenses/arma-public-license-share-alike
 ## Brief summary of this Licence
