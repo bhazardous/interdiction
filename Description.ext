@@ -1,0 +1,20 @@
+/*--------------------------------------------------------------------
+	file: Description.ext
+	=====================
+	Author: Bhaz
+	Description:
+--------------------------------------------------------------------*/
+
+class CfgFunctions
+{
+	class INT
+	{
+		class server
+		{
+			class preInitServer
+			{
+				preInit = 1;
+			};
+		};
+	};
+};
