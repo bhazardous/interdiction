@@ -16,7 +16,8 @@ class Mission
 		"alive_sys_weather",
 		"alive_amb_civ_placement",
 		"alive_amb_civ_population",
-		"alive_mil_logistics"
+		"alive_mil_logistics",
+		"A3_Characters_F_Gamma"
 	};
 	addOnsAuto[]=
 	{
@@ -33,6 +34,7 @@ class Mission
 		"alive_amb_civ_placement",
 		"alive_amb_civ_population",
 		"alive_mil_logistics",
+		"A3_Characters_F_Gamma",
 		"a3_map_stratis"
 	};
 	randomSeed=10103462;
@@ -57,7 +59,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=15;
+		items=20;
 		class Item0
 		{
 			side="EAST";
@@ -68,15 +70,13 @@ class Mission
 				{
 					position[]={2620.9185,64.34832,611.44141};
 					special="NONE";
-					age="ACTUAL";
 					id=0;
 					side="EAST";
 					vehicle="O_Soldier_lite_F";
-					player="PLAYER COMMANDER";
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="testPlayer";
+					text="INT_unit_testPlayer";
 				};
 			};
 		};
@@ -1247,7 +1247,7 @@ class Mission
 						items=6;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_sys_weather";
 							typeName="weather_debug_setting";
 						};
@@ -1518,6 +1518,116 @@ class Mission
 					skill=0.60000002;
 					syncId=5;
 					synchronizations[]={4};
+				};
+			};
+		};
+		class Item15
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={716.68597,-116.65751,512.07959};
+					special="NONE";
+					age="ACTUAL";
+					id=15;
+					side="WEST";
+					vehicle="B_G_Soldier_F";
+					player="PLAYER COMMANDER";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.60000002;
+					text="INT_unit_player1";
+				};
+			};
+		};
+		class Item16
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={730.81384,0.15105729,512.29736};
+					special="NONE";
+					age="ACTUAL";
+					id=16;
+					side="WEST";
+					vehicle="B_G_Soldier_F";
+					player="PLAY CDG";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.60000002;
+					text="INT_unit_player2";
+				};
+			};
+		};
+		class Item17
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={746.0285,-0.011314616,512.29736};
+					special="NONE";
+					age="ACTUAL";
+					id=17;
+					side="WEST";
+					vehicle="B_G_Soldier_F";
+					player="PLAY CDG";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.60000002;
+					text="INT_unit_player3";
+				};
+			};
+		};
+		class Item18
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={759.72174,0.25143701,512.07959};
+					special="NONE";
+					age="ACTUAL";
+					id=18;
+					side="WEST";
+					vehicle="B_G_Soldier_F";
+					player="PLAY CDG";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.60000002;
+					text="INT_unit_player4";
+				};
+			};
+		};
+		class Item19
+		{
+			side="WEST";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={775.37122,-0.16614114,512.29736};
+					special="NONE";
+					age="ACTUAL";
+					id=19;
+					side="WEST";
+					vehicle="B_G_Soldier_F";
+					player="PLAY CDG";
+					leader=1;
+					rank="SERGEANT";
+					skill=0.60000002;
+					text="INT_unit_player5";
 				};
 			};
 		};

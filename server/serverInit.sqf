@@ -34,3 +34,6 @@ INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
 // TODO: CQB mission param - CQB_locality_setting ("client", "server", "HC")
+
+// Set up the starting position for players.
+call compile preprocessFileLineNumbers "server\playerStart.sqf";
