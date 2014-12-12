@@ -13,7 +13,7 @@ scriptName "playerStart";
 private ["_spawnMarker"];
 _spawnMarker = createMarkerLocal ["INT_mkr_spawn0", [5800,2500]];
 _spawnMarker setMarkerShapeLocal "RECTANGLE";
-_spawnMarker setMarkerSizeLocal [3000,200];
+_spawnMarker setMarkerSizeLocal [2900,200];
 _spawnMarker setMarkerDirLocal 132;
 //_spawnMarker setMarkerAlphaLocal 0;
 
@@ -83,9 +83,11 @@ _vehicleIndex = 0;
 
 // Switch to debug unit if in the editor.
 if (DEBUG) then {
-	if (isServer && hasInterface) then {
+	if (hasInterface) then {
 		selectPlayer INT_unit_testPlayer;
 	} else {
 		deleteVehicle INT_unit_testPlayer;
 	};
+} else {
+	deleteVehicle INT_unit_testPlayer;
 };
