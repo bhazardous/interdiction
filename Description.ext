@@ -5,12 +5,19 @@
 	Description:
 --------------------------------------------------------------------*/
 
+respawn = 3;
+
 class CfgFunctions
 {
 	class INT
 	{
+		class actions
+		{
+			class toggleCampConstruction {};
+		};
 		class server
 		{
+			class buildRequest {};
 			class preInitServer
 			{
 				preInit = 1;

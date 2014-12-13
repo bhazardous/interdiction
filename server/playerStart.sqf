@@ -91,3 +91,7 @@ if (DEBUG) then {
 } else {
 	deleteVehicle INT_unit_testPlayer;
 };
+
+// Add camp action to current players.
+[[true], "INT_fnc_toggleCampConstruction", true, false, false] call BIS_fnc_MP;
+INT_server_buildingEnabled = true;
