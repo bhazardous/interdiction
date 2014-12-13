@@ -33,10 +33,24 @@ if (INT_server_buildingEnabled) then {
 	};
 
 	// Position is valid - create object.
-	private ["_tent"];
+	private ["_tent", "_campMarker", "_spawnMarker"];
 	_tent = "Land_TentDome_F" createVehicle _campPosition;
 	_tent setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];
 	[[false], "INT_fnc_toggleCampConstruction", true, false, false] call BIS_fnc_MP;
+
+	// Enable respawning at this camp.
+	_campMarker = createMarker ["INT_mkr_resistanceCamp", _campPosition];
+	_campMarker setMarkerType "b_hq";
+	_campMarker setMarkerText "Camp";
+
+	_spawnMarker = createMarker ["INT_mkr_resistanceCampSpawn", _campPosition];
+	//_spawnMarker setMarkerAlpha 0;
+	_spawnMarker setMarkerShape "RECTANGLE";
+	_spawnMarker setMarkerSize [25,25];
+	"respawn_west" setMarkerPos _campPosition;
+
+	INT_global_campExists = true;
+	publicVariable "INT_global_campExists";
 } else {
 	"Build request arrived, but INT_server_buildingEnabled is false" call BIS_fnc_log;
 };

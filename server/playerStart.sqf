@@ -46,6 +46,8 @@ _players = [];
 		_players pushBack _x;
 	};
 } forEach [INT_unit_player1, INT_unit_player2, INT_unit_player3, INT_unit_player4, INT_unit_player5];
+INT_global_playerList = _players;
+publicVariable "INT_global_playerList";
 
 // Spawn starting vehicle(s).
 private ["_vehicleCount", "_vehicles"];
@@ -95,3 +97,5 @@ if (DEBUG) then {
 // Add camp action to current players.
 [[true], "INT_fnc_toggleCampConstruction", true, false, false] call BIS_fnc_MP;
 INT_server_buildingEnabled = true;
+INT_global_campExists = false;
+publicVariable "INT_global_campExists";

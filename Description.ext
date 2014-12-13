@@ -15,6 +15,10 @@ class CfgFunctions
 		{
 			class toggleCampConstruction {};
 		};
+		class respawn
+		{
+			class spectate {};
+		};
 		class server
 		{
 			class buildRequest {};
