@@ -3,7 +3,7 @@ scriptName "action_buildCamp";
 	file: action_buildCamp.sqf
 	==========================
 	Author: Bhaz
-	Description:
+	Description: Fires locally for the "Build camp" action on a player.
 --------------------------------------------------------------------*/
 #define __filename "action_buildCamp.sqf"
 

@@ -3,13 +3,13 @@ scriptName "onPlayerRespawn";
 	file: onPlayerRespawn.sqf
 	=========================
 	Author: Bhaz
-	Description:
+	Description: Runs locally for respawning players.
 --------------------------------------------------------------------*/
 #define __filename "onPlayerRespawn.sqf"
 
 // Don't run for HC or beginning of mission.
 if (!hasInterface) exitWith {};
-if (isNull (_this select 1) exitWith {};
+if (isNull (_this select 1)) exitWith {};
 
 // Respawning players spectate if there is no camp.
 waitUntil {!isNil "INT_global_campExists"};

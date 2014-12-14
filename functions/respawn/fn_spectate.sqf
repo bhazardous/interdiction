@@ -6,7 +6,7 @@ scriptName "fn_spectate";
 	Forced spectate while waiting to respawn / join. Runs clientside.
 
 	Parameter(s):
-	#0 OBJECT - Description
+	NONE
 
 	Returns:
 	nil

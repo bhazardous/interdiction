@@ -26,7 +26,7 @@ if (INT_server_buildingEnabled) then {
 	// Make sure the position is valid.
 	private ["_campPosition"];
 	_campPosition = _player modelToWorld [0,1,0];
-	_campPosition = _campPosition isFlatEmpty [1,0,0.7,1,0, false, _player];
+	_campPosition = _campPosition isFlatEmpty [0,0,1.0,7,0, false, _player];
 	if (count _campPosition == 0) exitWith {
 		hint "Invalid position";
 		[[true], "INT_fnc_toggleCampConstruction", _player, false, false] call BIS_fnc_MP;
@@ -44,7 +44,7 @@ if (INT_server_buildingEnabled) then {
 	_campMarker setMarkerText "Camp";
 
 	_spawnMarker = createMarker ["INT_mkr_resistanceCampSpawn", _campPosition];
-	//_spawnMarker setMarkerAlpha 0;
+	_spawnMarker setMarkerAlpha 0;
 	_spawnMarker setMarkerShape "RECTANGLE";
 	_spawnMarker setMarkerSize [25,25];
 	"respawn_west" setMarkerPos _campPosition;
