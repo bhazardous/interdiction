@@ -59,7 +59,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=20;
+		items=21;
 		class Item0
 		{
 			side="EAST";
@@ -325,7 +325,7 @@ class Mission
 					skill=0.60000002;
 					text="INT_module_alive_opfor_civ";
 					syncId=0;
-					synchronizations[]={3,4};
+					synchronizations[]={3,4,6};
 				};
 			};
 		};
@@ -470,7 +470,7 @@ class Mission
 					skill=0.60000002;
 					text="INT_module_alive_opfor_mil";
 					syncId=1;
-					synchronizations[]={3,4};
+					synchronizations[]={3,4,6};
 				};
 			};
 		};
@@ -841,7 +841,7 @@ class Mission
 					skill=0.60000002;
 					text="INT_module_alive_indfor_mil";
 					syncId=2;
-					synchronizations[]={3,4};
+					synchronizations[]={3,4,6};
 				};
 			};
 		};
@@ -1015,7 +1015,7 @@ class Mission
 						items=35;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_SYS_playeroptions";
 							typeName="debug";
 						};
@@ -1628,6 +1628,85 @@ class Mission
 					rank="SERGEANT";
 					skill=0.60000002;
 					text="INT_unit_player5";
+				};
+			};
+		};
+		class Item20
+		{
+			side="LOGIC";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={348.5838,-132.66183,352.90137};
+					class args
+					{
+						items=9;
+						class Item0
+						{
+							value="false";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="debug";
+						};
+						class Item1
+						{
+							value="false";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="persistent";
+						};
+						class Item2
+						{
+							value="occupation";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="controltype";
+						};
+						class Item3
+						{
+							value="0.75";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="reinforcements";
+						};
+						class Item4
+						{
+							value="BLU_G_F";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="faction1";
+						};
+						class Item5
+						{
+							value="NONE";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="faction2";
+						};
+						class Item6
+						{
+							value="NONE";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="faction3";
+						};
+						class Item7
+						{
+							value="NONE";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="faction4";
+						};
+						class Item8
+						{
+							value="";
+							parentCls="ALiVE_mil_OPCOM";
+							typeName="factions";
+						};
+					};
+					id=20;
+					side="LOGIC";
+					vehicle="ALiVE_mil_OPCOM";
+					leader=1;
+					lock="UNLOCKED";
+					skill=0.60000002;
+					text="INT_module_alive_blufor_opcom";
+					syncId=6;
+					synchronizations[]={2,1,0};
 				};
 			};
 		};

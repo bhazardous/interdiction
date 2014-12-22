@@ -15,7 +15,6 @@ scriptName "fn_buildRequest";
 
 private ["_player"];
 _player = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
-hint format ["%1", _player];
 
 if (isNull _player) exitWith {
 	"Build request sent from objNull" call BIS_fnc_log;
@@ -28,7 +27,7 @@ if (INT_server_buildingEnabled) then {
 	_campPosition = _player modelToWorld [0,1,0];
 	_campPosition = _campPosition isFlatEmpty [0,0,1.0,7,0, false, _player];
 	if (count _campPosition == 0) exitWith {
-		hint "Invalid position";
+		// TODO: Let the player know the position was bad
 		[[true], "INT_fnc_toggleCampConstruction", _player, false, false] call BIS_fnc_MP;
 	};
 
@@ -51,6 +50,14 @@ if (INT_server_buildingEnabled) then {
 
 	INT_global_campExists = true;
 	publicVariable "INT_global_campExists";
+
+	// Add OPFOR detection trigger to camp position.
+	private ["_objectiveParams"];
+	_objectiveParams = ["ResistanceCamp", _campPosition, 50, "MIL", 30];
+	[["EAST"], 200, _objectiveParams] call INT_fnc_triggerOpcomObjective;
+
+	// Notify friendly OPCOM of camp.
+	[INT_module_alive_blufor_opcom, _objectiveParams] call INT_fnc_addOpcomObjective;
 } else {
 	"Build request arrived, but INT_server_buildingEnabled is false" call BIS_fnc_log;
 };
