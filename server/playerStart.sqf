@@ -71,10 +71,18 @@ _vehicleRoom = 3;
 _vehicleIndex = 0;
 {
 	if (!_vehicleHasDriver) then {
-		_x moveInDriver (_vehicles select _vehicleIndex);
+		if (local _x) then {
+			_x moveInDriver (_vehicles select _vehicleIndex);
+		} else {
+			[[_x, (_vehicles select _vehicleIndex)], "moveInDriver", _x] call BIS_fnc_MP;
+		};
 		_vehicleHasDriver = true;
 	} else {
-		_x moveInCargo (_vehicles select _vehicleIndex);
+		if (local _x) then {
+			_x moveInCargo (_vehicles select _vehicleIndex);
+		} else {
+			[[_x, (_vehicles select _vehicleIndex)], "moveInCargo", _x] call BIS_fnc_MP;
+		};
 	};
 	_vehicleRoom = _vehicleRoom - 1;
 
