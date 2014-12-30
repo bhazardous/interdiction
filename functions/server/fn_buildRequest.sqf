@@ -21,7 +21,7 @@ if (isNull _player) exitWith {
 	nil;
 };
 
-if (INT_server_buildingEnabled) then {
+if (INT_global_buildingEnabled) then {
 	// Make sure the position is valid.
 	private ["_campPosition"];
 	_campPosition = _player modelToWorld [0,1,0];
@@ -59,7 +59,7 @@ if (INT_server_buildingEnabled) then {
 	// Notify friendly OPCOM of camp.
 	[INT_module_alive_blufor_opcom, _objectiveParams] call INT_fnc_addOpcomObjective;
 } else {
-	"Build request arrived, but INT_server_buildingEnabled is false" call BIS_fnc_log;
+	"Build request arrived, but INT_global_buildingEnabled is false" call BIS_fnc_log;
 };
 
 nil;

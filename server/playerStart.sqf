@@ -44,10 +44,10 @@ if (DEBUG) then {
 private ["_players"];
 _players = [];
 {
-	if (!isNull _x) then {
-		_players pushBack _x;
+	if (!isNil _x) then {
+		_players pushBack (missionNamespace getVariable _x);
 	};
-} forEach [INT_unit_player1, INT_unit_player2, INT_unit_player3, INT_unit_player4, INT_unit_player5];
+} forEach ["INT_unit_player1", "INT_unit_player2", "INT_unit_player3", "INT_unit_player4", "INT_unit_player5"];
 INT_global_playerList = _players;
 publicVariable "INT_global_playerList";
 
@@ -104,8 +104,8 @@ if (DEBUG) then {
 	deleteVehicle INT_unit_testPlayer;
 };
 
-// Add camp action to current players.
-[[true], "INT_fnc_toggleCampConstruction", true, false, false] call BIS_fnc_MP;
-INT_server_buildingEnabled = true;
+// Enable building for players.
+INT_global_buildingEnabled = true;
+publicVariable "INT_global_buildingEnabled";
 INT_global_campExists = false;
 publicVariable "INT_global_campExists";

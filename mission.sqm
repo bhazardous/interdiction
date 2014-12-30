@@ -94,7 +94,7 @@ class Mission
 						items=6;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_require";
 							typeName="debug";
 						};
@@ -152,7 +152,7 @@ class Mission
 						items=7;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_sys_profile";
 							typeName="debug";
 						};
@@ -216,7 +216,7 @@ class Mission
 						items=17;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_civ_placement";
 							typeName="debug";
 						};
@@ -343,7 +343,7 @@ class Mission
 						items=20;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_mil_placement";
 							typeName="debug";
 						};
@@ -488,7 +488,7 @@ class Mission
 						items=15;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_mil_cqb";
 							typeName="CQB_debug_setting";
 						};
@@ -601,7 +601,7 @@ class Mission
 						items=15;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_mil_cqb";
 							typeName="CQB_debug_setting";
 						};
@@ -714,7 +714,7 @@ class Mission
 						items=20;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_mil_placement";
 							typeName="debug";
 						};
@@ -1305,7 +1305,7 @@ class Mission
 						items=9;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_amb_civ_placement";
 							typeName="debug";
 						};
@@ -1381,7 +1381,7 @@ class Mission
 						items=8;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_amb_civ_population";
 							typeName="debug";
 						};
@@ -1451,7 +1451,7 @@ class Mission
 						items=10;
 						class Item0
 						{
-							value="true";
+							value="false";
 							parentCls="ALiVE_mil_logistics";
 							typeName="debug";
 						};

@@ -14,6 +14,7 @@ scriptName "fn_toggleCampConstruction";
 
 if (!hasInterface) exitWith {nil;};
 waitUntil {!isNull player};
+waitUntil {time > 0};
 
 private ["_enable"];
 _enable = [_this, 0, false, [true]] call BIS_fnc_param;
