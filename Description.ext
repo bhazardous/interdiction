@@ -1,0 +1,36 @@
+/*--------------------------------------------------------------------
+	file: Description.ext
+	=====================
+	Author: Bhaz
+	Description:
+--------------------------------------------------------------------*/
+
+respawn = 3;
+respawnDelay = 10;
+
+enableDebugConsole = 2;
+
+class CfgFunctions
+{
+	class INT
+	{
+		class actions
+		{
+			class toggleCampConstruction {};
+		};
+		class respawn
+		{
+			class spectate {};
+		};
+		class server
+		{
+			class buildRequest {};
+			class preInitServer
+			{
+				preInit = 1;
+			};
+			class addOpcomObjective {};
+			class triggerOpcomObjective {};
+		};
+	};
+};
