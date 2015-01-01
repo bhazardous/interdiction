@@ -11,4 +11,9 @@ scriptName "clientInit";
 [] spawn {
 	waitUntil {!isNil "INT_global_buildingEnabled"};
 	[INT_global_buildingEnabled] call INT_fnc_toggleCampConstruction;
+
+	sleep 10;
+	if (INT_global_buildingEnabled) then {
+		[["ResistanceMovement", "BuildCamp"], 15, "", 35, "", true, true, true] call BIS_fnc_advHint;
+	};
 };
