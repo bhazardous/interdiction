@@ -50,6 +50,10 @@ if (INT_global_buildingEnabled) then {
 
 	INT_global_campExists = true;
 	publicVariable "INT_global_campExists";
+	INT_global_buildingEnabled = false;
+	publicVariable "INT_global_buildingEnabled";
+	INT_global_campBuiltBy = name _player;
+	publicVariable "INT_global_campBuiltBy";
 
 	// Add OPFOR detection trigger to camp position.
 	private ["_objectiveParams"];
@@ -61,7 +65,8 @@ if (INT_global_buildingEnabled) then {
 
 	// Queue up gameplay hints.
 	[] spawn {
-		sleep 10;
+		[[["ResistanceMovement", "BuildCamp", "CampBuilt"], 15, "", 35, "", true, true, true], "BIS_fnc_advHint"] call BIS_fnc_MP;
+		sleep 60;
 		[[["ResistanceMovement", "GuerrillaWarfare"], 15, "", 35, "", true, true, true], "BIS_fnc_advHint"] call BIS_fnc_MP;
 		sleep 120;
 		[[["ResistanceMovement", "Equipment"], 15, "", 35, "", true, true, true], "BIS_fnc_advHint"] call BIS_fnc_MP;

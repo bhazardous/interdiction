@@ -10,6 +10,11 @@ respawnDelay = 10;
 
 enableDebugConsole = 2;
 
+onLoadName = "Interdiction";
+onLoadMission = "Form a resistance cell, push the enemy out.";
+author = "Bhaz";
+saving = 0;
+
 class CfgFunctions
 {
 	class INT
@@ -60,6 +65,17 @@ class CfgHints
 				displayName = "Invalid Position";
 				description = "Resistance camps cannot be built in water or on steep terrain.";
 			};
+			class CampBuilt
+			{
+				displayName = "Resistance camp";
+				description = "The camp has been established at %3%11%4 by %3%12%4.%1%2You will respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
+				tip = "The camp has been marked on your map.";
+				arguments[] = {
+					"mapGridPosition (markerPos 'INT_mkr_resistanceCamp')",
+					"INT_global_campBuiltBy"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
+			};
 		};
 		class Equipment
 		{
@@ -74,6 +90,16 @@ class CfgHints
 			description = "Weaken the enemy. Target their personnel, vehicles, equipment and strategic locations.";
 			tip = "The enemy will respond to threats, constantly attacking the same location will cause it to be reinforced.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Annoucning_ca.paa";
+		};
+		class Interdiction
+		{
+			displayName = "Interdiction";
+			description = "%3Interdiction%4 is a military term for the act of %3delaying%4, %3disrupting%4, or %3destroying%4 enemy forces or supplies en route to the battle area.%1- Wikipedia";
+			tip = "You have arrived at %11 to stop enemy forces pushing closer to your homeland. Disrupt the enemy, take their resources, inspire the local populace to rise up and join the fight."
+			arguments[] = {
+				"worldName"
+			};
+			image = "\a3\ui_f\data\gui\cfg\hints\BasicStances_ca.paa";
 		};
 	};
 };
