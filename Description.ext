@@ -25,10 +25,7 @@ class CfgFunctions
 		class server
 		{
 			class buildRequest {};
-			class preInitServer
-			{
-				preInit = 1;
-			};
+			class preInitServer {};
 			class addOpcomObjective {};
 			class triggerOpcomObjective {};
 		};

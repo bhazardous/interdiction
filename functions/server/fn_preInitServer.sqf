@@ -12,6 +12,14 @@ scriptName "fn_preInitServer";
 	nil
 */
 
+if (!isServer) exitWith {nil;};
+
+// Factions.
+INT_server_faction_blufor = "BLU_G_F";
+INT_server_faction_opfor = "OPF_F";
+INT_server_faction_indfor = "IND_F";
+INT_server_faction_enemy = [INT_server_faction_opfor, INT_server_faction_indfor];
+
 // Create TAOR markers.
 private ["_taorMarker"];
 _taorMarker = createMarkerLocal ["INT_mkr_taor", [4259.12,4131.65,0]];	// OPFOR. (entire terrain)
