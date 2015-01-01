@@ -48,4 +48,7 @@ INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of unit
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
 // TODO: CQB mission param - CQB_locality_setting ("client", "server", "HC")
 
+// BLUFOR logistics.
+INT_module_alive_blufor_logistics setVariable ["forcePool", "0"];
+
 nil;

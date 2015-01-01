@@ -28,6 +28,17 @@ class CfgFunctions
 			class preInitServer {};
 			class addOpcomObjective {};
 			class triggerOpcomObjective {};
+			class killedEvent {};
+			class resistanceActivity {};
+			class spawnResistance {};
 		};
+	};
+};
+
+class Extended_Killed_EventHandlers
+{
+	class Man
+	{
+		serverKillEvent = "_this call INT_fnc_killedEvent";
 	};
 };
