@@ -33,7 +33,7 @@ _spawnMarker setMarkerAlphaLocal 0;
 
 // Get a random position from the above markers.
 private ["_marker", "_position"];
-_marker = format ["INT_mkr_spawn%1", floor(random 2)];
+_marker = format ["INT_mkr_spawn%1", floor(random 3)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;
 if (DEBUG) then {
 	hint format ["Spawn position: %1", _position];

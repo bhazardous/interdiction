@@ -17,10 +17,11 @@ _groups = [_this, 0, 1, [0]] call BIS_fnc_param;
 
 waitUntil {!isNil "INT_global_campExists"};
 
-[] spawn {
+[_groups] spawn {
 	while {!INT_global_campExists} do {sleep 10;};
 
-	private ["_forces", "_side", "_position", "_pool", "_event"];
+	private ["_groups", "_forces", "_side", "_position", "_pool", "_event"];
+	_groups = _this select 0;
 	_forces = [_groups, 0,0,0,0,0];
 	switch (getNumber (configFile >> "CfgFactionClasses" >> INT_server_faction_blufor >> "side")) do {
 		case 0: {_side = "EAST";};

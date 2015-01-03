@@ -95,7 +95,7 @@ class CfgHints
 		{
 			displayName = "Interdiction";
 			description = "%3Interdiction%4 is a military term for the act of %3delaying%4, %3disrupting%4, or %3destroying%4 enemy forces or supplies en route to the battle area.%1- Wikipedia";
-			tip = "You have arrived at %11 to stop enemy forces pushing closer to your homeland. Disrupt the enemy, take their resources, inspire the local populace to rise up and join the fight."
+			tip = "You have arrived at %11 to stop enemy forces pushing closer to your homeland. Disrupt the enemy, take their resources, inspire the local populace to rise up and join the fight.";
 			arguments[] = {
 				"worldName"
 			};
