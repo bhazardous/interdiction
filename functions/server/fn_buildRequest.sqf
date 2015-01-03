@@ -54,6 +54,7 @@ if (INT_global_buildingEnabled) then {
 	publicVariable "INT_global_buildingEnabled";
 	INT_global_campBuiltBy = name _player;
 	publicVariable "INT_global_campBuiltBy";
+	["objCamp", "Succeeded"] call BIS_fnc_taskSetState;
 
 	// Add OPFOR detection trigger to camp position.
 	private ["_objectiveParams"];

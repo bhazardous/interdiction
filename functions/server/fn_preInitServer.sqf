@@ -19,6 +19,7 @@ INT_server_faction_blufor = "BLU_G_F";
 INT_server_faction_opfor = "OPF_F";
 INT_server_faction_indfor = "IND_F";
 INT_server_faction_enemy = [INT_server_faction_opfor, INT_server_faction_indfor];
+INT_server_side_blufor = west;
 
 // Create TAOR markers.
 private ["_taorMarker"];
