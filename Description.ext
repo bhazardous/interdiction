@@ -103,3 +103,42 @@ class CfgHints
 		};
 	};
 };
+
+class Params
+{
+	class SeparatorGeneral
+	{
+		title = "GENERAL -----------";
+		texts[] = {"--------------------"};
+		values[] = {0};
+	};
+	class Weather				// --1
+	{
+		title = "Initial weather";
+		texts[] = {"Clear", "Overcast", "Storm", "Fog"};
+		values[] = {1, 2, 3, 4};
+		default = 1;
+	};
+	class Time					// --2
+	{
+		title = "Starting time";
+		texts[] = {"0000", "0600", "1200", "1800"};
+		values[] = {0, 6, 12, 18};
+		default = 0;
+		function = "BIS_fnc_paramDaytime";
+		isGlobal = 1;
+	};
+	class SeparatorServer
+	{
+		title = "SERVER -------------";
+		texts[] = {"--------------------"};
+		values[] = {0};
+	};
+	class CQBLocality			// --4
+	{
+		title = "CQB AI";
+		texts[] = {"Server", "Headless client", "Players (not recommended)"};
+		values[] = {0, 1, 2};
+		default = 0;
+	};
+};

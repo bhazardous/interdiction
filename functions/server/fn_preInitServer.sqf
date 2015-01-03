@@ -47,9 +47,33 @@ INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 99999];	// Distance b
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
-// TODO: CQB mission param - CQB_locality_setting ("client", "server", "HC")
+private ["_locality"];
+switch (paramsArray select 4) do {
+	case 0: {_locality = "server";};
+	case 1: {_locality = "HC";};
+	case 2: {_locality = "client"};
+};
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality];
+INT_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality];
 
 // BLUFOR logistics.
 INT_module_alive_blufor_logistics setVariable ["forcePool", "0"];
+
+// Weather.
+INT_module_alive_weather setVariable ["weather_override_setting", paramsArray select 1];
+
+// OPCOM.
+INT_module_alive_blufor_opcom setVariable ["reinforcements", "0"];
+
+// Workaround for OPCOM divide by zero error.
+[] spawn {
+	private ["_handler"];
+
+	waitUntil {!isNil {INT_module_alive_blufor_opcom getVariable "handler"}};
+	_handler = INT_module_alive_blufor_opcom getVariable "handler";
+
+	waitUntil {count ([_handler, "startForceStrength", []] call ALiVE_fnc_hashGet) == 8};
+	[_handler, "startForceStrength", [1,0,0,0,0,0,0,0]] call ALiVE_fnc_hashSet;
+};
 
 nil;
