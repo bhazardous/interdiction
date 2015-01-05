@@ -65,33 +65,32 @@ for "_i" from 1 to _vehicleCount do {
 };
 
 // Throw players in the vehicle.
-private ["_vehicleHasDriver", "_vehicleRoom", "_vehicleIndex"];
-_vehicleHasDriver = false;
-_vehicleRoom = 3;
-_vehicleIndex = 0;
-{
-	if (!_vehicleHasDriver) then {
-		if (local _x) then {
-			_x moveInDriver (_vehicles select _vehicleIndex);
-		} else {
+[_vehicles, _players] spawn {
+	waitUntil {time > 0};
+
+	private ["_vehicles", "_players", "_vehicleHasDriver", "_vehicleRoom", "_vehicleIndex"];
+	_vehicles = _this select 0;
+	_players = _this select 1;
+	_vehicleHasDriver = false;
+	_vehicleRoom = 3;
+	_vehicleIndex = 0;
+
+	{
+		if (!_vehicleHasDriver) then {
 			[[_x, (_vehicles select _vehicleIndex)], "moveInDriver", _x] call BIS_fnc_MP;
-		};
-		_vehicleHasDriver = true;
-	} else {
-		if (local _x) then {
-			_x moveInCargo (_vehicles select _vehicleIndex);
+			_vehicleHasDriver = true;
 		} else {
 			[[_x, (_vehicles select _vehicleIndex)], "moveInCargo", _x] call BIS_fnc_MP;
 		};
-	};
-	_vehicleRoom = _vehicleRoom - 1;
+		_vehicleRoom = _vehicleRoom - 1;
 
-	if (_vehicleRoom == 0) then {
-		_vehicleIndex = _vehicleIndex + 1;
-		_vehicleRoom = 3;
-		_vehicleHasDriver = false;
-	};
-} forEach _players;
+		if (_vehicleRoom == 0) then {
+			_vehicleIndex = _vehicleIndex + 1;
+			_vehicleRoom = 3;
+			_vehicleHasDriver = false;
+		};
+	} forEach _players;
+};
 
 // Switch to debug unit if in the editor.
 if (DEBUG) then {
