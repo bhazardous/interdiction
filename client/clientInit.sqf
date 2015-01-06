@@ -7,6 +7,39 @@ scriptName "clientInit";
 --------------------------------------------------------------------*/
 #define __filename "clientInit.sqf"
 
+// Override faction unit.
+[] spawn {
+	["missionStart", true] call BIS_fnc_blackOut;
+	waitUntil {!isNil "INT_global_unit_override"};
+	waitUntil {!isNull player};
+	INT_global_unit_override = "rhs_g_Soldier_F";
+	if (INT_global_unit_override != "") then {
+		0 fadeSound 0;
+		0 fadeMusic 0;
+		0 fadeRadio 0;
+		waitUntil {time > 0};
+		private ["_oldUnit", "_unitName", "_newUnit"];
+		_oldUnit = player;
+		_unitName = format ["%1", player];
+
+		// Create new player unit.
+		_newUnit = (group player) createUnit [INT_global_unit_override, [0,0,0], [], 0, "NONE"];
+		selectPlayer _newUnit;
+		deleteVehicle _oldUnit;
+
+		// Broadcast new unit.
+		call compile format ["%1 = _newUnit", _unitName];
+		publicVariable _unitName;
+
+		sleep 1;
+		2 fadeSound 1;
+		2 fadeMusic 1;
+		2 fadeRadio 1;
+	};
+
+	["missionStart"] call BIS_fnc_blackIn;
+};
+
 // Camp action for joining players.
 [] spawn {
 	waitUntil {!isNil "INT_global_buildingEnabled"};

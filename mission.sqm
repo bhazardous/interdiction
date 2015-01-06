@@ -918,6 +918,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
+					text="INT_module_alive_opfor_opcom";
 					syncId=3;
 					synchronizations[]={0,1,2};
 				};
@@ -996,6 +997,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
+					text="INT_module_alive_indfor_opcom";
 					syncId=4;
 					synchronizations[]={0,1,2,5};
 				};

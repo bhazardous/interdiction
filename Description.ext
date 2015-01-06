@@ -128,13 +128,40 @@ class Params
 		function = "BIS_fnc_paramDaytime";
 		isGlobal = 1;
 	};
+	class SeparatorFaction
+	{
+		title = "FACTIONS ---------";
+		texts[] = {"--------------------"};
+		values[] = {0};
+	};
+	class OpforFaction			// --4
+	{
+		title = "OPFOR faction";
+		texts[] = {"CSAT", "Russian Airborne Troops (VDV) (RHS: Escalation)"};
+		values[] = {0, 1};
+		default = 1;
+	};
+	class IndforFaction			// --5
+	{
+		title = "INDFOR faction";
+		texts[] = {"AAF", "Russian Motor Rifle Troops (MSV) (RHS: Escalation)"};
+		values[] = {0, 1};
+		default = 1;
+	};
+	class BluforFaction			// --6
+	{
+		title = "Resistance (player) faction";
+		texts[] = {"FIA", "Insurgents (RHS: Escalation)"};
+		values[] = {0, 1};
+		default = 0;
+	};
 	class SeparatorServer
 	{
 		title = "SERVER -------------";
 		texts[] = {"--------------------"};
 		values[] = {0};
 	};
-	class CQBLocality			// --4
+	class CQBLocality			// --8
 	{
 		title = "CQB AI";
 		texts[] = {"Server", "Headless client", "Players (not recommended)"};

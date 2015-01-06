@@ -15,11 +15,36 @@ scriptName "fn_preInitServer";
 if (!isServer) exitWith {nil;};
 
 // Factions.
-INT_server_faction_blufor = "BLU_G_F";
-INT_server_faction_opfor = "OPF_F";
-INT_server_faction_indfor = "IND_F";
+INT_server_faction_blufor = switch (paramsArray select 6) do {
+	case 0: {"BLU_G_F"};
+	case 1: {"rhs_faction_insurgents"};
+};
+INT_global_unit_override = switch (paramsArray select 6) do {
+	case 0: {""};
+	case 1: {"rhs_g_Soldier_F"}
+};
+publicVariable "INT_global_unit_override";
+INT_server_faction_opfor = switch (paramsArray select 4) do {
+	case 0: {"OPF_F"};
+	case 1: {"rhs_faction_vdv"};
+};
+INT_server_faction_indfor = switch (paramsArray select 5) do {
+	case 0: {"IND_F"};
+	case 1: {"rhs_faction_msv"};
+};
+
 INT_server_faction_enemy = [INT_server_faction_opfor, INT_server_faction_indfor];
 INT_server_side_blufor = west;
+
+// Set up module factions.
+INT_module_alive_blufor_opcom setVariable ["factions", [INT_server_faction_blufor]];
+INT_module_alive_opfor_opcom setVariable ["factions", [INT_server_faction_opfor]];
+INT_module_alive_indfor_opcom setVariable ["factions", [INT_server_faction_indfor]];
+INT_module_alive_opfor_mil setVariable ["faction", INT_server_faction_opfor];
+INT_module_alive_opfor_civ setVariable ["faction", INT_server_faction_opfor];
+INT_module_alive_indfor_mil setVariable ["faction", INT_server_faction_indfor];
+INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
 
 // Create TAOR markers.
 private ["_taorMarker"];
@@ -48,7 +73,7 @@ INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
 private ["_locality"];
-switch (paramsArray select 4) do {
+switch (paramsArray select 8) do {
 	case 0: {_locality = "server";};
 	case 1: {_locality = "HC";};
 	case 2: {_locality = "client"};
