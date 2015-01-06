@@ -12,11 +12,12 @@ scriptName "clientInit";
 	["missionStart", true] call BIS_fnc_blackOut;
 	waitUntil {!isNil "INT_global_unit_override"};
 	waitUntil {!isNull player};
-	INT_global_unit_override = "rhs_g_Soldier_F";
+
 	if (INT_global_unit_override != "") then {
 		0 fadeSound 0;
 		0 fadeMusic 0;
 		0 fadeRadio 0;
+
 		waitUntil {time > 0};
 		private ["_oldUnit", "_unitName", "_newUnit"];
 		_oldUnit = player;
@@ -37,11 +38,24 @@ scriptName "clientInit";
 		2 fadeRadio 1;
 	};
 
-	["missionStart"] call BIS_fnc_blackIn;
-};
+	waitUntil {!isNil "INT_global_canJoin"};
+	if (INT_global_canJoin) then {
+		// Mission is still starting (<30 sec)
+		[[player], "INT_fnc_joinRequest", false] call BIS_fnc_MP;
 
-// Camp action for joining players.
-[] spawn {
+		// Wait for response from server.
+		waitUntil {!isNil "INT_local_playerReady"};
+	} else {
+		if (INT_global_campExists) then {
+			// Camp exists, move to spawn.
+		} else {
+			// No camp, start spectating.
+		};
+	};
+
+	["missionStart"] call BIS_fnc_blackIn;
+	INT_local_playerStarted = true;
+
 	waitUntil {!isNil "INT_global_buildingEnabled"};
 	[INT_global_buildingEnabled] call INT_fnc_toggleCampConstruction;
 

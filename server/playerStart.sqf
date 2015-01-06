@@ -35,61 +35,20 @@ _spawnMarker setMarkerAlphaLocal 0;
 private ["_marker", "_position"];
 _marker = format ["INT_mkr_spawn%1", floor(random 3)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;
+INT_server_startPosition = _position;
+
 if (DEBUG) then {
 	hint format ["Spawn position: %1", _position];
 	copyToClipboard format ["%1", _position];
 };
 
-// Count players.
-private ["_players"];
-_players = [];
-{
-	if (!isNil _x) then {
-		_players pushBack (missionNamespace getVariable _x);
-	};
-} forEach ["INT_unit_player1", "INT_unit_player2", "INT_unit_player3", "INT_unit_player4", "INT_unit_player5"];
-INT_global_playerList = _players;
-publicVariable "INT_global_playerList";
-
-// Spawn starting vehicle(s).
-private ["_vehicleCount", "_vehicles"];
-_vehicleCount = ceil (count _players / 3);
-_vehicles = [];
-
-for "_i" from 1 to _vehicleCount do {
-	private ["_vehicle"];
-	_vehicle = "C_Boat_Civil_01_F" createVehicle _position;
-	_vehicle setDir (random 360);
-	_vehicles pushBack _vehicle;
-	_position set [0, (_position select 0) + 10];
-};
-
-// Throw players in the vehicle.
-[_vehicles, _players] spawn {
-	waitUntil {time > 0};
-
-	private ["_vehicles", "_players", "_vehicleHasDriver", "_vehicleRoom", "_vehicleIndex"];
-	_vehicles = _this select 0;
-	_players = _this select 1;
-	_vehicleHasDriver = false;
-	_vehicleRoom = 3;
-	_vehicleIndex = 0;
-
-	{
-		if (!_vehicleHasDriver) then {
-			[[_x, (_vehicles select _vehicleIndex)], "moveInDriver", _x] call BIS_fnc_MP;
-			_vehicleHasDriver = true;
-		} else {
-			[[_x, (_vehicles select _vehicleIndex)], "moveInCargo", _x] call BIS_fnc_MP;
-		};
-		_vehicleRoom = _vehicleRoom - 1;
-
-		if (_vehicleRoom == 0) then {
-			_vehicleIndex = _vehicleIndex + 1;
-			_vehicleRoom = 3;
-			_vehicleHasDriver = false;
-		};
-	} forEach _players;
+// Allow some players to load late.
+[] spawn {
+	INT_global_canJoin = true;
+	publicVariable "INT_global_canJoin";
+	sleep 30;
+	INT_global_canJoin = false;
+	publicVariable "INT_global_canJoin";
 };
 
 // Switch to debug unit if in the editor.

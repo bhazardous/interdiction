@@ -11,6 +11,9 @@ scriptName "onPlayerRespawn";
 if (!hasInterface) exitWith {};
 if (isNull (_this select 1)) exitWith {};
 
+// If this is the first spawn (just joined), init scripts will take care of this.
+if (isNil "INT_local_playerStarted") exitWith {};
+
 // Respawning players spectate if there is no camp.
 waitUntil {!isNil "INT_global_campExists"};
 if (!INT_global_campExists) then {

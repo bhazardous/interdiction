@@ -25,6 +25,7 @@ class CfgFunctions
 		};
 		class respawn
 		{
+			class joinResponse {};
 			class spectate {};
 		};
 		class server
@@ -36,6 +37,7 @@ class CfgFunctions
 			class killedEvent {};
 			class resistanceActivity {};
 			class spawnResistance {};
+			class joinRequest {};
 		};
 	};
 };
