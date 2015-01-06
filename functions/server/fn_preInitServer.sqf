@@ -19,6 +19,10 @@ INT_server_faction_blufor = switch (paramsArray select 6) do {
 	case 0: {"BLU_G_F"};
 	case 1: {"rhs_faction_insurgents"};
 };
+INT_server_side_blufor = switch (paramsArray select 6) do {
+	case 0: {west};
+	case 1: {independent};
+};
 INT_global_unit_override = switch (paramsArray select 6) do {
 	case 0: {""};
 	case 1: {"rhs_g_Soldier_F"}
@@ -99,6 +103,14 @@ INT_module_alive_blufor_opcom setVariable ["reinforcements", "0"];
 
 	waitUntil {count ([_handler, "startForceStrength", []] call ALiVE_fnc_hashGet) == 8};
 	[_handler, "startForceStrength", [1,0,0,0,0,0,0,0]] call ALiVE_fnc_hashSet;
+};
+
+// Workaround for OPCOM complaining there are no profiles.
+if (INT_global_unit_override != "") then {
+	// Give OPCOM a single lone unit.
+	private ["_group", "_unit"];
+	_group = createGroup INT_server_side_blufor;
+	_unit = _group createUnit [INT_global_unit_override, markerPos "INT_mkr_taor", [], 0, "NONE"];
 };
 
 nil;

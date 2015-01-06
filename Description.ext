@@ -155,7 +155,7 @@ class Params
 		title = "Resistance (player) faction";
 		texts[] = {"FIA", "Insurgents (RHS: Escalation)"};
 		values[] = {0, 1};
-		default = 0;
+		default = 1;
 	};
 	class SeparatorServer
 	{

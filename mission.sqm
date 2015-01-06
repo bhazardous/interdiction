@@ -164,7 +164,7 @@ class Mission
 						};
 						class Item2
 						{
-							value="ADD";
+							value="IGNORE";
 							parentCls="ALiVE_sys_profile";
 							typeName="syncronised";
 						};
