@@ -27,8 +27,8 @@ publicVariable "INT_global_playerList";
 
 // Get a vehicle slot for the player.
 if (INT_server_vehicleRoom == 0) then {
-	INT_server_startVehicle = "C_Boat_Civil_01_F" createVehicle INT_server_startPosition;
-	INT_server_vehicleRoom = 3;
+	INT_server_startVehicle = "B_Boat_Transport_01_F" createVehicle INT_server_startPosition;
+	INT_server_vehicleRoom = 5;
 };
 
 if (INT_server_vehicleRoom == 3) then {

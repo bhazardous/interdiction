@@ -48,8 +48,10 @@ scriptName "clientInit";
 	} else {
 		if (INT_global_campExists) then {
 			// Camp exists, move to spawn.
+			player setPos (["respawn_west"] call BIS_fnc_randomPosTrigger);
 		} else {
 			// No camp, start spectating.
+			[] call INT_fnc_spectate;
 		};
 	};
 
