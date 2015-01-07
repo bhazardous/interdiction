@@ -9,31 +9,11 @@ scriptName "playerStart";
 
 #define DEBUG false
 
-// Marker data for Stratis.
-private ["_spawnMarker"];
-_spawnMarker = createMarkerLocal ["INT_mkr_spawn0", [5800,2500]];
-_spawnMarker setMarkerShapeLocal "RECTANGLE";
-_spawnMarker setMarkerSizeLocal [2900,200];
-_spawnMarker setMarkerDirLocal 132;
-_spawnMarker setMarkerAlphaLocal 0;
-
-_spawnMarker = createMarkerLocal ["INT_mkr_spawn1", [736.397,2423.59]];
-_spawnMarker setMarkerShapeLocal "RECTANGLE";
-_spawnMarker setMarkerSizeLocal [200,2000];
-_spawnMarker setMarkerDirLocal 0;
-_spawnMarker setMarkerAlphaLocal 0;
-
-_spawnMarker = createMarkerLocal ["INT_mkr_spawn2", [6524.6,7084.68]];
-_spawnMarker setMarkerShapeLocal "RECTANGLE";
-_spawnMarker setMarkerSizeLocal [1500,200];
-_spawnMarker setMarkerDirLocal 33;
-_spawnMarker setMarkerAlphaLocal 0;
-
 "respawn_west" setMarkerAlpha 0;
 
 // Get a random position from the above markers.
 private ["_marker", "_position"];
-_marker = format ["INT_mkr_spawn%1", floor(random 3)];
+_marker = format ["INT_mkr_spawn%1", floor(random INT_server_spawn_markers)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;
 INT_server_startPosition = _position;
 
