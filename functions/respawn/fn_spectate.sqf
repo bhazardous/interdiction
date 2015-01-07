@@ -37,4 +37,10 @@ player hideObject false;
 // Move player to spawn point.
 player setPos (["respawn_west"] call BIS_fnc_randomPosTrigger);
 
+// Add player to the playerList again.
+if (!(player in INT_global_playerList)) then {
+	INT_global_playerList pushBack player;
+	publicVariable "INT_global_playerList";
+};
+
 nil;

@@ -27,7 +27,7 @@ if (INT_global_buildingEnabled) then {
 	_campPosition = _player modelToWorld [0,1,0];
 	_campPosition = _campPosition isFlatEmpty [0,0,1.0,7,0, false, _player];
 	if (count _campPosition == 0) exitWith {
-		// TODO: Let the player know the position was bad
+		[[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 10, "", 10, "", true, true], "BIS_fnc_advHint", _player] call BIS_fnc_MP;
 		[[true], "INT_fnc_toggleCampConstruction", _player, false, false] call BIS_fnc_MP;
 	};
 
@@ -50,6 +50,11 @@ if (INT_global_buildingEnabled) then {
 
 	INT_global_campExists = true;
 	publicVariable "INT_global_campExists";
+	INT_global_buildingEnabled = false;
+	publicVariable "INT_global_buildingEnabled";
+	INT_global_campBuiltBy = name _player;
+	publicVariable "INT_global_campBuiltBy";
+	["objCamp", "Succeeded"] call BIS_fnc_taskSetState;
 
 	// Add OPFOR detection trigger to camp position.
 	private ["_objectiveParams"];
@@ -58,6 +63,15 @@ if (INT_global_buildingEnabled) then {
 
 	// Notify friendly OPCOM of camp.
 	[INT_module_alive_blufor_opcom, _objectiveParams] call INT_fnc_addOpcomObjective;
+
+	// Queue up gameplay hints.
+	[] spawn {
+		[[["ResistanceMovement", "BuildCamp", "CampBuilt"], 15, "", 35, "", true, true, true], "BIS_fnc_advHint"] call BIS_fnc_MP;
+		sleep 60;
+		[[["ResistanceMovement", "GuerrillaWarfare"], 15, "", 35, "", true, true, true], "BIS_fnc_advHint"] call BIS_fnc_MP;
+		sleep 120;
+		[[["ResistanceMovement", "Equipment"], 15, "", 35, "", true, true, true], "BIS_fnc_advHint"] call BIS_fnc_MP;
+	};
 } else {
 	"Build request arrived, but INT_global_buildingEnabled is false" call BIS_fnc_log;
 };
