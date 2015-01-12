@@ -38,6 +38,12 @@ class CfgFunctions
 			class resistanceActivity {};
 			class spawnResistance {};
 			class joinRequest {};
+			class addObjective {};
+			class checkPresence {};
+			class objectiveCapture {};
+			class objectiveManager {};
+			class captureMapIntel {};
+			class setMapIntel {};
 		};
 	};
 };
@@ -124,38 +130,20 @@ class Params
 	class Time					// --2
 	{
 		title = "Starting time";
-		texts[] = {"0000", "0600", "1200", "1800"};
-		values[] = {0, 6, 12, 18};
-		default = 0;
+		texts[] = {"0000","0100","0200","0300","0400 (recommended)","0500","0600","0700","0800",
+			"0900","1000","1100","1200","1300","1400","1500","1600","1700","1800","1900","2000",
+			"2100","2200","2300"};
+		values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23};
+		default = 4;
 		function = "BIS_fnc_paramDaytime";
 		isGlobal = 1;
 	};
-	class SeparatorFaction
+	class Factions				// --3
 	{
-		title = "FACTIONS ---------";
-		texts[] = {"--------------------"};
-		values[] = {0};
-	};
-	class OpforFaction			// --4
-	{
-		title = "OPFOR faction";
-		texts[] = {"CSAT", "Russian Airborne Troops (VDV) (RHS: Escalation)"};
+		title = "Factions";
+		texts[] = {"Vanilla (FIA vs. CSAT/AAF)", "@RHS_AFRF (Insurgents vs. Russian VDV/MSV"};
 		values[] = {0, 1};
-		default = 1;
-	};
-	class IndforFaction			// --5
-	{
-		title = "INDFOR faction";
-		texts[] = {"AAF", "Russian Motor Rifle Troops (MSV) (RHS: Escalation)"};
-		values[] = {0, 1};
-		default = 1;
-	};
-	class BluforFaction			// --6
-	{
-		title = "Resistance (player) faction";
-		texts[] = {"FIA", "Insurgents (RHS: Escalation)"};
-		values[] = {0, 1};
-		default = 1;
+		default = 0;
 	};
 	class SeparatorServer
 	{
@@ -163,7 +151,7 @@ class Params
 		texts[] = {"--------------------"};
 		values[] = {0};
 	};
-	class CQBLocality			// --8
+	class CQBLocality			// --5
 	{
 		title = "CQB AI";
 		texts[] = {"Server", "Headless client", "Players (not recommended)"};

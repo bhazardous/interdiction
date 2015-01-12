@@ -55,3 +55,6 @@ _spawnMarker setMarkerShapeLocal "RECTANGLE";
 _spawnMarker setMarkerSizeLocal [1500,200];
 _spawnMarker setMarkerDirLocal 33;
 _spawnMarker setMarkerAlphaLocal 0;
+
+// Objectives.
+call compile preprocessFileLineNumbers "server\terrain\stratis_obj.sqf";

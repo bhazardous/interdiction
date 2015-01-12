@@ -15,30 +15,28 @@ scriptName "fn_preInitServer";
 if (!isServer) exitWith {nil;};
 
 // Factions.
-INT_server_faction_blufor = switch (paramsArray select 6) do {
-	case 0: {"BLU_G_F"};
-	case 1: {"rhs_faction_insurgents"};
-};
-INT_server_side_blufor = switch (paramsArray select 6) do {
-	case 0: {west};
-	case 1: {independent};
-};
-INT_global_unit_override = switch (paramsArray select 6) do {
-	case 0: {""};
-	case 1: {"rhs_g_Soldier_F"}
+switch (paramsArray select 3) do {
+	case 0: {		// Vanilla (FIA, CSAT, AAF)
+		INT_server_faction_blufor = "BLU_G_F";
+		INT_server_side_blufor = west;
+		INT_server_faction_opfor = "OPF_F";
+		INT_server_side_opfor = east;
+		INT_server_faction_indfor = "IND_F";
+		INT_server_side_indfor = independent;
+		INT_global_unit_override = "";
+	};
+	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
+		INT_server_faction_blufor = "rhs_faction_insurgents";
+		INT_server_side_blufor = independent;
+		INT_server_faction_opfor = "rhs_faction_msv";
+		INT_server_side_opfor = east;
+		INT_server_faction_indfor = "rhs_faction_vdv";
+		INT_server_side_indfor = east;
+		INT_global_unit_override = "rhs_g_Soldier_F";
+	};
 };
 publicVariable "INT_global_unit_override";
-INT_server_faction_opfor = switch (paramsArray select 4) do {
-	case 0: {"OPF_F"};
-	case 1: {"rhs_faction_vdv"};
-};
-INT_server_faction_indfor = switch (paramsArray select 5) do {
-	case 0: {"IND_F"};
-	case 1: {"rhs_faction_msv"};
-};
-
 INT_server_faction_enemy = [INT_server_faction_opfor, INT_server_faction_indfor];
-INT_server_side_blufor = west;
 
 // Set up module factions.
 INT_module_alive_blufor_opcom setVariable ["factions", [INT_server_faction_blufor]];
@@ -51,6 +49,7 @@ INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_o
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
 
 // Island specific settings.
+["init"] call INT_fnc_objectiveManager;
 switch (worldName) do {
 	case "Stratis": {call compile preprocessFileLineNumbers "server\terrain\stratis.sqf";};
 	default {
@@ -58,10 +57,11 @@ switch (worldName) do {
 		["end1", false, 0] call BIS_fnc_endMission;
 	};
 };
+["manage"] spawn INT_fnc_objectiveManager;
 
 // CQB locality.
 private ["_locality"];
-switch (paramsArray select 8) do {
+switch (paramsArray select 5) do {
 	case 0: {_locality = "server";};
 	case 1: {_locality = "HC";};
 	case 2: {_locality = "client"};
