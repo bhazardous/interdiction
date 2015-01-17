@@ -17,7 +17,8 @@ class Mission
 		"alive_amb_civ_placement",
 		"alive_amb_civ_population",
 		"alive_mil_logistics",
-		"A3_Characters_F_Gamma"
+		"A3_Characters_F_Gamma",
+		"alive_mil_c2istar"
 	};
 	addOnsAuto[]=
 	{
@@ -35,6 +36,7 @@ class Mission
 		"alive_amb_civ_population",
 		"alive_mil_logistics",
 		"A3_Characters_F_Gamma",
+		"alive_mil_c2istar",
 		"a3_map_stratis"
 	};
 	randomSeed=10103462;
@@ -59,7 +61,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=22;
+		items=23;
 		class Item0
 		{
 			side="EAST";
@@ -1796,6 +1798,154 @@ class Mission
 					text="INT_module_alive_blufor_logistics";
 					syncId=7;
 					synchronizations[]={6};
+				};
+			};
+		};
+		class Item22
+		{
+			side="LOGIC";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={449.70624,-0.27155423,245.58838};
+					class args
+					{
+						items=21;
+						class Item0
+						{
+							value="false";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="debug";
+						};
+						class Item1
+						{
+							value="LaserDesignator";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="c2_item";
+						};
+						class Item2
+						{
+							value="";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="TASKING";
+						};
+						class Item3
+						{
+							value="false";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="persistent";
+						};
+						class Item4
+						{
+							value="false";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateBlufor";
+						};
+						class Item5
+						{
+							value="BLU_F";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateBluforFaction";
+						};
+						class Item6
+						{
+							value="OPF_F";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateBluforEnemyFaction";
+						};
+						class Item7
+						{
+							value="false";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateOpfor";
+						};
+						class Item8
+						{
+							value="OPF_F";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateOpforFaction";
+						};
+						class Item9
+						{
+							value="BLU_F";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateOpforEnemyFaction";
+						};
+						class Item10
+						{
+							value="false";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateIndfor";
+						};
+						class Item11
+						{
+							value="IND_F";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateIndforFaction";
+						};
+						class Item12
+						{
+							value="OPF_F";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="autoGenerateIndforEnemyFaction";
+						};
+						class Item13
+						{
+							value="";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="INTEL";
+						};
+						class Item14
+						{
+							value="true";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="displayIntel";
+						};
+						class Item15
+						{
+							value="1";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="intelChance";
+						};
+						class Item16
+						{
+							value="true";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="friendlyIntel";
+						};
+						class Item17
+						{
+							value="0";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="friendlyIntelRadius";
+						};
+						class Item18
+						{
+							value="true";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="displayMilitarySectors";
+						};
+						class Item19
+						{
+							value="false";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="displayPlayerSectors";
+						};
+						class Item20
+						{
+							value="2";
+							parentCls="ALiVE_MIL_C2ISTAR";
+							typeName="runEvery";
+						};
+					};
+					id=22;
+					side="LOGIC";
+					vehicle="ALiVE_MIL_C2ISTAR";
+					leader=1;
+					lock="UNLOCKED";
+					skill=0.60000002;
 				};
 			};
 		};

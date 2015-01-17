@@ -57,4 +57,7 @@ _spawnMarker setMarkerDirLocal 33;
 _spawnMarker setMarkerAlphaLocal 0;
 
 // Objectives.
-call compile preprocessFileLineNumbers "server\terrain\stratis_obj.sqf";
+[] spawn {
+	waitUntil {time > 10};
+	call compile preprocessFileLineNumbers "server\terrain\stratis_obj.sqf";
+};

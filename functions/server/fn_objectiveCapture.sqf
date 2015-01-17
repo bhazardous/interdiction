@@ -80,8 +80,8 @@ if (_success) then {
 
 if (getMarkerColor _objectiveName != "") then {
 	switch (_objective select 5) do {
-		case "friendly": { _objectiveName setMarkerColor "ColorBlue";};
-		case "enemy": {_objectiveName setMarkerColor "ColorRed";};
+		case "friendly": { _objectiveName setMarkerColor "ColorWEST";};
+		case "enemy": {_objectiveName setMarkerColor "ColorEAST";};
 	};
 };
 

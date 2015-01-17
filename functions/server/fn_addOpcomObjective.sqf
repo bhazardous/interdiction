@@ -6,7 +6,7 @@ scriptName "fn_addOpcomObjective";
 	Adds an objective to OPCOMs by their ID.
 
 	Parameter(s):
-	#0 ARRAY or OBJECT - List of OPCOM ID strings OR an OPCOM module
+	#0 ARRAY or OBJECT - List of OPCOM ID strings OR an OPCOM module, objNull for all
 	#1 ARRAY - Objective params
 		#0 STRING - Objective name
 		#1 POSITION - Objective position
@@ -23,10 +23,18 @@ _opcomList = [_this, 0, [], [[], objNull]] call BIS_fnc_param;
 _objectiveParams = [_this, 1, [], [[]], [5]] call BIS_fnc_param;
 
 if (typeName _opcomList == "OBJECT") then {
-	// Convert ALiVE module to OPCOM ID.
-	private ["_handler"];
-	_handler = _opcomList getVariable "handler";
-	_opcomList = [[_handler, "opcomID", ""] call ALiVE_fnc_hashGet];
+	if (!isNull _opcomList) then {
+		// Convert ALiVE module to OPCOM ID.
+		private ["_handler"];
+		_handler = _opcomList getVariable "handler";
+		_opcomList = [[_handler, "opcomID", ""] call ALiVE_fnc_hashGet];
+	} else {
+		// objNull - add all OPCOMs to list.
+		_opcomList = [];
+		{
+			_opcomList pushBack ([_x, "opcomID", ""] call ALiVE_fnc_hashGet);
+		} forEach OPCOM_INSTANCES;
+	};
 };
 
 {

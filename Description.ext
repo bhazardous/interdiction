@@ -44,6 +44,9 @@ class CfgFunctions
 			class objectiveManager {};
 			class captureMapIntel {};
 			class setMapIntel {};
+			class captureSectorIntel {};
+			class setSectorIntel {};
+			class checkBuildings {};
 		};
 	};
 };

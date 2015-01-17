@@ -48,11 +48,11 @@ switch (_action) do {
 						_friendlies = false;
 						_enemies = false;
 
-						// Remove object if attached building is destroyed.
-						if (_objective select 6 != 0) then {
-							private ["_building"];
-							_building = [0,0,0] nearestObject (_objective select 6);
-							if (getDammage _building >= 1) then {
+						// Remove object if attached buildings are destroyed.
+						if (count (_objective select 6) > 0) then {
+							private ["_destroyed"];
+							_destroyed = [_objective select 6, _objective select 0] call INT_fnc_checkBuildings;
+							if (_destroyed) then {
 								["objectiveDestroyed", [_x]] call INT_fnc_objectiveManager;
 							};
 						};
@@ -130,7 +130,7 @@ switch (_action) do {
 				};
 				_obj set [5, "destroyed"];
 
-				if (getMarkerColor _objectiveName != "") then {
+				if (getMarkerColor _objName != "") then {
 					deleteMarker _objName;
 				};
 				_ret = true;
