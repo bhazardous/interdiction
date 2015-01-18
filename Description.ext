@@ -145,7 +145,7 @@ class Params
 	class Factions				// --3
 	{
 		title = "Factions";
-		texts[] = {"Vanilla (FIA vs. CSAT/AAF)", "@RHS_AFRF (Insurgents vs. Russian VDV/MSV"};
+		texts[] = {"Vanilla (FIA vs. CSAT/AAF)", "RHS (Insurgents vs. Russian VDV/MSV)"};
 		values[] = {0, 1};
 		default = 0;
 	};
