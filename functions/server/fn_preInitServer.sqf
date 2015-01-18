@@ -50,8 +50,8 @@ INT_module_alive_indfor_opcom setVariable ["factions", [INT_server_faction_indfo
 INT_module_alive_opfor_mil setVariable ["faction", INT_server_faction_opfor];
 INT_module_alive_opfor_civ setVariable ["faction", INT_server_faction_opfor];
 INT_module_alive_indfor_mil setVariable ["faction", INT_server_faction_indfor];
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
+INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_opfor, true];
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor, true];
 
 // Island specific settings.
 ["init"] call INT_fnc_objectiveManager;
@@ -71,8 +71,8 @@ switch (paramsArray select 5) do {
 	case 1: {_locality = "HC";};
 	case 2: {_locality = "client"};
 };
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality];
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality];
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality, true];
+INT_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality, true];
 
 // BLUFOR logistics.
 INT_module_alive_blufor_logistics setVariable ["forcePool", "0"];
