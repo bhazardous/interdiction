@@ -56,6 +56,28 @@ _spawnMarker setMarkerSizeLocal [1500,200];
 _spawnMarker setMarkerDirLocal 33;
 _spawnMarker setMarkerAlphaLocal 0;
 
+// Location markers.
+INT_server_location_markers = [];
+
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_0", [2071.91,5439.47]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_1", [3246.21,5886.05]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_2", [4996.07,5852.19]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_3", [6457,5306.13]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_4", [4344.64,3787.79]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_5", [1948.61,3583.07]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_6", [4391.07,4356.35]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_7", [1996.13,2704.85]];
+INT_server_location_markers pushBack _spawnMarker;
+_spawnMarker = createMarkerLocal ["INT_mkr_loc_8", [3468.4,2632.78]];
+INT_server_location_markers pushBack _spawnMarker;
+
 // Objectives.
 [] spawn {
 	waitUntil {time > 10};
