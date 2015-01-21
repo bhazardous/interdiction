@@ -110,4 +110,9 @@ if (INT_global_unit_override != "") then {
 	_unit = _group createUnit [INT_global_unit_override, markerPos "INT_mkr_taor", [], 0, "NONE"];
 };
 
+// TFAR.
+if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
+	tf_no_auto_long_range_radio = false;
+};
+
 nil;
