@@ -6,8 +6,8 @@ scriptName "playerStart";
 	Description:
 --------------------------------------------------------------------*/
 #define __filename "playerStart.sqf"
-
-#define DEBUG false
+#define DEBUG_BLUFOR true
+#define DEBUG_OPFOR false
 
 "respawn_west" setMarkerAlpha 0;
 
@@ -17,7 +17,7 @@ _marker = format ["INT_mkr_spawn%1", floor(random INT_server_spawn_markers)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;
 INT_server_startPosition = _position;
 
-if (DEBUG) then {
+if (DEBUG_BLUFOR || DEBUG_OPFOR) then {
 	hint format ["Spawn position: %1", _position];
 	copyToClipboard format ["%1", _position];
 };
@@ -32,7 +32,7 @@ if (DEBUG) then {
 };
 
 // Switch to debug unit if in the editor.
-if (DEBUG) then {
+if (DEBUG_OPFOR) then {
 	if (hasInterface) then {
 		selectPlayer INT_unit_testPlayer;
 	} else {
@@ -40,6 +40,16 @@ if (DEBUG) then {
 	};
 } else {
 	deleteVehicle INT_unit_testPlayer;
+};
+
+if (DEBUG_BLUFOR) then {
+	if (hasInterface) then {
+		[] spawn {
+			waitUntil {time > 2};
+			player setPos [2099.27,4161.88,0];
+			skipTime 2;
+		};
+	};
 };
 
 // Enable building for players.
