@@ -18,7 +18,8 @@ class Mission
 		"alive_amb_civ_population",
 		"alive_mil_logistics",
 		"A3_Characters_F_Gamma",
-		"alive_mil_c2istar"
+		"alive_mil_c2istar",
+		"alive_sup_combatsupport"
 	};
 	addOnsAuto[]=
 	{
@@ -37,6 +38,7 @@ class Mission
 		"alive_mil_logistics",
 		"A3_Characters_F_Gamma",
 		"alive_mil_c2istar",
+		"alive_sup_combatsupport",
 		"a3_map_stratis"
 	};
 	randomSeed=10103462;
@@ -61,7 +63,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=23;
+		items=24;
 		class Item0
 		{
 			side="EAST";
@@ -1943,6 +1945,58 @@ class Mission
 					id=22;
 					side="LOGIC";
 					vehicle="ALiVE_MIL_C2ISTAR";
+					leader=1;
+					lock="UNLOCKED";
+					skill=0.60000002;
+				};
+			};
+		};
+		class Item23
+		{
+			side="LOGIC";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={348.9769,-0.064313546,145.75439};
+					class args
+					{
+						items=5;
+						class Item0
+						{
+							value="ItemRadio";
+							parentCls="ALiVE_sup_combatsupport";
+							typeName="combatsupport_item";
+						};
+						class Item1
+						{
+							value="0";
+							parentCls="ALiVE_sup_combatsupport";
+							typeName="combatsupport_casrespawnlimit";
+						};
+						class Item2
+						{
+							value="0";
+							parentCls="ALiVE_sup_combatsupport";
+							typeName="combatsupport_transportrespawnlimit";
+						};
+						class Item3
+						{
+							value="0";
+							parentCls="ALiVE_sup_combatsupport";
+							typeName="combatsupport_artyrespawnlimit";
+						};
+						class Item4
+						{
+							value="60";
+							parentCls="ALiVE_sup_combatsupport";
+							typeName="combatsupport_respawn";
+						};
+					};
+					id=23;
+					side="LOGIC";
+					vehicle="ALiVE_sup_combatsupport";
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;

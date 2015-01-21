@@ -48,6 +48,7 @@ class CfgFunctions
 			class setSectorIntel {};
 			class checkBuildings {};
 			class spawnConvoy {};
+			class addSupport {};
 		};
 	};
 };
