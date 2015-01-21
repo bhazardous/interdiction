@@ -15,6 +15,8 @@ scriptName "fn_preInitServer";
 if (!isServer) exitWith {nil;};
 
 // Factions.
+private ["_indepEastAllies"];
+_indepEastAllies = true;
 switch (paramsArray select 3) do {
 	case 0: {		// Vanilla (FIA, CSAT, AAF)
 		INT_server_faction_blufor = "BLU_G_F";
@@ -38,10 +40,16 @@ switch (paramsArray select 3) do {
 		INT_global_unit_override = "rhs_g_Soldier_F";
 		INT_server_opfor_supply = ["rhs_gaz66_ammo_msv", "RHS_Ural_Fuel_MSV_01", "rhs_gaz66_repair_msv"];
 		INT_server_opfor_unit = "rhs_msv_rifleman";
+		_indepEastAllies = false;
 	};
 };
 publicVariable "INT_global_unit_override";
 INT_server_faction_enemy = [INT_server_faction_opfor, INT_server_faction_indfor];
+
+if (!_indepEastAllies) then {
+	east setFriend [resistance, 0];
+	resistance setFriend [east, 0];
+};
 
 // Set up module factions.
 INT_module_alive_blufor_opcom setVariable ["factions", [INT_server_faction_blufor]];
