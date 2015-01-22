@@ -58,9 +58,13 @@ scriptName "clientInit";
 	["missionStart"] call BIS_fnc_blackIn;
 	INT_local_playerStarted = true;
 
-	waitUntil {!isNil "INT_global_buildingEnabled"};
-	[INT_global_buildingEnabled] call INT_fnc_toggleCampConstruction;
+	// Add the CBA menu. Using ALiVE's menu 'cause it looks nicer. :)
+	INT_local_flexiMenu = ["player", [[0x2F,[false,true,false]]], 0,
+		["_this call INT_fnc_interdictionMenu", "main"]];
+	// INT_local_flexiMenu call CBA_fnc_flexiMenu_add;
+	INT_local_flexiMenu call ALiVE_fnc_flexiMenu_add;
 
+	// Hints.
 	sleep 15;
 	[["ResistanceMovement", "Interdiction"], 15, "", 35, "", true, true, true] call BIS_fnc_advHint;
 	sleep 60;

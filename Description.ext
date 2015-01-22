@@ -21,7 +21,7 @@ class CfgFunctions
 	{
 		class actions
 		{
-			class toggleCampConstruction {};
+			class interdictionMenu {};
 		};
 		class respawn
 		{
@@ -69,7 +69,7 @@ class CfgHints
 		class BuildCamp
 		{
 			displayName = "Resistance camp";
-			description = "The resistance needs a camp to survive and stay organized, set up a camp with the action menu %11.";
+			description = "The resistance needs a camp to survive and stay organized, set up a camp with the mission's menu %3[Ctrl + V]%4.";
 			tip = "The enemy can discover your camp, try to keep it out of sight and away from OPFOR locations.";
 			arguments[] = {{{"NextAction"}}};
 			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";

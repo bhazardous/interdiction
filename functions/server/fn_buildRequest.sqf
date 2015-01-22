@@ -28,14 +28,12 @@ if (INT_global_buildingEnabled) then {
 	_campPosition = _campPosition isFlatEmpty [0,0,1.0,7,0, false, _player];
 	if (count _campPosition == 0) exitWith {
 		[[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 10, "", 10, "", true, true], "BIS_fnc_advHint", _player] call BIS_fnc_MP;
-		[[true], "INT_fnc_toggleCampConstruction", _player, false, false] call BIS_fnc_MP;
 	};
 
 	// Position is valid - create object.
 	private ["_tent", "_campMarker", "_spawnMarker"];
 	_tent = "Land_TentDome_F" createVehicle _campPosition;
 	_tent setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];
-	[[false], "INT_fnc_toggleCampConstruction", true, false, false] call BIS_fnc_MP;
 
 	// Enable respawning at this camp.
 	_campMarker = createMarker ["INT_mkr_resistanceCamp", _campPosition];
