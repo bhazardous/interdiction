@@ -9,15 +9,15 @@ scriptName "clientInit";
 
 // Override faction unit.
 [] spawn {
+	0 fadeSound 0;
+	0 fadeMusic 0;
+	0 fadeRadio 0;
+
 	["missionStart", true] call BIS_fnc_blackOut;
 	waitUntil {!isNil "INT_global_unit_override"};
 	waitUntil {!isNull player};
 
 	if (INT_global_unit_override != "") then {
-		0 fadeSound 0;
-		0 fadeMusic 0;
-		0 fadeRadio 0;
-
 		waitUntil {time > 0};
 		private ["_oldUnit", "_unitName", "_newUnit"];
 		_oldUnit = player;
@@ -33,9 +33,6 @@ scriptName "clientInit";
 		publicVariable _unitName;
 
 		sleep 1;
-		2 fadeSound 1;
-		2 fadeMusic 1;
-		2 fadeRadio 1;
 	};
 
 	waitUntil {!isNil "INT_global_canJoin"};
@@ -55,6 +52,9 @@ scriptName "clientInit";
 		};
 	};
 
+	2 fadeSound 1;
+	2 fadeMusic 1;
+	2 fadeRadio 1;
 	["missionStart"] call BIS_fnc_blackIn;
 	INT_local_playerStarted = true;
 
