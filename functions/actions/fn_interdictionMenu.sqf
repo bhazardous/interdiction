@@ -79,7 +79,7 @@ if (_menuName == "build") then {
 			[
 					[
 							"Resistance HQ",
-							{[[player], "INT_fnc_buildRequest", false, false, false] call BIS_fnc_MP;},
+							{["hq"] call INT_fnc_build;},
 							"",
 							"Establish a camp, also acts as a respawn point.",
 							"",

@@ -11,16 +11,11 @@ scriptName "playerStart";
 
 "respawn_west" setMarkerAlpha 0;
 
-// Get a random position from the above markers.
+// Get a random position from the spawn markers.
 private ["_marker", "_position"];
 _marker = format ["INT_mkr_spawn%1", floor(random INT_server_spawn_markers)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;
 INT_server_startPosition = _position;
-
-if (DEBUG_BLUFOR || DEBUG_OPFOR) then {
-	hint format ["Spawn position: %1", _position];
-	copyToClipboard format ["%1", _position];
-};
 
 // Allow some players to load late.
 [] spawn {
@@ -51,9 +46,3 @@ if (DEBUG_BLUFOR) then {
 		};
 	};
 };
-
-// Enable building for players.
-INT_global_buildingEnabled = true;
-publicVariable "INT_global_buildingEnabled";
-INT_global_campExists = false;
-publicVariable "INT_global_campExists";
