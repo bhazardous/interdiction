@@ -168,7 +168,7 @@ class CfgHints
 			class BuildInstructions
 			{
 				displayName = "Building";
-				description = "Use %3[C]%4 to place the building, or %3[Ctrl + C]%4 to cancel.%1You can also cancel by running away.";
+				description = "Use %3[C]%4 to place the building, or %3[Ctrl + C]%4 to cancel. You can also cancel by running away.%1Press %3[Shift + C]%4 to toggle snapping to terrain.";
 				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
 			};
 			class UnlockTechOne

@@ -10,6 +10,7 @@ scriptName "fn_buildRequest";
 	#1 STRING - Building type
 	#2 POSITION - Building position
 	#3 NUMBER - Direction
+	#4 ARRAY - Vector up
 
 	Returns:
 	nil
@@ -20,6 +21,7 @@ _player = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
 _type = [_this, 1, "", [""]] call BIS_fnc_param;
 _pos = [_this, 2, [0,0,0], [[]], [3]] call BIS_fnc_param;
 _rot = [_this, 3, 0, [0]] call BIS_fnc_param;
+_vec = [_this, 4, [0,0,0], [[]]] call BIS_fnc_param;
 _class = ([_type] call INT_fnc_lookupBuilding) select 0;
 
 if (isNull _player) exitWith {
@@ -36,6 +38,7 @@ if (INT_global_buildingEnabled) then {
 	_building = _class createVehicle _pos;
 	_building setPosATL _pos;
 	_building setDir _rot;
+	_building setVectorUp _vec;
 	_building setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];
 
 	// Building specific script.

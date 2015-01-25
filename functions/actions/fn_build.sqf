@@ -15,6 +15,7 @@ scriptName "fn_build";
 
 if (isNil "INT_local_building") then {
 	INT_local_building = false;
+	INT_local_building_snap = true;
 };
 if (INT_local_building) exitWith {};
 
@@ -61,9 +62,10 @@ if (isNull _building) exitWith {
 	_distance = _this select 1;
 	_startPos = getPos player;
 
-	// Alt+C to place or Alt+X to abort.
+	// C to place or Ctrl+C to abort. Shift+C terrain snap.
 	[0x2E, [false, false, false], {_this call INT_fnc_buildKeypress}, "keydown", "INT_buildPlace"] call CBA_fnc_addKeyHandler;
 	[0x2E, [false, true, false], {_this call INT_fnc_buildKeypress}, "keydown", "INT_buildAbort"] call CBA_fnc_addKeyHandler;
+	[0x2E, [true, false, false], {_this call INT_fnc_buildKeypress}, "keydown", "INT_buildSnap"] call CBA_fnc_addKeyHandler;
 
 	// Position loop.
 	while {INT_local_building} do {
@@ -71,6 +73,9 @@ if (isNull _building) exitWith {
 		_pos set [2, 0];
 		_building setPos _pos;
 		_building setDir ((getDir player + 180) % 360);
+		if (INT_local_building_snap) then {
+			_building setVectorUp (surfaceNormal _pos);
+		};
 
 		if (player distance _startPos > RUN_DISTANCE) then {
 			INT_local_building_action = "abort";
@@ -91,6 +96,7 @@ if (isNull _building) exitWith {
 	// Remove keybinds.
 	["INT_buildPlace"] call CBA_fnc_removeKeyHandler;
 	["INT_buildAbort"] call CBA_fnc_removeKeyHandler;
+	["INT_buildSnap"] call CBA_fnc_removeKeyHandler;
 
 	switch (INT_local_building_action) do {
 		case "abort": {
@@ -103,11 +109,12 @@ if (isNull _building) exitWith {
 		case "build": {
 			// Position confirmed, send request to server.
 			if (!isNull INT_local_building_object) then {
-				private ["_pos", "_rot", "_checkPos"];
+				private ["_pos", "_rot", "_vec", "_checkPos"];
 
 				// Delete the ghost object.
 				_pos = getPosATL INT_local_building_object;
 				_rot = getDir INT_local_building_object;
+				_vec = vectorUp INT_local_building_object;
 				deleteVehicle INT_local_building_object;
 
 				// Confirm the final position is OK.
@@ -118,7 +125,7 @@ if (isNull _building) exitWith {
 				};
 
 				// Send the build request to the server.
-				[[player, "hq", _pos, _rot], "INT_fnc_buildRequest", false] call BIS_fnc_MP;
+				[[player, "hq", _pos, _rot, _vec], "INT_fnc_buildRequest", false] call BIS_fnc_MP;
 			};
 		};
 
