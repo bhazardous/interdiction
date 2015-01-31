@@ -12,6 +12,7 @@ scriptName "fn_build";
 	nil
 */
 #define RUN_DISTANCE 8			// Distance players can move before cancelling build.
+#define MAX_DISTANCE 100		// Max distance a building can be from HQ.
 
 if (isNil "INT_local_building") then {
 	INT_local_building = false;
@@ -41,6 +42,24 @@ _dir = (getDir player + 180) % 360;
 _pos = _pos isFlatEmpty [0,0,1.0,7,0, false, player];
 if (count _pos == 0) exitWith {
 	[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+};
+
+// Buildings that require a camp need to be within MAX_DISTANCE.
+private ["_valid"];
+_valid = false;
+if (_type in ["service"]) then {
+	for "_i" from 1 to INT_global_campCount do {
+		private ["_campPos"];
+		_campPos = markerPos (format ["INT_mkr_resistanceCamp%1", _i]);
+		if (_campPos distance _pos < MAX_DISTANCE) exitWith {
+			_valid = true;
+		};
+	};
+} else {
+	_valid = true;
+};
+if (!_valid) exitWith {
+	[["ResistanceMovement", "BuildCamp", "Distance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
 };
 
 _building = _class createVehicleLocal _pos;
@@ -125,7 +144,7 @@ if (isNull _building) exitWith {
 				};
 
 				// Send the build request to the server.
-				[[player, "hq", _pos, _rot, _vec], "INT_fnc_buildRequest", false] call BIS_fnc_MP;
+				[[player, _type, _pos, _rot, _vec], "INT_fnc_buildRequest", false] call BIS_fnc_MP;
 			};
 		};
 

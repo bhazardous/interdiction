@@ -17,8 +17,12 @@ INT_server_kills = 0;					// Counting OPFOR kills.
 
 PUBLIC(INT_global_buildingEnabled,true);
 PUBLIC(INT_global_campExists,false);
-PUBLIC(INT_global_tech1,false);
-INT_server_campCount = 0;				// Number of resistance camps.
+PUBLIC(INT_global_tech1,false);			// Tech tier 1.
+PUBLIC(INT_global_campCount,0);			// Number of resistance camps.
+PUBLIC(INT_global_servicePointCount,0);	// Number of service points.
+PUBLIC(INT_global_servicePoints,[]);	// List of service point buildings.
+
+INT_server_servicePointData = [];
 
 // Objectives.
 "objCamp" call BIS_fnc_missionTasks;
