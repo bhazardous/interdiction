@@ -21,19 +21,31 @@ _action = _this select 1;
 _id = _this select 2;
 _vehicle = _this select 3;
 
+if (_action == "check") exitWith {
+	private ["_fuel", "_parts"];
+	_fuel = (INT_server_servicePointData select (_id - 1)) select 0;
+	_parts = (INT_server_servicePointData select (_id - 1)) select 1;
+	[["INT_local_partsUsed", _parts], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+	[["INT_local_fuelUsed", _fuel], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+	[["ResistanceMovement","ServicePoint","SPStock"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+};
+
 // Player and vehicle in position.
 _markerName = format ["INT_mkr_servicePoint%1", _id];
-if (_player distance (markerPos _markerName) > 10) then {
+if (_player distance (markerPos _markerName) > 10) exitWith {
 	// Player not close enough to service point.
-	hint "player <--> servicepoint";
+	[["ResistanceMovement","ServicePoint","SPDistPlayer"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+	nil;
 };
-if (_vehicle distance (markerPos _markerName) > 5) then {
+if (_vehicle distance (markerPos _markerName) > 10) exitWith {
 	// Vehicle not close enough to service point.
-	hint "vehicle <--> servicepoint";
+	[["ResistanceMovement","ServicePoint","SPDistVehicle"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+	nil;
 };
-if (_player distance _vehicle > 4) then {
+if (_player distance _vehicle > 4) exitWith {
 	// Player not close enough to vehicle.
-	hint "player <--> vehicle";
+	[["ResistanceMovement","ServicePoint","SPDistVehicleP"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+	nil;
 };
 
 // Change marker ID into array position.
@@ -43,11 +55,13 @@ _id = _id - 1;
 // _data = [fuel, parts]
 _data = INT_server_servicePointData select _id;
 
+// Repair and refuel actions.
 switch (_action) do {
 		case "repair": {
 				private ["_damage", "_partsRequired"];
 				_damage = damage _vehicle;
 				_partsRequired = ceil ((_damage * 100) / 5);
+				[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 
 				if (_partsRequired == 0) exitWith {
 					// No repairs needed.
@@ -57,21 +71,22 @@ switch (_action) do {
 					// Full repair.
 					_data set [1, (_data select 1) - _partsRequired];
 					_vehicle setDamage 0;
+					[["ResistanceMovement","ServicePoint","RepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				} else {
 					// Partial repair.
 					private ["_repair"];
 					_repair = _damage - ((_data select 1) * 0.05);
 					_data set [1, 0];
 					_vehicle setDamage _repair;
+					[["ResistanceMovement","ServicePoint","RepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				};
-
-				hint format ["Repaired, new damage value = %1", damage _vehicle];
 		};
 
 		case "refuel": {
 				private ["_fuel", "_fuelRequired"];
 				_fuel = fuel _vehicle;
 				_fuelRequired = ceil (((1 - _fuel) * 100) / 5);
+				[["INT_local_fuelUsed", _fuelRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 
 				if (_fuelRequired == 0) exitWith {
 					// No fuel required.
@@ -81,15 +96,15 @@ switch (_action) do {
 					// Full refuel.
 					_data set [0, (_data select 0) - _fuelRequired];
 					_vehicle setFuel 1;
+					[["ResistanceMovement","ServicePoint","RefuelFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				} else {
 					// Partial refuel.
 					private ["_refuel"];
 					_refuel = _fuel + ((_data select 0) * 0.05);
 					_data set [0, 0];
 					_vehicle setFuel _refuel;
+					[["ResistanceMovement","ServicePoint","RefuelPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				};
-
-				hint format ["Refuelled, new fuel value = %1", fuel _vehicle];
 		};
 
 		case "strip": {
@@ -97,7 +112,8 @@ switch (_action) do {
 				_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
 				_data set [1, (_data select 1) + _value];
 				deleteVehicle _vehicle;
-				hint format ["Stripped for %1 parts", _value];
+				[["INT_local_partsUsed", _value], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+				[["ResistanceMovement","ServicePoint","Stripped"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 		};
 
 		case "siphon": {
@@ -105,7 +121,8 @@ switch (_action) do {
 				_value = ceil (((fuel _vehicle) * 100) / 5);
 				_data set [0, (_data select 0) + _value];
 				_vehicle setFuel 0;
-				hint format ["Siphoned %1 fuel", _value];
+				[["INT_local_fuelUsed", _value], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+				[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 		};
 };
 

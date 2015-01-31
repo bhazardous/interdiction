@@ -131,6 +131,91 @@ class CfgHints
 			displayName = "Service Point";
 			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts.%1You can then %3repair%4 and %3refuel%4 more important resistance assets.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			class RepairFull
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been repaired using %12 spare parts.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class RepairPartial
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been partially repaired using %12 spare parts. The service point has no more parts remaining.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class RefuelFull
+			{
+				displayName = "Vehicle Refuelled";
+				description = "%11 has been refuelled using %12 fuel.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_fuelUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class RefuelPartial
+			{
+				displayName = "Vehicle Refuelled";
+				description = "%11 has been partially refuelled using %12 fuel. The service point is out of fuel.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_fuelUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class Siphoned
+			{
+				displayName = "Fuel Siphoned";
+				description = "%11 fuel has been siphoned from %12.";
+				arguments[] = {
+					"INT_local_fuelUsed",
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class Stripped
+			{
+				displayName = "Service Point";
+				description = "%11 was stripped down for %12 parts.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class SPDistPlayer
+			{
+				displayName = "Service Point";
+				description = "You are not close enough to the service point.";
+			};
+			class SPDistVehicle
+			{
+				displayName = "Service Point";
+				description = "The vehicle is not close enough to the service point.";
+			};
+			class SPDistVehicleP
+			{
+				displayName = "Service Point";
+				description = "You are not close enough to the vehicle.";
+			};
+			class SPStock
+			{
+				displayName = "Service Point";
+				description = "%3Fuel%4: %11%1%3Spare parts%4: %12";
+				arguments[] = {
+					"INT_local_fuelUsed",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
 		};
 	};
 };

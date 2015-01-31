@@ -53,7 +53,14 @@ if (_menuName == "main") then {
 		private ["_config"];
 		_config = (configFile >> "cfgVehicles" >> typeOf _target >> "displayName");
 		INT_local_serviceTarget = _target;
-		INT_local_serviceName = format ["Service %1", getText _config];
+		INT_local_serviceType = getText _config;
+		INT_local_serviceName = format ["Service %1", INT_local_serviceType];
+	} else {
+		if (_target in INT_global_servicePoints) then {
+			_canService = true;
+			INT_local_serviceTarget = player;
+			INT_local_serviceName = "Service";
+		};
 	};
 
 	_menu =
@@ -79,16 +86,6 @@ if (_menuName == "main") then {
 							-1,
 							(_canService),
 							(_nearService)
-					],
-					[
-							"Service",
-							"",
-							"",
-							"",
-							["call INT_fnc_interdictionMenu", "serviceCHK", 0],
-							-1,
-							(_checkService),
-							(_checkService)
 					],
 					[
 							"Debug",
@@ -146,7 +143,12 @@ if (_menuName == "build") then {
 
 // MENU > SERVICE >
 if (_menuName == "service") then {
-	private ["_needsService", "_needsFuel", "_hasFuel", "_canStrip"];
+	private ["_isVehicle", "_needsService", "_needsFuel", "_hasFuel", "_canStrip"];
+	if (INT_local_serviceTarget != player) then {
+		_isVehicle = true;
+	} else {
+		_isVehicle = false;
+	};
 	_needsService = damage INT_local_serviceTarget >= 0.05;
 	_needsFuel = fuel INT_local_serviceTarget <= 0.95;
 	_hasFuel = fuel INT_local_serviceTarget >= 0.05;
@@ -164,7 +166,7 @@ if (_menuName == "service") then {
 							"",
 							-1,
 							(_needsService),
-							(true)
+							(_isVehicle)
 					],
 					[
 							"Refuel",
@@ -174,7 +176,7 @@ if (_menuName == "service") then {
 							"",
 							-1,
 							(_needsFuel),
-							(true)
+							(_isVehicle)
 					],
 					[
 							"Strip Down",
@@ -184,7 +186,7 @@ if (_menuName == "service") then {
 							"",
 							-1,
 							(_canStrip),
-							(true)
+							(_isVehicle)
 					],
 					[
 							"Siphon Fuel",
@@ -194,23 +196,13 @@ if (_menuName == "service") then {
 							"",
 							-1,
 							(_hasFuel),
-							(true)
-					]
-			]
-	];
-};
-
-// MENU > SERVICE (chk) >
-if (_menuName == "serviceCHK") then {
-	_menu =
-	[
-			["serviceCHK", "Service", _menuRsc],
-			[
+							(_isVehicle)
+					],
 					[
 							"Check Stock",
 							{["check"] call INT_fnc_service;},
 							"",
-							"Take stock of parts and fuel at this service point.",
+							"See how many resources are available at this service point.",
 							"",
 							-1,
 							(true),
