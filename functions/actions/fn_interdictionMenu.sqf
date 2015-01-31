@@ -157,13 +157,43 @@ if (_menuName == "service") then {
 			["service", INT_local_serviceName, _menuRsc],
 			[
 					[
-							"Check Stock",
-							{["check"] call INT_fnc_service;},
+							"Repair",
+							{["repair"] call INT_fnc_service;},
 							"",
-							"Take stock of parts and fuel at this service point.",
+							"Use spare parts from the service point to make repairs.",
 							"",
 							-1,
-							(true),
+							(_needsService),
+							(true)
+					],
+					[
+							"Refuel",
+							{["refuel"] call INT_fnc_service;},
+							"",
+							"",
+							"",
+							-1,
+							(_needsFuel),
+							(true)
+					],
+					[
+							"Strip Down",
+							{["strip"] call INT_fnc_service;},
+							"",
+							"Strip the vehicle down for spare parts.",
+							"",
+							-1,
+							(_canStrip),
+							(true)
+					],
+					[
+							"Siphon Fuel",
+							{["siphon"] call INT_fnc_service;},
+							"",
+							"Store the fuel in the service point for use elsewhere.",
+							"",
+							-1,
+							(_hasFuel),
 							(true)
 					]
 			]
@@ -174,13 +204,13 @@ if (_menuName == "service") then {
 if (_menuName == "serviceCHK") then {
 	_menu =
 	[
-			["debug", "Debug", _menuRsc],
+			["serviceCHK", "Service", _menuRsc],
 			[
 					[
-							"Test",
-							{hint "test";},
+							"Check Stock",
+							{["check"] call INT_fnc_service;},
 							"",
-							"",
+							"Take stock of parts and fuel at this service point.",
 							"",
 							-1,
 							(true),
