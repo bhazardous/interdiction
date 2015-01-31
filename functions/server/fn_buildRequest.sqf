@@ -49,7 +49,7 @@ if (_type in ["service"]) then {
 	_valid = true;
 };
 if (!_valid) exitWith {
-	[["ResistanceMovement","BuildCamp","Distance"], true, true, false, _player] call INT_fnc_broadcastHint;
+	[["ResistanceMovement","BuildCamp","Distance"], true, true, false, _player, true] call INT_fnc_broadcastHint;
 };
 
 if (INT_global_buildingEnabled) then {
