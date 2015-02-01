@@ -47,7 +47,7 @@ if (count _pos == 0) exitWith {
 // Buildings that require a camp need to be within MAX_DISTANCE.
 private ["_valid"];
 _valid = false;
-if (_type in ["service"]) then {
+if (_type in ["service","recruitment"]) then {
 	for "_i" from 1 to INT_global_campCount do {
 		private ["_campPos"];
 		_campPos = markerPos (format ["INT_mkr_resistanceCamp%1", _i]);
