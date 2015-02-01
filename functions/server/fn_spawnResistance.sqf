@@ -18,25 +18,31 @@ _groups = [_this, 0, 1, [0]] call BIS_fnc_param;
 waitUntil {!isNil "INT_global_campExists"};
 
 [_groups] spawn {
-	while {!INT_global_campExists} do {sleep 10;};
+	while {INT_global_recruitmentTentCount == 0} do {sleep 10;};
+	waitUntil {!isNil "ALiVE_profileSystemInit"};
 
-	private ["_groups", "_forces", "_side", "_position", "_pool", "_event"];
-	_groups = _this select 0;
-	_forces = [_groups, 0,0,0,0,0];
-	switch (getNumber (configFile >> "CfgFactionClasses" >> INT_server_faction_blufor >> "side")) do {
-		case 0: {_side = "EAST";};
-		case 1: {_side = "WEST";};
-		case 2: {_side = "GUER";};
+	private ["_count"];
+	_count = _this select 0;
+
+	for "_i" from 1 to _count do {
+		// Get a random group.
+		private ["_groupClass"];
+		_groupClass = ["Infantry", INT_server_faction_blufor] call ALiVE_fnc_configGetRandomGroup;
+		if (_groupClass == "FALSE") exitWith {
+			["INT_fnc_spawnResistance - fatal error, no group"] call BIS_fnc_error;
+		};
+
+		// Select a random recruitment tent.
+		private ["_tent", "_position", "_dir", "_profile"];
+		_tent = INT_global_recruitmentTents select (floor (random INT_global_recruitmentTentCount));
+		_position = position _tent;
+		_dir = direction _tent;
+
+		// Spawn the group.
+		_profile = [_groupClass, _position, _dir] call ALiVE_fnc_createProfilesFromGroupConfig;
+
+		sleep 10;
 	};
-	_position = markerPos "respawn_west";
-
-	// Add to the force pool.
-	_pool = [ALiVE_globalForcePool, INT_server_faction_blufor] call ALiVE_fnc_hashGet;
-	[ALiVE_globalForcePool, INT_server_faction_blufor, _pool + _groups] call ALiVE_fnc_hashSet;
-
-	// Send logistics request.
-	_event = ["LOGCOM_REQUEST", [_position, INT_server_faction_blufor, _side, _forces, "AIRDROP"], "OPCOM"] call ALiVE_fnc_event;
-	[ALiVE_eventLog, "addEvent", _event] call ALiVE_fnc_eventLog;
 };
 
 nil;

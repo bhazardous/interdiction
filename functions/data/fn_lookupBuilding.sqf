@@ -27,6 +27,10 @@ _class = switch (_type) do {
 		_distance = 2.5;
 		"Land_TentDome_F"
 	};
+	case "recruitment": {
+		_distance = 2.5;
+		"Land_TentDome_F"
+	};
 	default {
 		_distance = 0;
 		""

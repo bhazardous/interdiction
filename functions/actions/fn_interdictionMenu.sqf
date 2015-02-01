@@ -118,13 +118,13 @@ if (_menuName == "build") then {
 							(true)
 					],
 					[
-							"Recruitment Tent",
-							{[[player], "INT_fnc_buildRequest", false, false, false] call BIS_fnc_MP;},
+							"Recruitment",
+							{["recruitment"] call INT_fnc_build;},
 							"",
 							"Where new resistance recruits are processed.",
 							"",
 							-1,
-							(false),
+							(INT_global_tech1),
 							(true)
 					],
 					[

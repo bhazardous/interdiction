@@ -129,6 +129,19 @@ if (INT_global_buildingEnabled) then {
 			// Init service point data.
 			INT_server_servicePointData pushBack [0,0];
 		};
+
+		case "recruitment": {
+			// Add new building to the recruitment array.
+			INT_global_recruitmentTents pushBack _building;
+			publicVariable "INT_global_recruitmentTents";
+			INT_global_recruitmentTentCount = INT_global_recruitmentTentCount + 1;
+			publicVariable "INT_global_recruitmentTentCount";
+
+			// Create a hidden marker for the recruitment tent.
+			private ["_recruitMarker"];
+			_recruitMarker = createMarker [format ["INT_mkr_recruitment%1", INT_global_recruitmentTentCount], _pos];
+			_recruitMarker setMarkerType "Empty";
+		};
 	};
 } else {
 	"Build request arrived, but INT_global_buildingEnabled is false" call BIS_fnc_log;

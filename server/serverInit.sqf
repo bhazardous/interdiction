@@ -21,6 +21,8 @@ PUBLIC(INT_global_tech1,false);			// Tech tier 1.
 PUBLIC(INT_global_campCount,0);			// Number of resistance camps.
 PUBLIC(INT_global_servicePointCount,0);	// Number of service points.
 PUBLIC(INT_global_servicePoints,[]);	// List of service point buildings.
+PUBLIC(INT_global_recruitmentTentCount,0);	// Number of recruitment tents.
+PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
 
 INT_server_servicePointData = [];
 
