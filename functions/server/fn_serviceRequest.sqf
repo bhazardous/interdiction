@@ -55,6 +55,10 @@ _id = _id - 1;
 // _data = [fuel, parts]
 _data = INT_server_servicePointData select _id;
 
+// Player animation.
+[[_player, "AinvPknlMstpSnonWnonDr_medicUp1"], "INT_fnc_playAnimation", _player] call BIS_fnc_MP;
+sleep 5;
+
 // Repair and refuel actions.
 switch (_action) do {
 		case "repair": {
