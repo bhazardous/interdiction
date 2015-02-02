@@ -10,7 +10,6 @@ scriptName "fn_buildRequest";
 	#1 STRING - Building type
 	#2 POSITION - Building position
 	#3 NUMBER - Direction
-	#4 ARRAY - Vector up
 
 	Returns:
 	nil
@@ -22,15 +21,10 @@ _player = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
 _type = [_this, 1, "", [""]] call BIS_fnc_param;
 _pos = [_this, 2, [0,0,0], [[]], [3]] call BIS_fnc_param;
 _rot = [_this, 3, 0, [0]] call BIS_fnc_param;
-_vec = [_this, 4, [0,0,0], [[]]] call BIS_fnc_param;
-_class = ([_type] call INT_fnc_lookupBuilding) select 0;
 
 if (isNull _player) exitWith {
 	"Build request sent from objNull" call BIS_fnc_log;
 	nil;
-};
-if (_class == "") exitWith {
-	["Somehow building is an invalid type - %1", _type] call BIS_fnc_error;
 };
 
 // TODO: code duplication with fnc_build :(
@@ -55,14 +49,8 @@ if (!_valid) exitWith {
 if (INT_global_buildingEnabled) then {
 	// Place building.
 	private ["_building"];
-	_building = _class createVehicle _pos;
-	_building setPosATL _pos;
-	_building setDir _rot;
-	_building setVectorUp _vec;
-	_building setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];
-
-	// Disable damage.
-	_building allowDamage false;
+	_building = [_type, _pos, _rot, false] call INT_fnc_spawnComposition;
+	{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
 
 	// Building specific script.
 	switch (_type) do {
@@ -116,7 +104,7 @@ if (INT_global_buildingEnabled) then {
 
 		case "service": {
 			// Add new building to service point array.
-			INT_global_servicePoints pushBack _building;
+			INT_global_servicePoints pushBack (_building select 0);
 			publicVariable "INT_global_servicePoints";
 			INT_global_servicePointCount = INT_global_servicePointCount + 1;
 			publicVariable "INT_global_servicePointCount";
@@ -132,7 +120,7 @@ if (INT_global_buildingEnabled) then {
 
 		case "recruitment": {
 			// Add new building to the recruitment array.
-			INT_global_recruitmentTents pushBack _building;
+			INT_global_recruitmentTents pushBack (_building select 0);
 			publicVariable "INT_global_recruitmentTents";
 			INT_global_recruitmentTentCount = INT_global_recruitmentTentCount + 1;
 			publicVariable "INT_global_recruitmentTentCount";

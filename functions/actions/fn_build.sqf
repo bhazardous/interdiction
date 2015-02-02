@@ -14,29 +14,23 @@ scriptName "fn_build";
 #define RUN_DISTANCE 8			// Distance players can move before cancelling build.
 #define MAX_DISTANCE 100		// Max distance a building can be from HQ.
 
+private ["_type"];
+_type = [_this, 0, "", [""]] call BIS_fnc_param;
+if (_type == "") then {
+	["No building type"] call BIS_fnc_error;
+};
+
 if (isNil "INT_local_building") then {
 	INT_local_building = false;
 	INT_local_building_snap = true;
 };
 if (INT_local_building) exitWith {};
 
-private ["_type", "_buildingData", "_class", "_distance"];
-_type = [_this, 0, "", [""]] call BIS_fnc_param;
-
-// Get classname for building type.
-_buildingData = [_type] call INT_fnc_lookupBuilding;
-_class = (_buildingData select 0);
-_distance = (_buildingData select 1);
-
-if (_class == "") exitWith {
-	["Called with invalid building type: %1", _type] call BIS_fnc_error;
-};
-
 // Start building placement.
 private ["_pos", "_dir", "_building"];
-_pos = player modelToWorld [0, _distance, 0];
+_pos = position player;
 _pos set [2, 0];
-_dir = (getDir player + 180) % 360;
+_dir = getDir player;
 
 // Don't continue if the position is invalid.
 _pos = _pos isFlatEmpty [0,0,1.0,7,0, false, player];
@@ -62,23 +56,19 @@ if (!_valid) exitWith {
 	[["ResistanceMovement", "BuildCamp", "Distance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
 };
 
-_building = _class createVehicleLocal _pos;
-_building setDir _dir;
-_building allowDamage false;
+_building = [_type, _pos, _dir] call INT_fnc_spawnComposition;
+if (count _building == 0) exitWith {nil;};
 INT_local_building = true;
 INT_local_building_object = _building;
-if (isNull _building) exitWith {
-	["Building is null"] call BIS_fnc_error;
-};
 
 // Building tutorial hint.
 [["ResistanceMovement","BuildCamp","BuildInstructions"],10,"",30,"",true,true,true] call BIS_fnc_advHint;
 
 // Placement loop.
-[_building, _distance] spawn {
-	private ["_building", "_distance", "_pos", "_startPos"];
-	_building = _this select 0;
-	_distance = _this select 1;
+[_type, _building] spawn {
+	private ["_type", "_building", "_startPos"];
+	_type = _this select 0;
+	_building = _this select 1;
 	_startPos = getPos player;
 
 	// C to place or Ctrl+C to abort. Shift+C terrain snap.
@@ -88,13 +78,17 @@ if (isNull _building) exitWith {
 
 	// Position loop.
 	while {INT_local_building} do {
-		_pos = player modelToWorld [0, _distance, 0];
+		private ["_pos", "_dir"];
+		_pos = getPos player;
 		_pos set [2, 0];
-		_building setPos _pos;
-		_building setDir ((getDir player + 180) % 360);
-		if (INT_local_building_snap) then {
+		_dir = direction player;
+		[_type, _building, _pos, _dir] call INT_fnc_moveComposition;
+		INT_local_building_pos = _pos;
+		INT_local_building_dir = _dir;
+
+		/*if (INT_local_building_snap) then {
 			_building setVectorUp (surfaceNormal _pos);
-		};
+		};*/
 
 		if (player distance _startPos > RUN_DISTANCE) then {
 			INT_local_building_action = "abort";
@@ -120,21 +114,23 @@ if (isNull _building) exitWith {
 	switch (INT_local_building_action) do {
 		case "abort": {
 			// Aborted by distance or 'esc'.
-			if (!isNull INT_local_building_object) then {
-				deleteVehicle INT_local_building_object;
+			if (count INT_local_building_object > 0) then {
+				{deleteVehicle _x;} forEach INT_local_building_object;
+				INT_local_building_object = [];
 			};
 		};
 
 		case "build": {
 			// Position confirmed, send request to server.
-			if (!isNull INT_local_building_object) then {
-				private ["_pos", "_rot", "_vec", "_checkPos"];
+			if (count INT_local_building_object > 0) then {
+				private ["_pos", "_rot", "_checkPos"];
 
 				// Delete the ghost object.
-				_pos = getPosATL INT_local_building_object;
-				_rot = getDir INT_local_building_object;
-				_vec = vectorUp INT_local_building_object;
-				deleteVehicle INT_local_building_object;
+				_pos = INT_local_building_pos;
+				_rot = INT_local_building_dir;
+				// _vec = vectorUp INT_local_building_object;
+				{deleteVehicle _x;} forEach INT_local_building_object;
+				INT_local_building_object = [];
 
 				// Confirm the final position is OK.
 				// Position returned from isFlatEmpty can be slightly different, so don't use it.
@@ -144,7 +140,7 @@ if (isNull _building) exitWith {
 				};
 
 				// Send the build request to the server.
-				[[player, _type, _pos, _rot, _vec], "INT_fnc_buildRequest", false] call BIS_fnc_MP;
+				[[player, _type, _pos, _rot], "INT_fnc_buildRequest", false] call BIS_fnc_MP;
 			};
 		};
 
