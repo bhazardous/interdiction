@@ -23,8 +23,7 @@ switch (_type) do {
 		case "transport": {
 				// Vehicle dead or invalid.
 				if (isNull _vehicle || !alive _vehicle) exitWith {
-					hint "ERROR- vehicle dead or doesn't exist";
-					nil;
+					["Vehicle dead or doesn't exist"] call BIS_fnc_error;
 				};
 
 				// ALiVE's transport data.
@@ -32,7 +31,11 @@ switch (_type) do {
 				_pos = getPosATL _vehicle;
 				_dir = getDir _vehicle;
 				_class = typeOf _vehicle;
-				_tasks = ["Pickup", "Land", "land (Eng off)", "Move", "Circle", "Insertion"];
+				if (_vehicle isKindOf "Helicopter") then {
+					_tasks = ["Pickup", "Land", "land (Eng off)", "Move", "Circle", "Insertion"];
+				} else {
+					_tasks = ["Move"];
+				};
 
 				// Temporary - spawn crew.
 				private ["_group"];
