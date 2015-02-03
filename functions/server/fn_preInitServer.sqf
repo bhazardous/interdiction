@@ -15,30 +15,41 @@ scriptName "fn_preInitServer";
 if (!isServer) exitWith {nil;};
 
 // Factions.
-INT_server_faction_blufor = switch (paramsArray select 6) do {
-	case 0: {"BLU_G_F"};
-	case 1: {"rhs_faction_insurgents"};
-};
-INT_server_side_blufor = switch (paramsArray select 6) do {
-	case 0: {west};
-	case 1: {independent};
-};
-INT_global_unit_override = switch (paramsArray select 6) do {
-	case 0: {""};
-	case 1: {"rhs_g_Soldier_F"}
+private ["_indepEastAllies"];
+_indepEastAllies = true;
+switch (paramsArray select 3) do {
+	case 0: {		// Vanilla (FIA, CSAT, AAF)
+		INT_server_faction_blufor = "BLU_G_F";
+		INT_server_side_blufor = west;
+		INT_server_faction_opfor = "OPF_F";
+		INT_server_side_opfor = east;
+		INT_server_faction_indfor = "IND_F";
+		INT_server_side_indfor = independent;
+		INT_global_unit_override = "";
+		INT_server_opfor_supply = ["O_Truck_03_ammo_F", "O_Truck_02_Ammo_F", "O_Truck_03_fuel_F",
+			"O_Truck_02_fuel_F", "O_Truck_03_repair_F", "O_Truck_02_box_F"];
+		INT_server_opfor_unit = "O_Soldier_F";
+	};
+	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
+		INT_server_faction_blufor = "rhs_faction_insurgents";
+		INT_server_side_blufor = independent;
+		INT_server_faction_opfor = "rhs_faction_msv";
+		INT_server_side_opfor = east;
+		INT_server_faction_indfor = "rhs_faction_vdv";
+		INT_server_side_indfor = east;
+		INT_global_unit_override = "rhs_g_Soldier_F";
+		INT_server_opfor_supply = ["rhs_gaz66_ammo_msv", "RHS_Ural_Fuel_MSV_01", "rhs_gaz66_repair_msv"];
+		INT_server_opfor_unit = "rhs_msv_rifleman";
+		_indepEastAllies = false;
+	};
 };
 publicVariable "INT_global_unit_override";
-INT_server_faction_opfor = switch (paramsArray select 4) do {
-	case 0: {"OPF_F"};
-	case 1: {"rhs_faction_vdv"};
-};
-INT_server_faction_indfor = switch (paramsArray select 5) do {
-	case 0: {"IND_F"};
-	case 1: {"rhs_faction_msv"};
-};
-
 INT_server_faction_enemy = [INT_server_faction_opfor, INT_server_faction_indfor];
-INT_server_side_blufor = west;
+
+if (!_indepEastAllies) then {
+	east setFriend [resistance, 0];
+	resistance setFriend [east, 0];
+};
 
 // Set up module factions.
 INT_module_alive_blufor_opcom setVariable ["factions", [INT_server_faction_blufor]];
@@ -47,43 +58,29 @@ INT_module_alive_indfor_opcom setVariable ["factions", [INT_server_faction_indfo
 INT_module_alive_opfor_mil setVariable ["faction", INT_server_faction_opfor];
 INT_module_alive_opfor_civ setVariable ["faction", INT_server_faction_opfor];
 INT_module_alive_indfor_mil setVariable ["faction", INT_server_faction_indfor];
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor];
+INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_opfor, true];
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor, true];
 
-// Create TAOR markers.
-private ["_taorMarker"];
-_taorMarker = createMarkerLocal ["INT_mkr_taor", [4259.12,4131.65,0]];	// OPFOR. (entire terrain)
-_taorMarker setMarkerShapeLocal "RECTANGLE";
-_taorMarker setMarkerSizeLocal [3000,4000];
+// Island specific settings.
+["init"] call INT_fnc_objectiveManager;
+switch (worldName) do {
+	case "Stratis": {call compile preprocessFileLineNumbers "server\terrain\stratis.sqf";};
+	default {
+		[format ["%1 is not compatible with this mission.", worldName]] call BIS_fnc_error;
+		["end1", false, 0] call BIS_fnc_endMission;
+	};
+};
+["manage"] spawn INT_fnc_objectiveManager;
 
-_taorMarker = createMarkerLocal ["INT_mkr_indfor_taor", [6459.77,5376.24,0]];	// INDFOR. (one area)
-_taorMarker setMarkerShapeLocal "RECTANGLE";
-_taorMarker setMarkerSizeLocal [500,500];
-
-// OPFOR force size + HQ position.
-INT_module_alive_opfor_mil setVariable ["size", "600"];
-INT_module_alive_opfor_civ setVariable ["size", "250"];
-INT_module_alive_opfor_mil setPosATL [1829.99,5612.28,0.00143862];
-
-// INDFOR size + HQ.
-INT_module_alive_indfor_mil setVariable ["size", "200"];
-INT_module_alive_indfor_mil setPosATL [6459.77,5376.24,0];
-
-// CQB settings.
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.2];	// Percentage.
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 99999];	// Distance between spawns. 99999 = off.
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
+// CQB locality.
 private ["_locality"];
-switch (paramsArray select 8) do {
+switch (paramsArray select 5) do {
 	case 0: {_locality = "server";};
 	case 1: {_locality = "HC";};
 	case 2: {_locality = "client"};
 };
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality];
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality];
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality, true];
+INT_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality, true];
 
 // BLUFOR logistics.
 INT_module_alive_blufor_logistics setVariable ["forcePool", "0"];
@@ -111,6 +108,11 @@ if (INT_global_unit_override != "") then {
 	private ["_group", "_unit"];
 	_group = createGroup INT_server_side_blufor;
 	_unit = _group createUnit [INT_global_unit_override, markerPos "INT_mkr_taor", [], 0, "NONE"];
+};
+
+// TFAR.
+if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
+	tf_no_auto_long_range_radio = false;
 };
 
 nil;

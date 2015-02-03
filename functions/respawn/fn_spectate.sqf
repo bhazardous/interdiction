@@ -25,7 +25,7 @@ waitUntil {!isNil "INT_global_playerList"};
 waitUntil {!isNil "INT_global_campExists"};
 
 // Start spectating.
-[INT_global_playerList, "Tracking resistance", 300, 300, 90, 1, [], 0,
+[INT_global_playerList, "Tracking resistance", 200, 300, 90, 1, [], 0,
 	[[], {INT_global_campExists;}]] call ALiVE_fnc_establishingShotCustom;
 
 // Unlock player.

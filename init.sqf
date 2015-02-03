@@ -7,6 +7,8 @@ scriptName "init";
 --------------------------------------------------------------------*/
 #define __filename "init.sqf"
 
+INT_global_debugEnabled = false;
+
 if (isServer) then {
 	call compile preprocessFileLineNumbers "server\serverInit.sqf";
 };

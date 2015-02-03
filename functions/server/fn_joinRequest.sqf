@@ -31,7 +31,7 @@ if (INT_server_vehicleRoom == 0) then {
 	INT_server_vehicleRoom = 5;
 };
 
-if (INT_server_vehicleRoom == 3) then {
+if (INT_server_vehicleRoom == 5) then {
 	// Driver slot.
 	[[INT_server_startVehicle, true], "INT_fnc_joinResponse", _player] call BIS_fnc_MP;
 } else {
