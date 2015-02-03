@@ -43,12 +43,11 @@ switch (_type) do {
 				// Patch in ALiVE support data.
 				private ["_variable", "_transportArray"];
 				_vehicle setVariable ["ALiVE_combatSupport", true];
-				_vehicle setVariable ["NEO_transportAvailableTasks", _tasks];
+				_vehicle setVariable ["NEO_transportAvailableTasks", _tasks, true];
 				SUP_TRANSPORTARRAYS pushBack [_pos, _dir, _class, CALLSIGN,	_tasks, "", FLIGHT_HEIGHT];
 				publicVariable "SUP_TRANSPORTARRAYS";
 
 				_variable = format ["NEO_radioTrasportArray_%1", INT_server_side_blufor];
-				hint format ["%1", _variable];
 				_transportArray = NEO_radioLogic getVariable _variable;
 				if (isNil "_transportArray") then {
 					_transportArray = [];
