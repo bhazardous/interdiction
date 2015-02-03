@@ -22,7 +22,7 @@ _class = [_this, 0, [], [[]]] call BIS_fnc_param;
 _force = [_this, 1, true, [true]] call BIS_fnc_param;
 _full = [_this, 2, true, [true]] call BIS_fnc_param;
 _onlyOnce = [_this, 3, true, [true]] call BIS_fnc_param;
-_target = [_this, 4, false, [objNull, [], true, 0, west, grpNull]] call BIS_fnc_param;
+_target = [_this, 4, true, [objNull, [], true, 0, west, grpNull]] call BIS_fnc_param;
 _fast = [_this, 5, false, [true]] call BIS_fnc_param;
 
 if (_fast) then {

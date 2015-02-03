@@ -6,7 +6,7 @@ scriptName "serverInit";
 	Description:
 --------------------------------------------------------------------*/
 #define __filename "serverInit.sqf"
-#define PUBLIC(var,value) var = value; publicVariable "var"
+#define PUBLIC(var,value) var = value; publicVariable #var
 
 // Set up the starting position for players.
 call compile preprocessFileLineNumbers "server\playerStart.sqf";

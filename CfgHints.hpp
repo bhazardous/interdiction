@@ -111,7 +111,7 @@ class CfgHints
 			class UnlockTechOne
 			{
 				displayName = "Resistance Camp";
-				description = "Recent resistance activity has attracted attention from the locals, who want to join the fight. A new build option has been unlocked to process these new recruits.%1You can also construct a vehicle service point to strip vehicles down for parts, and use those parts to repair other vehicles.";
+				description = "Recent resistance activity has attracted attention from the locals, who want to join the fight. A new %3build option%4 has been unlocked to process these new recruits.%1You can also construct a %3service point%4 to strip vehicles down for parts, and use those parts to repair other vehicles.";
 				tip = "You can only build near an existing resistance HQ.";
 				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
 			};

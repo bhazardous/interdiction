@@ -16,6 +16,7 @@ scriptName "clientInit";
 	["missionStart", true] call BIS_fnc_blackOut;
 	waitUntil {!isNil "INT_global_unit_override"};
 	waitUntil {!isNull player};
+	waitUntil {time > 0};
 
 	if (INT_global_unit_override != "") then {
 		waitUntil {time > 0};
@@ -36,6 +37,7 @@ scriptName "clientInit";
 	};
 
 	waitUntil {!isNil "INT_global_canJoin"};
+	waitUntil {!isNil "INT_global_campExists"};
 	if (INT_global_canJoin) then {
 		// Mission is still starting (<30 sec)
 		[[player], "INT_fnc_joinRequest", false] call BIS_fnc_MP;
