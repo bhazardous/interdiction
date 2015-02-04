@@ -78,6 +78,11 @@ class CfgHints
 				displayName = "No Crew Available";
 				description = "The resistance has no support crews available to man the vehicle.";
 			};
+			class SupportErrNonCombat
+			{
+				displayName = "Combat Support";
+				description = "Cannot create combat support using a non-combat vehicle.";
+			};
 		};
 		class Equipment
 		{

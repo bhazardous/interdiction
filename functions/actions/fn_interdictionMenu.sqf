@@ -307,6 +307,76 @@ if (_menuName == "debug") then {
 							-1,
 							(true),
 							(true)
+					],
+					[
+							"Spawn Resistance",
+							{[[1], "INT_fnc_spawnResistance", false] call BIS_fnc_MP;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"Add Support Crew",
+							{INT_global_crewAvailable = INT_global_crewAvailable + 1; publicVariable "INT_global_crewAvailable";},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"Spawn Vehicle",
+							"",
+							"",
+							"",
+							["call INT_fnc_interdictionMenu", "debug_spawn", 1],
+							-1,
+							(true),
+							(true)
+					]
+			]
+	];
+};
+
+// MENU > DEBUG > SPAWN >
+if (_menuName == "debug_spawn") then {
+	_menu =
+	[
+			["debug_spawn", "Spawn", _menuRsc],
+			[
+					[
+							"Ghosthawk",
+							{"B_Heli_Transport_01_F" createVehicle (position player);},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"MRAP",
+							{"B_MRAP_01_F" createVehicle (position player);},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"M5 Sandstorm",
+							{"B_MBT_01_mlrs_F" createVehicle (position player);},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
 					]
 			]
 	];
