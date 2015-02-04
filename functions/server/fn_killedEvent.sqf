@@ -27,8 +27,16 @@ if (_faction in INT_server_faction_enemy) then {
 		_killer = effectiveCommander _killer;
 	};
 
+	// Kill value.
+	private ["_value"];
+	if (([position _man, INT_server_civ_markers] call INT_fnc_insideMarkers)) then {
+		_value = 2;
+	} else {
+		_value = 1;
+	};
+
 	if (isPlayer _killer) then {
-		INT_server_kills = INT_server_kills + 1;
+		INT_server_kills = INT_server_kills + _value;
 		if (INT_server_kills >= INT_server_killThreshold) then {
 			INT_server_kills = INT_server_kills - INT_server_killThreshold;
 			["kills"] call INT_fnc_resistanceActivity;
