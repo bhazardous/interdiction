@@ -28,6 +28,7 @@ switch (paramsArray select 3) do {
 		INT_global_unit_override = "";
 		INT_server_opfor_supply = ["O_Truck_03_ammo_F", "O_Truck_02_Ammo_F", "O_Truck_03_fuel_F",
 			"O_Truck_02_fuel_F", "O_Truck_03_repair_F", "O_Truck_02_box_F"];
+		INT_server_blufor_unit = "B_G_Soldier_F";
 		INT_server_opfor_unit = "O_Soldier_F";
 	};
 	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
@@ -39,6 +40,7 @@ switch (paramsArray select 3) do {
 		INT_server_side_indfor = east;
 		INT_global_unit_override = "rhs_g_Soldier_F";
 		INT_server_opfor_supply = ["rhs_gaz66_ammo_msv", "RHS_Ural_Fuel_MSV_01", "rhs_gaz66_repair_msv"];
+		INT_server_blufor_unit = "B_Soldier_F";
 		INT_server_opfor_unit = "rhs_msv_rifleman";
 		_indepEastAllies = false;
 	};

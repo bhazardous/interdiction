@@ -7,7 +7,6 @@ scriptName "fn_service";
 
 	Parameter(s):
 	#0 STRING - Action
-	#1 OBJECT - Vehicle
 
 	Returns:
 	nil

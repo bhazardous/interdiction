@@ -27,6 +27,7 @@ class CfgFunctions
 			class buildKeypress {};
 			class service {};
 			class playAnimation {};
+			class support {};
 		};
 		class data
 		{
@@ -38,6 +39,7 @@ class CfgFunctions
 			class moveComposition {};
 			class spawnComposition {};
 			class rotateRelative {};
+			class getRealTurrets {};
 		};
 		class respawn
 		{

@@ -39,8 +39,45 @@ class CfgHints
 		class CombatSupport
 		{
 			displayName = "Combat Support";
-			description = "Later on in the mission, captured vehicles can be brought back to camp and turned into support assets.%1Resistance members will man the vehicle, which can then be called as combat support or transport using the ALiVE Combat Support menu.";
+			description = "Later on in the mission, captured vehicles can be brought back to camp and turned into support assets.%1You will need to find a skilled crew to man the vehicle, keep recruiting new resistance members.%1Once a vehicle is manned, it can then be called as combat support or transport using the %3ALiVE Combat Support%4 menu.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
+			class SupportCrew
+			{
+				displayName = "Combat Support";
+				description = "You now have %3support crew%4 available, drive a vehicle back to a %3recruitment tent%4, then use the %3[Alt + V]%4 menu to add support crew to the vehicle.";
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
+			};
+			class SupportAvailable
+			{
+				displayName = "Combat Support";
+				description = "Support is now available to the resistance, you can call it by opening the %3ALiVE menu%4 and selecting %3Player Combat Support%4.";
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
+			};
+			class SupportErrDistance
+			{
+				displayName = "Combat Support";
+				description = "The vehicle needs to be closer to the recruitment tent. (<40 metres)";
+			};
+			class SupportErrCrew
+			{
+				displayName = "Vehicle not empty";
+				description = "The vehicle needs to be empty before you can add it to support.";
+			};
+			class SupportErrDead
+			{
+				displayName = "Crew Casualties";
+				description = "The support crew suffered casualities."
+			};
+			class SupportErrVDead
+			{
+				displayName = "Vehicle Destroyed";
+				description = "The support vehicle was destroyed.";
+			};
+			class SupportErrNoCrew
+			{
+				displayName = "No Crew Available";
+				description = "The resistance has no support crews available to man the vehicle.";
+			};
 		};
 		class Equipment
 		{

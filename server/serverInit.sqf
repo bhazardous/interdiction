@@ -12,8 +12,10 @@ scriptName "serverInit";
 call compile preprocessFileLineNumbers "server\playerStart.sqf";
 
 // Mission variables and other misc stuff.
-INT_server_killThreshold = 25;			// Number of OPFOR killed for civilians to join resistance movement.
+INT_server_killThreshold = 15;			// Number of OPFOR killed for civilians to join resistance movement.
 INT_server_kills = 0;					// Counting OPFOR kills.
+INT_server_crewThreshold = 5;			// Reach the kill threshold x times to unlock support crew.
+INT_server_crewCounter = 0;				// Keeps track of kill threshold counter for crew.
 
 PUBLIC(INT_global_buildingEnabled,true);
 PUBLIC(INT_global_campExists,false);
@@ -23,6 +25,7 @@ PUBLIC(INT_global_servicePointCount,0);	// Number of service points.
 PUBLIC(INT_global_servicePoints,[]);	// List of service point buildings.
 PUBLIC(INT_global_recruitmentTentCount,0);	// Number of recruitment tents.
 PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
+PUBLIC(INT_global_crewAvailable,0);		// Number of support crew (groups) available.
 
 INT_server_servicePointData = [];
 
