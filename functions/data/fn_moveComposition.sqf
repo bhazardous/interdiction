@@ -46,6 +46,7 @@ _i = 0;
 
 	_object setPos _objPos;
 	_object setDir ((_dir + _objDir) % 360);
+	_object setVectorUp (surfaceNormal _objPos);
 
 	_i = _i + 1;
 } forEach _composition;

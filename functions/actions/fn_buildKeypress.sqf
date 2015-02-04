@@ -12,15 +12,8 @@ scriptName "fn_buildKeypress";
 	nil
 */
 
-private ["_shift", "_ctrl"];
-_shift = _this select 2;
+private ["_ctrl"];
 _ctrl = _this select 3;
-
-if (_shift) exitWith {
-	// Toggle terrain snapping.
-	INT_local_building_snap = !INT_local_building_snap;
-	nil;
-};
 
 if (_ctrl) then {
 	// Abort.
