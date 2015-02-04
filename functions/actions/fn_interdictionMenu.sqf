@@ -45,7 +45,7 @@ private ["_menu"];
 _menu = [];
 if (_menuName == "main") then {
 	// Service params.
-	private ["_canService", "_nearService", "_checkService"];
+	private ["_canService", "_nearService", "_checkService", "_nearRecruit", "_supportVeh"];
 	_nearService = [player, INT_global_servicePoints, 10] call INT_fnc_nearby;
 	_canService = _target isKindOf "AllVehicles" && {[player, _target, 4] call INT_fnc_nearby};
 	_checkService = _target in INT_global_servicePoints;
@@ -63,6 +63,16 @@ if (_menuName == "main") then {
 		};
 	};
 
+	// Recruitment params.
+	_nearRecruit = [player, INT_global_recruitmentTents, 10] call INT_fnc_nearby;
+	_supportVeh = _target isKindOf "AllVehicles" &&
+		{alive _target} &&
+		{count crew _target == 0} &&
+		{[player, _target, 5] call INT_fnc_nearby} &&
+		{[_target, INT_global_recruitmentTents, 40] call INT_fnc_nearby};
+	_recruitMenu = _supportVeh || _nearRecruit;
+
+	// Menu.
 	_menu =
 	[
 			["main", "Interdiction", _menuRsc],
@@ -86,6 +96,16 @@ if (_menuName == "main") then {
 							-1,
 							(_canService),
 							(_nearService)
+					],
+					[
+							"Recruitment",
+							"",
+							"",
+							"",
+							["call INT_fnc_interdictionMenu", "recruitment", 0],
+							-1,
+							(_recruitMenu),
+							(_recruitMenu)
 					],
 					[
 							"Debug",
@@ -212,6 +232,66 @@ if (_menuName == "service") then {
 	];
 };
 
+// MENU > RECRUITMENT >
+if (_menuName == "recruitment") then {
+	private ["_supportVeh"];
+	_supportVeh = _target isKindOf "AllVehicles" && {alive _target} && {count crew _target == 0};
+	if (_supportVeh) then {
+		private ["_config", "_name"];
+		INT_local_supportTarget = _target;
+		_config = (configFile >> "cfgVehicles" >> typeOf _target >> "displayName");
+		_name = getText _config;
+		INT_local_supportName = format ["Support: %1", _name];
+	};
+
+	_menu =
+	[
+			["recruitment", "Recruitment", _menuRsc],
+			[
+					[
+							"Support Vehicle",
+							"",
+							"",
+							"Turn this vehicle into a support vehicle.",
+							["call INT_fnc_interdictionMenu", "supportVeh", 1],
+							-1,
+							(_supportVeh),
+							(_supportVeh)
+					]
+			]
+	];
+};
+
+// MENU > RECRUITMENT > SUPPORT VEHICLE >
+if (_menuName == "supportVeh") then {
+	_menu =
+	[
+			["supportVeh", "Support Vehicle", _menuRsc],
+			[
+					[
+							"Transport",
+							{["transport"] call INT_fnc_support;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"Combat",
+							{["combat"] call INT_fnc_support;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					]
+			]
+	];
+};
+
 // MENU > DEBUG >
 if (_menuName == "debug") then {
 	_menu =
@@ -219,8 +299,78 @@ if (_menuName == "debug") then {
 			["debug", "Debug", _menuRsc],
 			[
 					[
-							"Test",
-							{hint "test";},
+							"Unlock Tech",
+							{INT_global_tech1 = true; publicVariable "INT_global_tech1";},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"Spawn Resistance",
+							{[[1], "INT_fnc_spawnResistance", false] call BIS_fnc_MP;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"Add Support Crew",
+							{INT_global_crewAvailable = INT_global_crewAvailable + 1; publicVariable "INT_global_crewAvailable";},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"Spawn Vehicle",
+							"",
+							"",
+							"",
+							["call INT_fnc_interdictionMenu", "debug_spawn", 1],
+							-1,
+							(true),
+							(true)
+					]
+			]
+	];
+};
+
+// MENU > DEBUG > SPAWN >
+if (_menuName == "debug_spawn") then {
+	_menu =
+	[
+			["debug_spawn", "Spawn", _menuRsc],
+			[
+					[
+							"Ghosthawk",
+							{"B_Heli_Transport_01_F" createVehicle (position player);},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"MRAP",
+							{"B_MRAP_01_F" createVehicle (position player);},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"M5 Sandstorm",
+							{"B_MBT_01_mlrs_F" createVehicle (position player);},
 							"",
 							"",
 							"",
