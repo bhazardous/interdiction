@@ -78,6 +78,27 @@ INT_server_location_markers pushBack _spawnMarker;
 _spawnMarker = createMarkerLocal ["INT_mkr_loc_8", [3468.4,2632.78]];
 INT_server_location_markers pushBack _spawnMarker;
 
+// Built-up civilian areas, and important areas close by.
+private ["_bua"];
+INT_server_civ_markers = [];
+_bua = 0;
+{
+	private ["_marker"];
+	_marker = createMarkerLocal [format ["INT_mkr_civ_%1", _bua], _x select 0];
+	_marker setMarkerDirLocal (_x select 1);
+	_marker setMarkerShapeLocal (_x select 2);
+	_marker setMarkerSizeLocal (_x select 3);
+	_marker setMarkerAlphaLocal 0;
+	INT_server_civ_markers pushBack _marker;
+	_bua = _bua + 1;
+} forEach [
+	[[2986.47,6015.72,0],0,"ELLIPSE",[220,220]],
+	[[2734.33,5770.2,0],0,"ELLIPSE",[80,80]],
+	[[2135.4,5643.62,0],12,"RECTANGLE",[150,300]],
+	[[2032.67,2717.25,0],0,"ELLIPSE",[120,120]],
+	[[3254.74,5800.5,0],35,"RECTANGLE",[80,80]]
+];
+
 // Objectives.
 [] spawn {
 	waitUntil {time > 10};
