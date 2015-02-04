@@ -55,6 +55,7 @@ if (count _composition == 0) exitWith {
 
 	_object setPos _objPos;
 	_object setDir ((_dir + _objDir) % 360);
+	_object setVectorUp (surfaceNormal _objPos);
 
 	// Other.
 	_object enableSimulation false;
