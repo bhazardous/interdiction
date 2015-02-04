@@ -74,7 +74,6 @@ INT_local_building_object = _building;
 	// C to place or Ctrl+C to abort. Shift+C terrain snap.
 	[0x2E, [false, false, false], {_this call INT_fnc_buildKeypress}, "keydown", "INT_buildPlace"] call CBA_fnc_addKeyHandler;
 	[0x2E, [false, true, false], {_this call INT_fnc_buildKeypress}, "keydown", "INT_buildAbort"] call CBA_fnc_addKeyHandler;
-	[0x2E, [true, false, false], {_this call INT_fnc_buildKeypress}, "keydown", "INT_buildSnap"] call CBA_fnc_addKeyHandler;
 
 	// Position loop.
 	while {INT_local_building} do {
@@ -109,7 +108,6 @@ INT_local_building_object = _building;
 	// Remove keybinds.
 	["INT_buildPlace"] call CBA_fnc_removeKeyHandler;
 	["INT_buildAbort"] call CBA_fnc_removeKeyHandler;
-	["INT_buildSnap"] call CBA_fnc_removeKeyHandler;
 
 	switch (INT_local_building_action) do {
 		case "abort": {
