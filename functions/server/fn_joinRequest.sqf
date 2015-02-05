@@ -29,7 +29,7 @@ publicVariable "INT_global_playerList";
 if (INT_server_vehicleRoom == 0) then {
 	// Vehicle classname.
 	waitUntil {!isNil "INT_server_spawn_type"};
-	if (INT_server_spawn_type == 0) then {
+	if (INT_server_spawn_type == 1) then {
 		_class = INT_server_spawn_sea;
 		_capacity = INT_server_spawn_capacity select 0;
 	} else {
