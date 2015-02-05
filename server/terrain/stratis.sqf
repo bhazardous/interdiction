@@ -34,6 +34,9 @@ INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
 
+// Spawn type. (0 sea, 1 land)
+INT_server_spawn_type = 1;
+
 // Spawn markers.
 INT_server_spawn_markers = 3;
 

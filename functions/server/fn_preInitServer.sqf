@@ -19,30 +19,42 @@ private ["_indepEastAllies"];
 _indepEastAllies = true;
 switch (paramsArray select 3) do {
 	case 0: {		// Vanilla (FIA, CSAT, AAF)
+		// Factions, sides.
 		INT_server_faction_blufor = "BLU_G_F";
 		INT_server_side_blufor = west;
 		INT_server_faction_opfor = "OPF_F";
 		INT_server_side_opfor = east;
 		INT_server_faction_indfor = "IND_F";
 		INT_server_side_indfor = independent;
+
+		// Unit classnames.
 		INT_global_unit_override = "";
 		INT_server_opfor_supply = ["O_Truck_03_ammo_F", "O_Truck_02_Ammo_F", "O_Truck_03_fuel_F",
 			"O_Truck_02_fuel_F", "O_Truck_03_repair_F", "O_Truck_02_box_F"];
 		INT_server_blufor_unit = "B_G_Soldier_F";
 		INT_server_opfor_unit = "O_Soldier_F";
+		INT_server_spawn_sea = ["B_Boat_Transport_01_F"];
+		INT_server_spawn_land = ["B_G_Offroad_01_F","B_G_Van_01_transport_F"];
+		INT_server_spawn_capacity = [[5],[6,13]];
 	};
 	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
+		// Factions, sides.
 		INT_server_faction_blufor = "rhs_faction_insurgents";
 		INT_server_side_blufor = independent;
 		INT_server_faction_opfor = "rhs_faction_msv";
 		INT_server_side_opfor = east;
 		INT_server_faction_indfor = "rhs_faction_vdv";
 		INT_server_side_indfor = east;
+		_indepEastAllies = false;
+
+		// Unit classnames.
 		INT_global_unit_override = "rhs_g_Soldier_F";
 		INT_server_opfor_supply = ["rhs_gaz66_ammo_msv", "RHS_Ural_Fuel_MSV_01", "rhs_gaz66_repair_msv"];
-		INT_server_blufor_unit = "B_Soldier_F";
+		INT_server_blufor_unit = "rhs_g_Soldier_F";
 		INT_server_opfor_unit = "rhs_msv_rifleman";
-		_indepEastAllies = false;
+		INT_server_spawn_sea = ["B_Boat_Transport_01_F"];
+		INT_server_spawn_land = ["RHS_Ural_MSV_01","RHS_Ural_Civ_01","RHS_Ural_Open_Civ_01","RHS_Ural_Civ_03","RHS_Ural_Open_Civ_03","RHS_Ural_Civ_02","RHS_Ural_Open_Civ_02"];
+		INT_server_spawn_capacity = [[5],[15,15,15,15,15,15,15]];
 	};
 };
 publicVariable "INT_global_unit_override";
