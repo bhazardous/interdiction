@@ -132,3 +132,9 @@ _bua = 0;
 	[[11518,8342.23,0],109,"RECTANGLE",[150,80]],
 	[[9134.75,6726.32,0],0,"ELLIPSE",[130,130]]
 ];
+
+// Scale down roadblocks / camps for this terrain.
+INT_module_alive_opfor_civ setVariable ["roadblocks", "50"];
+INT_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
+INT_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
+// INT_module_alive_opfor_civ setVariable ["sizeFilter", "250"];
