@@ -79,6 +79,7 @@ INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_o
 ["init"] call INT_fnc_objectiveManager;
 switch (worldName) do {
 	case "Stratis": {call compile preprocessFileLineNumbers "server\terrain\stratis.sqf";};
+	case "Chernarus": {call compile preprocessFileLineNumbers "server\terrain\chernarus.sqf";};
 	default {
 		[format ["%1 is not compatible with this mission.", worldName]] call BIS_fnc_error;
 		["end1", false, 0] call BIS_fnc_endMission;
