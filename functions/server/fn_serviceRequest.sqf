@@ -22,11 +22,14 @@ _id = _this select 2;
 _vehicle = _this select 3;
 
 if (_action == "check") exitWith {
-	private ["_fuel", "_parts"];
+	private ["_fuel", "_parts", "_military"];
 	_fuel = (INT_server_servicePointData select (_id - 1)) select 0;
 	_parts = (INT_server_servicePointData select (_id - 1)) select 1;
+	_military = (INT_server_servicePointData select (_id - 1)) select 2;
 	[["INT_local_partsUsed", _parts], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 	[["INT_local_fuelUsed", _fuel], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+	[["INT_local_militaryUsed", _military], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+
 	[["ResistanceMovement","ServicePoint","SPStock"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 };
 
@@ -42,7 +45,7 @@ if (_vehicle distance (markerPos _markerName) > 10) exitWith {
 	[["ResistanceMovement","ServicePoint","SPDistVehicle"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 	nil;
 };
-if (_player distance _vehicle > 4) exitWith {
+if (_player distance _vehicle > 6) exitWith {
 	// Player not close enough to vehicle.
 	[["ResistanceMovement","ServicePoint","SPDistVehicleP"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 	nil;
@@ -112,7 +115,7 @@ switch (_action) do {
 		};
 
 		case "strip": {
-				private ["_value", "_siphon"];
+				private ["_value", "_siphon", "_militaryValue"];
 
 				// Air vehicles / tanks are double value.
 				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
@@ -123,16 +126,32 @@ switch (_action) do {
 					_siphon = ceil (((fuel _vehicle) * 100) / 10);
 				};
 
+				// Military value of vehicle (turrets * 2)
+				_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
+
 				_data set [0, (_data select 0) + _siphon];
 				_data set [1, (_data select 1) + _value];
+				_data set [2, (_data select 2) + _militaryValue];
+
 				deleteVehicle _vehicle;
 				[["INT_local_partsUsed", _value], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 
-				if (_siphon > 0) then {
-					[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
-					[["ResistanceMovement","ServicePoint","StripSiphon"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				if (_militaryValue == 0) then {
+					if (_siphon > 0) then {
+						[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+						[["ResistanceMovement","ServicePoint","StripSiphon"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					} else {
+						[["ResistanceMovement","ServicePoint","Stripped"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					};
 				} else {
-					[["ResistanceMovement","ServicePoint","Stripped"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					if (_siphon > 0) then {
+						[["INT_local_militaryUsed", _militaryValue], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+						[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+						[["ResistanceMovement","ServicePoint","StripMilSiphon"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					} else {
+						[["INT_local_militaryUsed", _militaryValue], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+						[["ResistanceMovement","ServicePoint","StrippedMil"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					};
 				};
 		};
 
