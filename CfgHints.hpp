@@ -225,11 +225,22 @@ class CfgHints
 			};
 			class Stripped
 			{
-				displayName = "Service Point";
+				displayName = "Vehicle Stripped";
 				description = "%11 was stripped down for %12 parts.";
 				arguments[] = {
 					"INT_local_serviceType",
 					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class StripSiphon
+			{
+				displayName = "Vehicle Stripped";
+				description = "%11 was stripped down for %12 parts and %13 fuel.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed",
+					"INT_local_fuelUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};

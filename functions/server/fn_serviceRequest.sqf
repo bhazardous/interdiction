@@ -112,20 +112,28 @@ switch (_action) do {
 		};
 
 		case "strip": {
-				private ["_value"];
+				private ["_value", "_siphon"];
 				_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
+				_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				_data set [0, (_data select 0) + _siphon];
 				_data set [1, (_data select 1) + _value];
 				deleteVehicle _vehicle;
 				[["INT_local_partsUsed", _value], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
-				[["ResistanceMovement","ServicePoint","Stripped"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+
+				if (_siphon > 0) then {
+					[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					[["ResistanceMovement","ServicePoint","StripSiphon"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				} else {
+					[["ResistanceMovement","ServicePoint","Stripped"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				};
 		};
 
 		case "siphon": {
 				private ["_siphon"];
-				_value = ceil (((fuel _vehicle) * 100) / 5);
-				_data set [0, (_data select 0) + _value];
+				_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				_data set [0, (_data select 0) + _siphon];
 				_vehicle setFuel 0;
-				[["INT_local_fuelUsed", _value], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+				[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 				[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 		};
 };
