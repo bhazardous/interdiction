@@ -113,8 +113,16 @@ switch (_action) do {
 
 		case "strip": {
 				private ["_value", "_siphon"];
-				_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
-				_siphon = ceil (((fuel _vehicle) * 100) / 5);
+
+				// Air vehicles / tanks are double value.
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
+					_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				} else {
+					_value = ceil (((1 - (damage _vehicle)) * 100) / 10);
+					_siphon = ceil (((fuel _vehicle) * 100) / 10);
+				};
+
 				_data set [0, (_data select 0) + _siphon];
 				_data set [1, (_data select 1) + _value];
 				deleteVehicle _vehicle;
