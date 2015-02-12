@@ -47,7 +47,7 @@ if (_menuName == "main") then {
 	// Service params.
 	private ["_canService", "_nearService", "_checkService", "_nearRecruit", "_supportVeh"];
 	_nearService = [player, INT_global_servicePoints, 10] call INT_fnc_nearby;
-	_canService = _target isKindOf "AllVehicles" && {[player, _target, 4] call INT_fnc_nearby};
+	_canService = _target isKindOf "AllVehicles" && {[player, _target, 6] call INT_fnc_nearby};
 	_checkService = _target in INT_global_servicePoints;
 	if (_canService) then {
 		private ["_config"];
