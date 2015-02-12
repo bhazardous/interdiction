@@ -115,7 +115,7 @@ if (INT_global_buildingEnabled) then {
 			_serviceMarker setMarkerType "Empty";
 
 			// Init service point data.
-			INT_server_servicePointData pushBack [0,0];
+			INT_server_servicePointData pushBack [0,0,0];
 		};
 
 		case "recruitment": {

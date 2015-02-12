@@ -63,7 +63,7 @@ if (_distance < 0) exitWith {
 switch (typeName _test) do {
 	case "OBJECT": {
 		if (!isNull _test) then {
-			if (_objPos distance _test < _distance) then {
+			if (_objPos distance _test <= _distance) then {
 				_ret = true;
 			};
 		} else {
@@ -75,7 +75,7 @@ switch (typeName _test) do {
 		if (getMarkerColor _test != "") then {
 			private ["_markerPos"];
 			_markerPos = markerPos _test;
-			if (_objPos distance _markerPos < _distance) then {
+			if (_objPos distance _markerPos <= _distance) then {
 				_ret = true;
 			};
 		} else {
@@ -89,7 +89,7 @@ switch (typeName _test) do {
 
 		if (typeName (_test select 0) == "NUMBER") then {
 			// Testing a position.
-			if (_objPos distance _test < _distance) then {
+			if (_objPos distance _test <= _distance) then {
 				_ret = true;
 			};
 		} else {

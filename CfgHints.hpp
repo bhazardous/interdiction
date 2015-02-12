@@ -225,11 +225,45 @@ class CfgHints
 			};
 			class Stripped
 			{
-				displayName = "Service Point";
+				displayName = "Vehicle Stripped";
 				description = "%11 was stripped down for %12 parts.";
 				arguments[] = {
 					"INT_local_serviceType",
 					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class StripSiphon
+			{
+				displayName = "Vehicle Stripped";
+				description = "%11 was stripped down for %12 parts and %13 fuel.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed",
+					"INT_local_fuelUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class StrippedMil
+			{
+				displayName = "Vehicle Stripped";
+				description = "%11 was stripped down for %12 parts and %13 military parts.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed",
+					"INT_local_militaryUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class StripMilSiphon
+			{
+				displayName = "Vehicle Stripped";
+				description = "%11 was stripped down for %12 parts, %14 military parts and %13 fuel.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed",
+					"INT_local_fuelUsed",
+					"INT_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -251,10 +285,11 @@ class CfgHints
 			class SPStock
 			{
 				displayName = "Service Point";
-				description = "%3Fuel%4: %11%1%3Spare parts%4: %12";
+				description = "%3Fuel%4: %11%1%3Spare parts%4: %12%1%3Military parts%4: %13";
 				arguments[] = {
 					"INT_local_fuelUsed",
-					"INT_local_partsUsed"
+					"INT_local_partsUsed",
+					"INT_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
