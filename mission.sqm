@@ -2004,19 +2004,6 @@ class Mission
 			};
 		};
 	};
-	class Markers
-	{
-		items=1;
-		class Item0
-		{
-			position[]={653.591,-0.21763389,347.43213};
-			name="respawn_west";
-			markerType="RECTANGLE";
-			type="Empty";
-			a=25;
-			b=25;
-		};
-	};
 };
 class Intro
 {

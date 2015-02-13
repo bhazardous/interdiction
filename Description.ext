@@ -8,6 +8,7 @@
 
 respawn = 3;
 respawnDelay = 10;
+respawnTemplates[] = {"INT_Respawn"};
 
 enableDebugConsole = 2;
 
@@ -46,6 +47,7 @@ class CfgFunctions
 		{
 			class joinResponse {};
 			class spectate {};
+			class respawn {};
 		};
 		class server
 		{
@@ -127,5 +129,15 @@ class Params
 		texts[] = {"Server", "Headless client", "Players (not recommended)"};
 		values[] = {0, 1, 2};
 		default = 0;
+	};
+};
+
+class CfgRespawnTemplates
+{
+	class INT_Respawn
+	{
+		onPlayerKilled = "INT_fnc_respawn";
+		onPlayerRespawn = "INT_fnc_respawn";
+		respawnOnStart = 0;
 	};
 };

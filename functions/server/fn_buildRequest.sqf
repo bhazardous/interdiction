@@ -55,43 +55,27 @@ if (INT_global_buildingEnabled) then {
 	// Building specific script.
 	switch (_type) do {
 		case "hq": {
-			private ["_campMarker", "_spawnMarker"];
+			private ["_campMarker"];
 
 			// Respawn marker.
 			INT_global_campCount = INT_global_campCount + 1;
 			publicVariable "INT_global_campCount";
 
-			if (!INT_global_campExists) then {
-				INT_global_campExists = true;
-				publicVariable "INT_global_campExists";
-
-				// Show the first camp hint.
-				INT_global_lastCampGrid = mapGridPosition _pos;
-				INT_global_campBuiltBy = name _player;
-				publicVariable "INT_global_lastCampGrid";
-				publicVariable "INT_global_campBuiltBy";
-				["objCamp", "Succeeded"] call BIS_fnc_taskSetState;
-
-				// Show the camp hint, then field manual reminder.
-				[] spawn {
-					[["ResistanceMovement", "BuildCamp", "CampBuilt"]] call INT_fnc_broadcastHint;
-					sleep 60;
-					[["ResistanceMovement", "Interdiction", "FieldManual"]] call INT_fnc_broadcastHint;
-				};
-			} else {
-				// TODO: Multiple camps hint.
-			};
+			// Show the camp hint.
+			INT_global_lastCampGrid = mapGridPosition _pos;
+			INT_global_campBuiltBy = name _player;
+			publicVariable "INT_global_lastCampGrid";
+			publicVariable "INT_global_campBuiltBy";
+			["objCamp", "Succeeded"] call BIS_fnc_taskSetState;
+			[["ResistanceMovement", "BuildCamp", "CampBuilt"], true, true, false] call INT_fnc_broadcastHint;
 
 			// Map marker for HQ.
 			_campMarker = createMarker [format ["INT_mkr_resistanceCamp%1", INT_global_campCount], _pos];
 			_campMarker setMarkerType "b_hq";
 			_campMarker setMarkerText "Camp";
 
-			_spawnMarker = createMarker [format ["INT_mkr_resistanceSpawn%1", INT_global_campCount], _pos];
-			_spawnMarker setMarkerAlpha 0;
-			_spawnMarker setMarkerShape "RECTANGLE";
-			_spawnMarker setMarkerSize [25,25];
-			"respawn_west" setMarkerPos _pos;
+			// Add respawn point.
+			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 
 			// Add OPFOR detection trigger to camp position.
 			private ["_objectiveParams"];
@@ -100,6 +84,17 @@ if (INT_global_buildingEnabled) then {
 
 			// Notify friendly OPCOM of camp.
 			[INT_module_alive_blufor_opcom, _objectiveParams] call INT_fnc_addOpcomObjective;
+
+			// If this was the first camp, enable respawns.
+			if (!INT_global_campExists) then {
+				INT_global_campExists = true;
+				publicVariable "INT_global_campExists";
+
+				[] spawn {
+					sleep 60;
+					[["ResistanceMovement", "Interdiction", "FieldManual"]] call INT_fnc_broadcastHint;
+				};
+			};
 		};
 
 		case "service": {
