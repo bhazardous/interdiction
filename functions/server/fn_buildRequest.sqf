@@ -27,6 +27,8 @@ if (isNull _player) exitWith {
 	nil;
 };
 
+if (_type == "hq" && {INT_global_campsAvailable == 0}) exitWith {nil;};
+
 // TODO: code duplication with fnc_build :(
 // Buildings that require a camp need to be within MAX_DISTANCE.
 private ["_valid"];
@@ -56,6 +58,10 @@ if (INT_global_buildingEnabled) then {
 	switch (_type) do {
 		case "hq": {
 			private ["_campMarker"];
+
+			// Camps available.
+			INT_global_campsAvailable = INT_global_campsAvailable - 1;
+			publicVariable "INT_global_campsAvailable";
 
 			// Respawn marker.
 			INT_global_campCount = INT_global_campCount + 1;

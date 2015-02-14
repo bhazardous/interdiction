@@ -134,7 +134,7 @@ if (_menuName == "build") then {
 							"Establish a camp, also acts as a respawn point.",
 							"",
 							-1,
-							(!INT_global_campExists),
+							(INT_global_campsAvailable > 0),
 							(true)
 					],
 					[

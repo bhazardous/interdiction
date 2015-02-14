@@ -125,7 +125,7 @@ class CfgHints
 			class CampBuilt
 			{
 				displayName = "Resistance Camp";
-				description = "The camp has been established at %3%11%4 by %3%12%4.%1%2You will respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
+				description = "A camp has been established at %3%11%4 by %3%12%4.%1%2You can respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
 				tip = "The camp has been marked on your map.";
 				arguments[] = {
 					"INT_global_lastCampGrid",
