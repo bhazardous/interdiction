@@ -80,6 +80,9 @@ if (INT_global_buildingEnabled) then {
 			_campMarker setMarkerType "b_hq";
 			_campMarker setMarkerText "Camp";
 
+			// Add camp position to array.
+			INT_global_camps pushBack _pos;
+
 			// Add respawn point.
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 

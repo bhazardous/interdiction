@@ -41,7 +41,7 @@ switch (typeName _obj) do {
 	};
 
 	case "ARRAY": {
-		if (typeName (_obj select 0) == "NUMBER") then {
+		if (typeName (_obj select 0) in ["NUMBER","SCALAR"]) then {
 			_objPos = _obj;
 		} else {
 			_objPos = nil;
@@ -87,7 +87,7 @@ switch (typeName _test) do {
 		// Empty array - return false without error.
 		if (count _test == 0) exitWith {};
 
-		if (typeName (_test select 0) == "NUMBER") then {
+		if (typeName (_test select 0) in ["NUMBER","SCALAR"]) then {
 			// Testing a position.
 			if (_objPos distance _test <= _distance) then {
 				_ret = true;

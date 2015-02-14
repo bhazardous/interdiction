@@ -13,6 +13,7 @@ scriptName "fn_build";
 */
 #define RUN_DISTANCE 8			// Distance players can move before cancelling build.
 #define MAX_DISTANCE 100		// Max distance a building can be from HQ.
+#define MIN_CAMP_DISTANCE 1500	// Distance between resistance HQs.
 
 private ["_type"];
 _type = [_this, 0, "", [""]] call BIS_fnc_param;
@@ -54,6 +55,18 @@ if (_type in ["service","recruitment"]) then {
 };
 if (!_valid) exitWith {
 	[["ResistanceMovement", "BuildCamp", "Distance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	nil;
+};
+
+// Camp HQ requires min distance between camps.
+if (_type == "hq") then {
+	if ([_pos, INT_global_camps, MIN_CAMP_DISTANCE] call INT_fnc_nearby) then {
+		_valid = false;
+	};
+};
+if (!_valid) exitWith {
+	[["ResistanceMovement","BuildCamp","HQDistance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	nil;
 };
 
 _building = [_type, _pos, _dir] call INT_fnc_spawnComposition;

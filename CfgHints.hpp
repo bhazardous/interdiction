@@ -162,10 +162,15 @@ class CfgHints
 				displayName = "Invalid Position";
 				description = "This building needs to be placed within a resistance camp.";
 			};
+			class HQDistance
+			{
+				displayName = "Invalid Position";
+				description = "Resistance camps need to be at least 1.5km apart.";
+			};
 		};
 		class ResistanceHQ {
 			displayName = "Resistance HQ";
-			description = "The %3resistance HQ%4 is the primary camp building. It establishes a resistance camp in the area, allowing you to construct other buildings around it.%1The HQ also acts as a %3respawn point%4 for players.";
+			description = "The %3resistance HQ%4 is the primary camp building. It establishes a resistance camp in the area, allowing you to construct other buildings around it.%1The HQ also acts as a %3respawn point%4 for players.%1%1Once the resistance grows, you will be able to construct multiple camps, these camps need to be at least 1.5km apart.";
 			image = "\a3\ui_f\data\gui\cfg\hints\unittype_ca.paa";
 		};
 		class ServicePoint
