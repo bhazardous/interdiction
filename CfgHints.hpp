@@ -167,6 +167,11 @@ class CfgHints
 				displayName = "Invalid Position";
 				description = "Resistance camps need to be at least 1.5km apart.";
 			};
+			class Duplicate
+			{
+				displayName = "Invalid Position";
+				description = "This building has already been constructed at this camp.";
+			};
 		};
 		class ResistanceHQ {
 			displayName = "Resistance HQ";

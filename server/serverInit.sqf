@@ -31,6 +31,7 @@ PUBLIC(INT_global_crewAvailable,0);		// Number of support crew (groups) availabl
 PUBLIC(INT_global_campsAvailable,1);	// Number of camps that can be constructed.
 PUBLIC(INT_global_camps,[]);			// List of camp positions.
 
+INT_server_campData = [];
 INT_server_servicePointData = [];
 
 // Objectives.

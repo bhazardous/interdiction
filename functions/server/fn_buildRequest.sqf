@@ -48,6 +48,26 @@ if (!_valid) exitWith {
 	[["ResistanceMovement","BuildCamp","Distance"], true, true, false, _player, true] call INT_fnc_broadcastHint;
 };
 
+// Get closest camp ID.
+private ["_campId"];
+if (INT_global_campCount > 0) then {
+	_campId = [_player, "INT_mkr_resistanceCamp", INT_global_campCount] call INT_fnc_closest;
+	_campId = _campId - 1;
+};
+
+// One building per camp.
+if (_type in ["service","recruitment"]) then {
+	if (_type == "service") then {
+		_valid = !(INT_server_campData select _campId select 0);
+	} else {
+		_valid = !(INT_server_campData select _campId select 1);
+	};
+};
+if (!_valid) exitWith {
+	[["ResistanceMovement","BuildCamp","Duplicate"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+	nil;
+};
+
 if (INT_global_buildingEnabled) then {
 	// Place building.
 	private ["_building"];
@@ -82,6 +102,7 @@ if (INT_global_buildingEnabled) then {
 
 			// Add camp position to array.
 			INT_global_camps pushBack _pos;
+			INT_server_campData pushBack [false,false];
 
 			// Add respawn point.
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
@@ -114,12 +135,14 @@ if (INT_global_buildingEnabled) then {
 			publicVariable "INT_global_servicePointCount";
 
 			// Create a hidden marker for the service point.
-			private ["_serviceMarker"];
+			private ["_serviceMarker", "_data"];
 			_serviceMarker = createMarker [format ["INT_mkr_servicePoint%1", INT_global_servicePointCount], _pos];
 			_serviceMarker setMarkerType "Empty";
 
 			// Init service point data.
 			INT_server_servicePointData pushBack [0,0,0];
+			_data = INT_server_campData select _campId;
+			_data set [0, true];
 		};
 
 		case "recruitment": {
@@ -130,9 +153,13 @@ if (INT_global_buildingEnabled) then {
 			publicVariable "INT_global_recruitmentTentCount";
 
 			// Create a hidden marker for the recruitment tent.
-			private ["_recruitMarker"];
+			private ["_recruitMarker", "_data"];
 			_recruitMarker = createMarker [format ["INT_mkr_recruitment%1", INT_global_recruitmentTentCount], _pos];
 			_recruitMarker setMarkerType "Empty";
+
+			// Set camp data.
+			_data = INT_server_campData select _campId;
+			_data set [1, true];
 		};
 	};
 } else {
