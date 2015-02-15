@@ -125,7 +125,7 @@ class CfgHints
 			class CampBuilt
 			{
 				displayName = "Resistance Camp";
-				description = "The camp has been established at %3%11%4 by %3%12%4.%1%2You will respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
+				description = "A camp has been established at %3%11%4 by %3%12%4.%1%2You can respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
 				tip = "The camp has been marked on your map.";
 				arguments[] = {
 					"INT_global_lastCampGrid",
@@ -162,10 +162,20 @@ class CfgHints
 				displayName = "Invalid Position";
 				description = "This building needs to be placed within a resistance camp.";
 			};
+			class HQDistance
+			{
+				displayName = "Invalid Position";
+				description = "Resistance camps need to be at least 1.5km apart.";
+			};
+			class Duplicate
+			{
+				displayName = "Invalid Position";
+				description = "This building has already been constructed at this camp.";
+			};
 		};
 		class ResistanceHQ {
 			displayName = "Resistance HQ";
-			description = "The %3resistance HQ%4 is the primary camp building. It establishes a resistance camp in the area, allowing you to construct other buildings around it.%1The HQ also acts as a %3respawn point%4 for players.";
+			description = "The %3resistance HQ%4 is the primary camp building. It establishes a resistance camp in the area, allowing you to construct other buildings around it.%1The HQ also acts as a %3respawn point%4 for players.%1%1Once the resistance grows, you will be able to construct multiple camps, these camps need to be at least 1.5km apart.";
 			image = "\a3\ui_f\data\gui\cfg\hints\unittype_ca.paa";
 		};
 		class ServicePoint

@@ -19,12 +19,23 @@ switch (_reason) do {
 	case "kills": {
 		// Hit kill threshold.
 		[1] call INT_fnc_spawnResistance;
+
+		// Tick counters for unlocks.
 		INT_server_crewCounter = INT_server_crewCounter + 1;
+		INT_server_campCounter = INT_server_campCounter + 1;
+
+		// Unlocks.
 		if (INT_server_crewCounter >= INT_server_crewThreshold) then {
 			INT_global_crewAvailable = INT_global_crewAvailable + 1;
 			publicVariable "INT_global_crewAvailable";
 			INT_server_crewCounter = INT_server_crewCounter - INT_server_crewThreshold;
 			[["ResistanceMovement","CombatSupport","SupportCrew"]] call INT_fnc_broadcastHint;
+		};
+
+		if (INT_server_campCounter >= INT_server_campThreshold) then {
+			INT_global_campsAvailable = INT_global_campsAvailable + 1;
+			publicVariable "INT_global_campsAvailable";
+			INT_server_campCounter = INT_server_campCounter - INT_server_campThreshold;
 		};
 
 		// Unlock tech1.

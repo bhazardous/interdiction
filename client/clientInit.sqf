@@ -44,21 +44,16 @@ scriptName "clientInit";
 
 		// Wait for response from server.
 		waitUntil {!isNil "INT_local_playerReady"};
+		INT_local_playerStarted = true;
 	} else {
-		if (INT_global_campExists) then {
-			// Camp exists, move to spawn.
-			player setPos (["respawn_west"] call BIS_fnc_randomPosTrigger);
-		} else {
-			// No camp, start spectating.
-			[] call INT_fnc_spectate;
-		};
+		INT_local_playerStarted = true;
+		[] call INT_fnc_respawn;
 	};
 
 	2 fadeSound 1;
 	2 fadeMusic 1;
 	2 fadeRadio 1;
 	["missionStart"] call BIS_fnc_blackIn;
-	INT_local_playerStarted = true;
 
 	// Add the CBA menu. Using ALiVE's menu 'cause it looks nicer. :)
 	INT_local_flexiMenu = ["player", [[0x2F,[false,true,false]]], 0,

@@ -34,8 +34,8 @@ player enableSimulation true;
 player hideObject false;
 1 fadeSound 1;
 
-// Move player to spawn point.
-player setPos (["respawn_west"] call BIS_fnc_randomPosTrigger);
+// Force respawn.
+[player] call INT_fnc_respawn;
 
 // Add player to the playerList again.
 if (!(player in INT_global_playerList)) then {
