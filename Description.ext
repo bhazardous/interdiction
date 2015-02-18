@@ -48,6 +48,8 @@ class CfgFunctions
 			class joinResponse {};
 			class spectate {};
 			class respawn {};
+			class storeGear {};
+			class setGear {};
 		};
 		class server
 		{
