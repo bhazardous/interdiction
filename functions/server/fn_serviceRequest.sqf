@@ -65,27 +65,111 @@ sleep 5;
 // Repair and refuel actions.
 switch (_action) do {
 		case "repair": {
-				private ["_damage", "_partsRequired"];
-				_damage = damage _vehicle;
-				_partsRequired = ceil ((_damage * 100) / 5);
-				[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+				private ["_damage", "_militaryValue", "_partsRequired", "_milRequired",
+					"_partsCoef", "_milCoef"];
 
-				if (_partsRequired == 0) exitWith {
+				_damage = damage _vehicle * 100;
+				_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
+
+				if (_militaryValue > 0) then {
+					// Military vehicle. (0-80 for parts) (80-100 military parts)
+					_partsDamage = 80 min _damage;
+					_milDamage = 0 max (_damage - 80);
+					_milCoef = (20 / _militaryValue);
+					_milRequired = ceil (_milDamage / (20 / _militaryValue));
+
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_partsRequired = ceil (_partsDamage / 4);
+						_partsCoef = 4;
+					} else {
+						_partsRequired = ceil (_partsDamage / 8);
+						_partsCoef = 8;
+					};
+				} else {
+					// Non-military vehicle (unarmed), no military parts required.
+					_milRequired = 0;
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_partsRequired = ceil (_damage / 5);
+						_partsCoef = 5;
+					} else {
+						_partsRequired = ceil (_damage / 10);
+						_partsCoef = 10;
+					};
+				};
+
+				if (_partsRequired == 0 && {_milRequired == 0}) exitWith {
 					// No repairs needed.
 				};
 
-				if (_data select 1 >= _partsRequired) then {
-					// Full repair.
-					_data set [1, (_data select 1) - _partsRequired];
-					_vehicle setDamage 0;
-					[["ResistanceMovement","ServicePoint","RepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				private ["_bailOut"];
+				_bailOut = false;
+				if (_milRequired > 0) then {
+					if (_data select 2 >= _milRequired) then {
+						// Enough milparts for full repair.
+						_damage = _damage - (_milRequired * _milCoef);
+						_data set [2, (_data select 2) - _milRequired];
+						[["INT_local_militaryUsed", _milRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					} else {
+						// Not enough milparts for repair, perform partial then exit.
+						private ["_milUsed"];
+						_milUsed = _data select 2;
+						_damage = _damage - (_milUsed * _milCoef);
+						_data set [2, 0];
+						_bailOut = true;
+
+						if (_milUsed > 0) then {
+							[["INT_local_militaryUsed", _milUsed], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+
+							[["ResistanceMovement","ServicePoint","MilRepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+						} else {
+							[["ResistanceMovement","ServicePoint","MilRepairNone"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+						};
+					};
+				};
+
+				if (_bailOut) exitWith {
+					// Not enough parts to finish military repairs, can't continue.
+					_vehicle setDamage ((0 max _damage) / 100);
+				};
+
+				if (_partsRequired > 0) then {
+					if (_data select 1 >= _partsRequired) then {
+						// Enough parts for full repair.
+						_damage = _damage - (_partsRequired * _partsCoef);
+						_data set [1, (_data select 1) - _partsRequired];
+						[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					} else {
+						// Not enough parts for repair.
+						private ["_partsUsed"];
+						_partsUsed = _data select 1;
+						_damage = _damage - (_partsUsed * _partsCoef);
+						_data set [1, 0];
+						_bailOut = true;
+
+						if (_milRequired > 0 || {_partsUsed > 0}) then {
+							[["INT_local_partsUsed", _partsUsed], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+						};
+
+						if (_milRequired > 0) then {
+							[["ResistanceMovement","ServicePoint","MilPartRepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+						} else {
+							if (_partsUsed > 0) then {
+								[["ResistanceMovement","ServicePoint","RepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+							} else {
+								[["ResistanceMovement","ServicePoint","RepairNone"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+							};
+						};
+					};
+				};
+
+				_vehicle setDamage ((0 max _damage) / 100);
+
+				if (_bailOut) exitWith {};
+
+				if (_milRequired > 0) then {
+					[["ResistanceMovement","ServicePoint","MilRepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				} else {
-					// Partial repair.
-					private ["_repair"];
-					_repair = _damage - ((_data select 1) * 0.05);
-					_data set [1, 0];
-					_vehicle setDamage _repair;
-					[["ResistanceMovement","ServicePoint","RepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					[["ResistanceMovement","ServicePoint","RepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				};
 		};
 

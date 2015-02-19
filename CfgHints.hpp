@@ -193,12 +193,62 @@ class CfgHints
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
+			class MilRepairFull
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been repaired using %12 spare parts and %13 military parts.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed",
+					"INT_local_militaryUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
 			class RepairPartial
 			{
 				displayName = "Vehicle Repaired";
 				description = "%11 has been partially repaired using %12 spare parts. The service point has no more parts remaining.";
 				arguments[] = {
 					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class MilRepairPartial
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been partially repaired using %12 military parts, you need more military parts before continuing repairs.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_militaryUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class RepairNone
+			{
+				displayName = "Vehicle Repair";
+				description = "Repairs on %11 cannot be started without spare parts.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class MilRepairNone
+			{
+				displayName = "Vehicle Repair";
+				description = "Repairs on %11 cannot be started without military parts.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class MilPartRepairPartial
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been partially repaired using %12 military parts and %13 parts, you need more parts to continue repairs.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_militaryUsed",
 					"INT_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
