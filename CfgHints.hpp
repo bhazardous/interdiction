@@ -283,6 +283,15 @@ class CfgHints
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
+			class SiphonNone
+			{
+				displayName = "Fuel Siphoned";
+				description = "No fuel was siphoned from %11, the tank is alread empty.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
 			class Stripped
 			{
 				displayName = "Vehicle Stripped";

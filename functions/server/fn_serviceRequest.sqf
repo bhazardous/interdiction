@@ -246,11 +246,21 @@ switch (_action) do {
 
 		case "siphon": {
 				private ["_siphon"];
-				_siphon = ceil (((fuel _vehicle) * 100) / 5);
-				_data set [0, (_data select 0) + _siphon];
-				_vehicle setFuel 0;
-				[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
-				[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				} else {
+					_siphon = ceil (((fuel _vehicle) * 100) / 10);
+				};
+
+				if (_siphon > 0) then {
+					_data set [0, (_data select 0) + _siphon];
+					_vehicle setFuel 0;
+					[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				} else {
+					[["ResistanceMovement","ServicePoint","SiphonNone"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				};
 		};
 };
 
