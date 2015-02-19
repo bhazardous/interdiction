@@ -92,7 +92,12 @@ switch (_action) do {
 		case "refuel": {
 				private ["_fuel", "_fuelRequired"];
 				_fuel = fuel _vehicle;
-				_fuelRequired = ceil (((1 - _fuel) * 100) / 5);
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_fuelRequired = ceil (((1 - _fuel) * 100) / 5);
+				} else {
+					_fuelRequired = ceil (((1 - _fuel) * 100) / 10);
+				};
+
 				[["INT_local_fuelUsed", _fuelRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 
 				if (_fuelRequired == 0) exitWith {
