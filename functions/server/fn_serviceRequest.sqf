@@ -14,6 +14,8 @@ scriptName "fn_serviceRequest";
 	Returns:
 	nil
 */
+// TODO: Lots of code duplication in this file.
+// TODO: Also messy as fuck.
 
 private ["_player", "_action", "_id", "_vehicle", "_markerName", "_data"];
 _player = _this select 0;
@@ -31,6 +33,44 @@ if (_action == "check") exitWith {
 	[["INT_local_militaryUsed", _military], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 
 	[["ResistanceMovement","ServicePoint","SPStock"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+};
+
+if (_action == "assess") exitWith {
+	private ["_damage", "_partsRequired", "_milRequired", "_militaryValue", "_partsDamage", "_milDamage"];
+
+	_damage = damage _vehicle * 100;
+	_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
+
+	if (_militaryValue > 0) then {
+		_partsDamage = 60 min _damage;
+		_milDamage = 0 max (_damage - 60);
+		_milRequired = ceil (_milDamage / (40 / _militaryValue));
+
+		if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+			_partsRequired = ceil (_partsDamage / 3);
+		} else {
+			_partsRequired = ceil (_partsDamage / 6);
+		};
+	} else {
+		_milRequired = 0;
+		if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+			_partsRequired = ceil (_damage / 5);
+		} else {
+			_partsRequired = ceil (_damage / 10);
+		};
+	};
+
+	[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+	if (_milRequired > 0) then {
+		[["INT_local_militaryUsed", _milRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+		[["ResistanceMovement","ServicePoint","CheckDamageMil"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+	} else {
+		if (_partsRequired > 0) then {
+			[["ResistanceMovement","ServicePoint","CheckDamage"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+		} else {
+			[["ResistanceMovement","ServicePoint","NoRepair"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+		};
+	};
 };
 
 // Player and vehicle in position.
@@ -65,34 +105,123 @@ sleep 5;
 // Repair and refuel actions.
 switch (_action) do {
 		case "repair": {
-				private ["_damage", "_partsRequired"];
-				_damage = damage _vehicle;
-				_partsRequired = ceil ((_damage * 100) / 5);
-				[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+				private ["_damage", "_militaryValue", "_partsRequired", "_milRequired",
+					"_partsCoef", "_milCoef"];
 
-				if (_partsRequired == 0) exitWith {
+				_damage = damage _vehicle * 100;
+				_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
+
+				if (_militaryValue > 0) then {
+					// Military vehicle.
+					_partsDamage = 60 min _damage;
+					_milDamage = 0 max (_damage - 60);
+					_milCoef = (40 / _militaryValue);
+					_milRequired = ceil (_milDamage / _milCoef);
+
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_partsRequired = ceil (_partsDamage / 3);
+						_partsCoef = 3;
+					} else {
+						_partsRequired = ceil (_partsDamage / 6);
+						_partsCoef = 6;
+					};
+				} else {
+					// Non-military vehicle (unarmed), no military parts required.
+					_milRequired = 0;
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_partsRequired = ceil (_damage / 5);
+						_partsCoef = 5;
+					} else {
+						_partsRequired = ceil (_damage / 10);
+						_partsCoef = 10;
+					};
+				};
+
+				if (_partsRequired == 0 && {_milRequired == 0}) exitWith {
 					// No repairs needed.
 				};
 
-				if (_data select 1 >= _partsRequired) then {
-					// Full repair.
-					_data set [1, (_data select 1) - _partsRequired];
-					_vehicle setDamage 0;
-					[["ResistanceMovement","ServicePoint","RepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				private ["_bailOut"];
+				_bailOut = false;
+				if (_milRequired > 0) then {
+					if (_data select 2 >= _milRequired) then {
+						// Enough milparts for full repair.
+						_damage = _damage - (_milRequired * _milCoef);
+						_data set [2, (_data select 2) - _milRequired];
+						[["INT_local_militaryUsed", _milRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					} else {
+						// Not enough milparts for repair, perform partial then exit.
+						private ["_milUsed"];
+						_milUsed = _data select 2;
+						_damage = _damage - (_milUsed * _milCoef);
+						_data set [2, 0];
+						_bailOut = true;
+
+						if (_milUsed > 0) then {
+							[["INT_local_militaryUsed", _milUsed], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+
+							[["ResistanceMovement","ServicePoint","MilRepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+						} else {
+							[["ResistanceMovement","ServicePoint","MilRepairNone"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+						};
+					};
+				};
+
+				if (_bailOut) exitWith {
+					// Not enough parts to finish military repairs, can't continue.
+					_vehicle setDamage ((0 max _damage) / 100);
+				};
+
+				if (_partsRequired > 0) then {
+					if (_data select 1 >= _partsRequired) then {
+						// Enough parts for full repair.
+						_damage = _damage - (_partsRequired * _partsCoef);
+						_data set [1, (_data select 1) - _partsRequired];
+						[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					} else {
+						// Not enough parts for repair.
+						private ["_partsUsed"];
+						_partsUsed = _data select 1;
+						_damage = _damage - (_partsUsed * _partsCoef);
+						_data set [1, 0];
+						_bailOut = true;
+
+						if (_milRequired > 0 || {_partsUsed > 0}) then {
+							[["INT_local_partsUsed", _partsUsed], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+						};
+
+						if (_milRequired > 0) then {
+							[["ResistanceMovement","ServicePoint","MilPartRepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+						} else {
+							if (_partsUsed > 0) then {
+								[["ResistanceMovement","ServicePoint","RepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+							} else {
+								[["ResistanceMovement","ServicePoint","RepairNone"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+							};
+						};
+					};
+				};
+
+				_vehicle setDamage ((0 max _damage) / 100);
+
+				if (_bailOut) exitWith {};
+
+				if (_milRequired > 0) then {
+					[["ResistanceMovement","ServicePoint","MilRepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				} else {
-					// Partial repair.
-					private ["_repair"];
-					_repair = _damage - ((_data select 1) * 0.05);
-					_data set [1, 0];
-					_vehicle setDamage _repair;
-					[["ResistanceMovement","ServicePoint","RepairPartial"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+					[["ResistanceMovement","ServicePoint","RepairFull"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 				};
 		};
 
 		case "refuel": {
 				private ["_fuel", "_fuelRequired"];
 				_fuel = fuel _vehicle;
-				_fuelRequired = ceil (((1 - _fuel) * 100) / 5);
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_fuelRequired = ceil (((1 - _fuel) * 100) / 5);
+				} else {
+					_fuelRequired = ceil (((1 - _fuel) * 100) / 10);
+				};
+
 				[["INT_local_fuelUsed", _fuelRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 
 				if (_fuelRequired == 0) exitWith {
@@ -117,18 +246,39 @@ switch (_action) do {
 		case "strip": {
 				private ["_value", "_siphon", "_militaryValue"];
 
-				// Air vehicles / tanks are double value.
-				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
-					_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
-					_siphon = ceil (((fuel _vehicle) * 100) / 5);
-				} else {
-					_value = ceil (((1 - (damage _vehicle)) * 100) / 10);
-					_siphon = ceil (((fuel _vehicle) * 100) / 10);
-				};
-
 				// Military value of vehicle (turrets * 2)
 				_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
 
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				} else {
+					_siphon = ceil (((fuel _vehicle) * 100) / 10);
+				};
+
+				if (_militaryValue == 0) then {
+					// Air vehicles / tanks are double value.
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
+					} else {
+						_value = ceil (((1 - (damage _vehicle)) * 100) / 10);
+					};
+				} else {
+					private ["_damage", "_partsDamage", "_milDamage", "_milCoef"];
+
+					_damage = damage _vehicle * 100;
+					_partsDamage = 60 min _damage;
+					_milDamage = 0 max (_damage - 60);
+					_milCoef = (40 / _militaryValue);
+					_militaryValue = _militaryValue - (ceil (_milDamage / _milCoef));
+
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_value = 20 - (ceil (_partsDamage / 3));
+					} else {
+						_value = 10 - (ceil (_partsDamage / 6));
+					};
+				};
+
+				// Update variables.
 				_data set [0, (_data select 0) + _siphon];
 				_data set [1, (_data select 1) + _value];
 				_data set [2, (_data select 2) + _militaryValue];
@@ -157,11 +307,21 @@ switch (_action) do {
 
 		case "siphon": {
 				private ["_siphon"];
-				_siphon = ceil (((fuel _vehicle) * 100) / 5);
-				_data set [0, (_data select 0) + _siphon];
-				_vehicle setFuel 0;
-				[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
-				[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				} else {
+					_siphon = ceil (((fuel _vehicle) * 100) / 10);
+				};
+
+				if (_siphon > 0) then {
+					_data set [0, (_data select 0) + _siphon];
+					_vehicle setFuel 0;
+					[["INT_local_fuelUsed", _siphon], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+					[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				} else {
+					[["ResistanceMovement","ServicePoint","SiphonNone"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+				};
 		};
 };
 

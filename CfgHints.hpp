@@ -183,6 +183,36 @@ class CfgHints
 			displayName = "Service Point";
 			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts.%1You can then %3repair%4 and %3refuel%4 more important resistance assets.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			class CheckDamage
+			{
+				displayName = "Vehicle Repair";
+				description = "%11 requires %12 spare parts for a complete repair.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class CheckDamageMil
+			{
+				displayName = "Vehicle Repair";
+				description = "%11 requires %12 military parts and %13 spare parts for a complete repair.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_militaryUsed",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class NoRepair
+			{
+				displayName = "Vehicle Repair";
+				description = "%11 doesn't require any repairs.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
 			class RepairFull
 			{
 				displayName = "Vehicle Repaired";
@@ -193,12 +223,62 @@ class CfgHints
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
+			class MilRepairFull
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been repaired using %12 spare parts and %13 military parts.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed",
+					"INT_local_militaryUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
 			class RepairPartial
 			{
 				displayName = "Vehicle Repaired";
 				description = "%11 has been partially repaired using %12 spare parts. The service point has no more parts remaining.";
 				arguments[] = {
 					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class MilRepairPartial
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been partially repaired using %12 military parts, you need more military parts before continuing repairs.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_militaryUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class RepairNone
+			{
+				displayName = "Vehicle Repair";
+				description = "Repairs on %11 cannot be started without spare parts.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class MilRepairNone
+			{
+				displayName = "Vehicle Repair";
+				description = "Repairs on %11 cannot be started without military parts.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class MilPartRepairPartial
+			{
+				displayName = "Vehicle Repaired";
+				description = "%11 has been partially repaired using %12 military parts and %13 parts, you need more parts to continue repairs.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_militaryUsed",
 					"INT_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
@@ -229,6 +309,15 @@ class CfgHints
 				description = "%11 fuel has been siphoned from %12.";
 				arguments[] = {
 					"INT_local_fuelUsed",
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class SiphonNone
+			{
+				displayName = "Fuel Siphoned";
+				description = "No fuel was siphoned from %11, the tank is alread empty.";
+				arguments[] = {
 					"INT_local_serviceType"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
