@@ -14,6 +14,8 @@ scriptName "fn_serviceRequest";
 	Returns:
 	nil
 */
+// TODO: Lots of code duplication in this file.
+// TODO: Also messy as fuck.
 
 private ["_player", "_action", "_id", "_vehicle", "_markerName", "_data"];
 _player = _this select 0;
@@ -110,7 +112,7 @@ switch (_action) do {
 				_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
 
 				if (_militaryValue > 0) then {
-					// Military vehicle. (0-80 for parts) (80-100 military parts)
+					// Military vehicle.
 					_partsDamage = 60 min _damage;
 					_milDamage = 0 max (_damage - 60);
 					_milCoef = (40 / _militaryValue);
@@ -244,18 +246,39 @@ switch (_action) do {
 		case "strip": {
 				private ["_value", "_siphon", "_militaryValue"];
 
-				// Air vehicles / tanks are double value.
-				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
-					_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
-					_siphon = ceil (((fuel _vehicle) * 100) / 5);
-				} else {
-					_value = ceil (((1 - (damage _vehicle)) * 100) / 10);
-					_siphon = ceil (((fuel _vehicle) * 100) / 10);
-				};
-
 				// Military value of vehicle (turrets * 2)
 				_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
 
+				if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+					_siphon = ceil (((fuel _vehicle) * 100) / 5);
+				} else {
+					_siphon = ceil (((fuel _vehicle) * 100) / 10);
+				};
+
+				if (_militaryValue == 0) then {
+					// Air vehicles / tanks are double value.
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_value = ceil (((1 - (damage _vehicle)) * 100) / 5);
+					} else {
+						_value = ceil (((1 - (damage _vehicle)) * 100) / 10);
+					};
+				} else {
+					private ["_damage", "_partsDamage", "_milDamage", "_milCoef"];
+
+					_damage = damage _vehicle * 100;
+					_partsDamage = 60 min _damage;
+					_milDamage = 0 max (_damage - 60);
+					_milCoef = (40 / _militaryValue);
+					_militaryValue = _militaryValue - (ceil (_milDamage / _milCoef));
+
+					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+						_value = 20 - (ceil (_partsDamage / 3));
+					} else {
+						_value = 10 - (ceil (_partsDamage / 6));
+					};
+				};
+
+				// Update variables.
 				_data set [0, (_data select 0) + _siphon];
 				_data set [1, (_data select 1) + _value];
 				_data set [2, (_data select 2) + _militaryValue];
