@@ -40,14 +40,14 @@ if (_action == "assess") exitWith {
 	_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
 
 	if (_militaryValue > 0) then {
-		_partsDamage = 80 min _damage;
-		_milDamage = 0 max (_damage - 80);
-		_milRequired = ceil (_milDamage / (20 / _militaryValue));
+		_partsDamage = 60 min _damage;
+		_milDamage = 0 max (_damage - 60);
+		_milRequired = ceil (_milDamage / (40 / _militaryValue));
 
 		if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
-			_partsRequired = ceil (_partsDamage / 4);
+			_partsRequired = ceil (_partsDamage / 3);
 		} else {
-			_partsRequired = ceil (_partsDamage / 8);
+			_partsRequired = ceil (_partsDamage / 6);
 		};
 	} else {
 		_milRequired = 0;
@@ -111,17 +111,17 @@ switch (_action) do {
 
 				if (_militaryValue > 0) then {
 					// Military vehicle. (0-80 for parts) (80-100 military parts)
-					_partsDamage = 80 min _damage;
-					_milDamage = 0 max (_damage - 80);
-					_milCoef = (20 / _militaryValue);
-					_milRequired = ceil (_milDamage / (20 / _militaryValue));
+					_partsDamage = 60 min _damage;
+					_milDamage = 0 max (_damage - 60);
+					_milCoef = (40 / _militaryValue);
+					_milRequired = ceil (_milDamage / _milCoef);
 
 					if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
-						_partsRequired = ceil (_partsDamage / 4);
-						_partsCoef = 4;
+						_partsRequired = ceil (_partsDamage / 3);
+						_partsCoef = 3;
 					} else {
-						_partsRequired = ceil (_partsDamage / 8);
-						_partsCoef = 8;
+						_partsRequired = ceil (_partsDamage / 6);
+						_partsCoef = 6;
 					};
 				} else {
 					// Non-military vehicle (unarmed), no military parts required.
