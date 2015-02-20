@@ -183,6 +183,36 @@ class CfgHints
 			displayName = "Service Point";
 			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts.%1You can then %3repair%4 and %3refuel%4 more important resistance assets.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			class CheckDamage
+			{
+				displayName = "Vehicle Repair";
+				description = "%11 requires %12 spare parts for a complete repair.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class CheckDamageMil
+			{
+				displayName = "Vehicle Repair";
+				description = "%11 requires %12 military parts and %13 spare parts for a complete repair.";
+				arguments[] = {
+					"INT_local_serviceType",
+					"INT_local_militaryUsed",
+					"INT_local_partsUsed"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
+			class NoRepair
+			{
+				displayName = "Vehicle Repair";
+				description = "%11 doesn't require any repairs.";
+				arguments[] = {
+					"INT_local_serviceType"
+				};
+				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			};
 			class RepairFull
 			{
 				displayName = "Vehicle Repaired";

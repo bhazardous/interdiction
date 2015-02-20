@@ -179,6 +179,16 @@ if (_menuName == "service") then {
 			["service", INT_local_serviceName, _menuRsc],
 			[
 					[
+							"Assess Damage",
+							{["assess"] call INT_fnc_service;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(_isVehicle)
+					],
+					[
 							"Repair",
 							{["repair"] call INT_fnc_service;},
 							"",

@@ -33,6 +33,44 @@ if (_action == "check") exitWith {
 	[["ResistanceMovement","ServicePoint","SPStock"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 };
 
+if (_action == "assess") exitWith {
+	private ["_damage", "_partsRequired", "_milRequired", "_militaryValue", "_partsDamage", "_milDamage"];
+
+	_damage = damage _vehicle * 100;
+	_militaryValue = (count ([_vehicle] call INT_fnc_getRealTurrets)) * 2;
+
+	if (_militaryValue > 0) then {
+		_partsDamage = 80 min _damage;
+		_milDamage = 0 max (_damage - 80);
+		_milRequired = ceil (_milDamage / (20 / _militaryValue));
+
+		if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+			_partsRequired = ceil (_partsDamage / 4);
+		} else {
+			_partsRequired = ceil (_partsDamage / 8);
+		};
+	} else {
+		_milRequired = 0;
+		if (_vehicle isKindOf "Air" || {_vehicle isKindOf "Tank"}) then {
+			_partsRequired = ceil (_damage / 5);
+		} else {
+			_partsRequired = ceil (_damage / 10);
+		};
+	};
+
+	[["INT_local_partsUsed", _partsRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+	if (_milRequired > 0) then {
+		[["INT_local_militaryUsed", _milRequired], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
+		[["ResistanceMovement","ServicePoint","CheckDamageMil"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+	} else {
+		if (_partsRequired > 0) then {
+			[["ResistanceMovement","ServicePoint","CheckDamage"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+		} else {
+			[["ResistanceMovement","ServicePoint","NoRepair"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+		};
+	};
+};
+
 // Player and vehicle in position.
 _markerName = format ["INT_mkr_servicePoint%1", _id];
 if (_player distance (markerPos _markerName) > 10) exitWith {
