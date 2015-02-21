@@ -172,6 +172,11 @@ class CfgHints
 				displayName = "Invalid Position";
 				description = "This building has already been constructed at this camp.";
 			};
+			class FortParts
+			{
+				displayName = "Fortification";
+				description = "Not enough spare parts available to construct this fortification.";
+			};
 		};
 		class ResistanceHQ {
 			displayName = "Resistance HQ";

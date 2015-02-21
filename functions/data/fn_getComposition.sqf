@@ -63,6 +63,53 @@ _comp = switch (_name) do {
 		]
 	};
 
+	// ----------------------
+	// FORTIFICATIONS
+	// ----------------------
+	// Sandbags.
+	case "fort_sandbag": {
+		[
+			["Land_BagFence_Long_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+	case "fort_sandbag_short": {
+		[
+			["Land_BagFence_Short_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+	case "fort_sandbag_round": {
+		[
+			["Land_BagFence_Round_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+	case "fort_sandbag_corner": {
+		[
+			["Land_BagFence_Corner_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+	case "fort_sandbag_end": {
+		[
+			["Land_BagFence_End_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+
+	// H-Barrier.
+	case "fort_barrier": {
+		[
+			["Land_HBarrier_1_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+	case "fort_barrier_3": {
+		[
+			["Land_HBarrier_3_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+	case "fort_barrier_5": {
+		[
+			["Land_HBarrier_5_F",[0,2.5,0],180,1,0,[],"","",true,false]
+		]
+	};
+
 	default {[]};
 };
 
