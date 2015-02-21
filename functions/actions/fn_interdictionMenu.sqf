@@ -123,6 +123,10 @@ if (_menuName == "main") then {
 
 // MENU > BUILD >
 if (_menuName == "build") then {
+	private ["_nearService"];
+
+	_nearService = [player, INT_global_servicePoints, 10] call INT_fnc_nearby;
+
 	_menu =
 	[
 			["build", "Build", _menuRsc],
@@ -155,6 +159,106 @@ if (_menuName == "build") then {
 							"",
 							-1,
 							(INT_global_tech1),
+							(true)
+					],
+					[
+							"Fortifications",
+							"",
+							"",
+							"",
+							["call INT_fnc_interdictionMenu", "buildFort", 1],
+							-1,
+							(_nearService),
+							(true)
+					]
+			]
+	];
+};
+
+// MENU > BUILD > FORTIFICATIONS
+if (_menuName == "buildFort") then {
+	_menu =
+	[
+			["buildFort", "Fortifications", _menuRsc],
+			[
+					[
+							"[2] Sandbag",
+							{["fort_sandbag"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[1] Sandbag (Short)",
+							{["fort_sandbag_short"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[2] Sandbag (Round)",
+							{["fort_sandbag_round"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[1] Sandbag (Corner)",
+							{["fort_sandbag_corner"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[1] Sandbag (End)",
+							{["fort_sandbag_end"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[2] H-Barrier",
+							{["fort_barrier"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[6] H-Barrier, 3-Length",
+							{["fort_barrier_3"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
+							"[10] H-Barrier, 5-Length",
+							{["fort_barrier_5"] call INT_fnc_build;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
 							(true)
 					]
 			]

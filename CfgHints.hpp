@@ -91,6 +91,12 @@ class CfgHints
 			tip = "Any kind of supply truck (ammo, fuel, repair) should be treated like the holy grail, the ability to maintain your own equipment is a massive advantage.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Rifles_ca.paa";
 		};
+		class Fortifications
+		{
+			displayName = "Fortifications";
+			description = "You can build fortifications using spare parts from the %3service point%4.%1After being placed, you can use the logistics system included with ALiVE to reposition or transport them to another location.";
+			image = "\a3\ui_f\data\gui\cfg\hints\steppingover_ca.paa";
+		};
 		class GuerrillaWarfare
 		{
 			displayName = "Guerrilla Warfare";
@@ -172,6 +178,11 @@ class CfgHints
 				displayName = "Invalid Position";
 				description = "This building has already been constructed at this camp.";
 			};
+			class FortParts
+			{
+				displayName = "Fortification";
+				description = "Not enough spare parts available to construct this fortification.";
+			};
 		};
 		class ResistanceHQ {
 			displayName = "Resistance HQ";
@@ -181,7 +192,7 @@ class CfgHints
 		class ServicePoint
 		{
 			displayName = "Service Point";
-			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts.%1You can then %3repair%4 and %3refuel%4 more important resistance assets.";
+			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts.%1You can then %3repair%4 and %3refuel%4 more important resistance assets.%1Spare parts can also be used to construct fortifications.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			class CheckDamage
 			{

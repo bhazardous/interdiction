@@ -69,10 +69,50 @@ if (!_valid) exitWith {
 };
 
 if (INT_global_buildingEnabled) then {
+	private ["_fort"];
+	_fort = ([_type, "fort_"] call CBA_fnc_find != -1);
+
+	// Fortifications.
+	if (_fort) then {
+		private ["_cost"];
+
+		_cost = switch (_type) do {
+			case "fort_sandbag": {2};
+			case "fort_sandbag_short": {1};
+			case "fort_sandbag_round": {2};
+			case "fort_sandbag_corner": {1};
+			case "fort_sandbag_end": {1};
+
+			case "fort_barrier": {2};
+			case "fort_barrier_3": {6};
+			case "fort_barrier_5": {10};
+
+			default {0};
+		};
+
+		_servicePointId = ([_player, "INT_mkr_servicePoint", INT_global_servicePointCount] call INT_fnc_closest) - 1;
+		_data = INT_server_servicePointData select _servicePointId;
+
+		if (_data select 1 >= _cost) then {
+			_data set [1, (_data select 1) - _cost];
+		} else {
+			[["ResistanceMovement","BuildCamp","FortParts"],true,true,false,_player,true] call INT_fnc_broadcastHint;
+			_valid = false;
+		};
+	};
+
+	if (!_valid) exitWith {};
+
 	// Place building.
 	private ["_building"];
 	_building = [_type, _pos, _rot, false] call INT_fnc_spawnComposition;
-	{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
+
+	// Keep ALiVE logitstics enabled for fortifications.
+	if (!_fort) then {
+		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
+	} else {
+		[INT_module_alive_required, "updateObject", _building] call ALiVE_fnc_logistics;
+	};
 
 	// Building specific script.
 	switch (_type) do {
