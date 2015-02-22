@@ -66,7 +66,7 @@ class CfgHints
 			class SupportErrDead
 			{
 				displayName = "Crew Casualties";
-				description = "The support crew suffered casualities."
+				description = "The support crew suffered casualities.";
 			};
 			class SupportErrVDead
 			{
@@ -103,6 +103,19 @@ class CfgHints
 			description = "Weaken the enemy. Target their personnel, vehicles, equipment and strategic locations.";
 			tip = "The enemy will respond to threats, constantly attacking the same location will cause it to be reinforced.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Annoucning_ca.paa";
+		};
+		class RadarStations
+		{
+			displayName = "Radar Stations";
+			description = "OPFOR radar stations are equipped with the ability to track the locations of their own forces. Capturing a radar station will give you %3map-wide intel%4 on the movements of all OPFOR troops.";
+			image = "\a3\ui_f\data\gui\cfg\hints\radar_ca.paa";
+		};
+		class RadioTowers
+		{
+			displayName = "Radio Towers";
+			description = "The resistance has little in terms of communication equipment, securing radio towers from the enemy will allow longer range communication between resistance squad leaders.%1Nearby resistance squads will report their position and will be marked on the map.";
+			tip = "Capturing several radio towers has a stacking effect, and will increase the radius of intel available to you.";
+			image = "\a3\ui_f\data\gui\cfg\hints\callsupport_ca.paa";
 		};
 		class Recruitment
 		{
@@ -199,7 +212,7 @@ class CfgHints
 		class ServicePoint
 		{
 			displayName = "Service Point";
-			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts.%1You can then %3repair%4 and %3refuel%4 more important resistance assets.%1Spare parts can also be used to construct fortifications.";
+			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts. You can then %3repair%4 and %3refuel%4 more important resistance assets.%1Aircraft and armoured vehicles can be stripped for more parts, but take more resources to maintain. Vehicles with weaponry can be stripped for military parts, which may be required to repair more valuable vehicles.%1Spare parts can also be used to construct %3fortifications%4.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			class CheckDamage
 			{
