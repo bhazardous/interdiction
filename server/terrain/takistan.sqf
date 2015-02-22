@@ -28,9 +28,9 @@ INT_module_alive_indfor_mil setVariable ["size", "350"];
 INT_module_alive_indfor_mil setPosATL [5733.1,11366.3,0];
 
 // CQB settings.
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.2];	// Percentage.
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.1];	// Percentage.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 99999];	// Distance between spawns. 99999 = off.
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 500];	// Distance between spawns. 99999 = off.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
@@ -119,6 +119,8 @@ _bua = 0;
 
 // Scale down roadblocks / camps for this terrain.
 INT_module_alive_opfor_civ setVariable ["roadblocks", "50"];
+INT_module_alive_opfor_civ setVariable ["sizeFilter", "225"];
+
+INT_module_alive_opfor_mil setVariable ["sizeFilter", "100"];
 INT_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 INT_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
-// INT_module_alive_opfor_civ setVariable ["sizeFilter", "250"];
