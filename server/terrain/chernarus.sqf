@@ -28,9 +28,9 @@ INT_module_alive_indfor_mil setVariable ["size", "400"];
 INT_module_alive_indfor_mil setPosATL [12116.7,12649.7,0];
 
 // CQB settings.
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.2];	// Percentage.
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.1];	// Percentage.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 99999];	// Distance between spawns. 99999 = off.
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 250];	// Distance between spawns. 99999 = off.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 2];
