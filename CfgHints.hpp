@@ -39,7 +39,7 @@ class CfgHints
 		class CombatSupport
 		{
 			displayName = "Combat Support";
-			description = "Later on in the mission, captured vehicles can be brought back to camp and turned into support assets.%1You will need to find a skilled crew to man the vehicle, keep recruiting new resistance members.%1Once a vehicle is manned, it can then be called as combat support or transport using the %3ALiVE Combat Support%4 menu.";
+			description = "Later on in the mission, captured vehicles can be brought back to camp and turned into support assets; This can be done at the %3recruitment tent%4.%1You will need to find a skilled crew to man the vehicle, keep recruiting new resistance members.%1Once a vehicle is manned, it can then be called as combat support or transport using the %3ALiVE Combat Support%4 menu.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
 			class SupportCrew
 			{
@@ -103,6 +103,13 @@ class CfgHints
 			description = "Weaken the enemy. Target their personnel, vehicles, equipment and strategic locations.";
 			tip = "The enemy will respond to threats, constantly attacking the same location will cause it to be reinforced.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Annoucning_ca.paa";
+		};
+		class Recruitment
+		{
+			displayName = "Recruitment";
+			description = "Civilians that live in the area are oppressed by the powerful OPFOR regime. To recruit members into the resistance, the populace needs to be convinced that victory is achievable.%1In general, carrying out successful resistance operations will spread the word, and new recruits will begin making contact with HQ.";
+			tip = "Resistance activity in large urban areas (capital cities, larger towns) will have a much greater effect.";
+			image = "\a3\ui_f\data\gui\cfg\hints\commanding_ca.paa";
 		};
 		class RecruitmentTent
 		{
