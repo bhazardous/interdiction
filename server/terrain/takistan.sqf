@@ -28,9 +28,9 @@ INT_module_alive_indfor_mil setVariable ["size", "350"];
 INT_module_alive_indfor_mil setPosATL [5733.1,11366.3,0];
 
 // CQB settings.
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.2];	// Percentage.
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.1];	// Percentage.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 99999];	// Distance between spawns. 99999 = off.
+INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 500];	// Distance between spawns. 99999 = off.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
@@ -106,35 +106,21 @@ _bua = 0;
 	INT_server_civ_markers pushBack _marker;
 	_bua = _bua + 1;
 } forEach [
-	[[6115.39,1134.43,0],0,"RECTANGLE",[300,180]],
-	[[6524.98,2027.31,0],0,"RECTANGLE",[130,130]],
-	[[4462.19,672.399,0],0,"RECTANGLE",[300,200]],
-	[[8475.82,2460.45,0],0,"RECTANGLE",[150,150]],
-	[[8148.47,2097.74,0],0,"RECTANGLE",[200,100]],
-	[[10131.4,2357.67,0],0,"RECTANGLE",[300,130]],
-	[[1466.13,3583.4,0],0,"RECTANGLE",[150,150]],
-	[[1525.44,5711,0],0,"ELLIPSE",[150,150]],
-	[[5277.46,6132.59,0],0,"ELLIPSE",[250,250]],
-	[[5993.14,7282.9,0],0,"RECTANGLE",[130,130]],
-	[[10672.3,6360.07,0],0,"RECTANGLE",[350,150]],
-	[[3755.15,4450.97,0],0,"RECTANGLE",[150,150]],
-	[[3531.23,4156.76,0],0,"RECTANGLE",[80,100]],
-	[[5958.7,5679.59,0],0,"ELLIPSE",[270,270]],
-	[[8894.69,5291.18,0],0,"ELLIPSE",[120,120]],
-	[[5599.84,9117.24,0],0,"RECTANGLE",[100,300]],
-	[[2000.68,7669.33,0],0,"RECTANGLE",[190,130]],
-	[[3051.21,9934.61,0],0,"RECTANGLE",[170,140]],
-	[[1827.88,11754.1,0],0,"ELLIPSE",[310,310]],
-	[[6290,11255,0],215,"RECTANGLE",[140,250]],
-	[[9864.22,11441.3,0],0,"ELLIPSE",[200,200]],
-	[[12304.1,10405.7,0],0,"RECTANGLE",[80,130]],
-	[[12237.9,11102.8,0],0,"RECTANGLE",[200,120]],
-	[[11518,8342.23,0],109,"RECTANGLE",[150,80]],
-	[[9134.75,6726.32,0],0,"ELLIPSE",[130,130]]
+	[[5281.84,6134.81,0],0,"ELLIPSE",[220,220]],
+	[[10676.7,6368.67,0],0,"RECTANGLE",[400,150]],
+	[[5624.54,9120.97,0],0,"RECTANGLE",[120,300]],
+	[[6297.35,11264.6,0],32.9636,"RECTANGLE",[100,250]],
+	[[3017.76,9944.9,0],0,"ELLIPSE",[220,220]],
+	[[1829.87,11754.2,0],0,"ELLIPSE",[320,320]],
+	[[3506.54,4055.91,0],31.5289,"RECTANGLE",[175,620]],
+	[[4460.42,663.035,0],0,"ELLIPSE",[290,290]],
+	[[8465.05,2415.51,0],0,"RECTANGLE",[170,190]]
 ];
 
 // Scale down roadblocks / camps for this terrain.
 INT_module_alive_opfor_civ setVariable ["roadblocks", "50"];
+INT_module_alive_opfor_civ setVariable ["sizeFilter", "225"];
+
+INT_module_alive_opfor_mil setVariable ["sizeFilter", "100"];
 INT_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 INT_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
-// INT_module_alive_opfor_civ setVariable ["sizeFilter", "250"];
