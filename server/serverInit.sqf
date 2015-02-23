@@ -41,19 +41,16 @@ if (INT_server_newGame) then {
 	call compile preprocessFileLineNumbers "server\playerStart.sqf";
 
 	// Mission variables and other misc stuff.
-	INT_server_kills = 0;					// Counting OPFOR kills.
-	INT_server_crewCounter = 0;				// Keeps track of kill threshold counter for crew.
-	INT_server_campCounter = 0;				// Keeps track of camp threshold counter.
+	PUBLIC(INT_global_crewAvailable,0);		// Number of support crew (groups) available.
+	PUBLIC(INT_global_campsAvailable,1);	// Number of camps that can be constructed.
+	PUBLIC(INT_global_tech1,false);			// Tech tier 1.
 
 	PUBLIC(INT_global_campExists,false);	// A resistance HQ exists.
-	PUBLIC(INT_global_tech1,false);			// Tech tier 1.
 	PUBLIC(INT_global_campCount,0);			// Number of resistance camps.
 	PUBLIC(INT_global_servicePointCount,0);	// Number of service points.
 	PUBLIC(INT_global_servicePoints,[]);	// List of service point buildings.
 	PUBLIC(INT_global_recruitmentTentCount,0);	// Number of recruitment tents.
 	PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
-	PUBLIC(INT_global_crewAvailable,0);		// Number of support crew (groups) available.
-	PUBLIC(INT_global_campsAvailable,1);	// Number of camps that can be constructed.
 	PUBLIC(INT_global_camps,[]);			// List of camp positions.
 
 	INT_server_campData = [];
@@ -67,6 +64,8 @@ if (INT_server_newGame) then {
 	waitUntil {!isNil "ALiVE_globalForcePool"};
 	INT_server_persistentData = [] call CBA_fnc_hashCreate;
 	[ALiVE_globalForcePool, "missionData", INT_server_persistentData] call ALiVE_fnc_hashSet;
+
+	[INT_server_persistentData, "stats", [0,0,0,0,1,false]] call CBA_fnc_hashSet;
 } else {
 	call compile preprocessFileLineNumbers "server\loadGame.sqf";
 };
