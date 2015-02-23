@@ -132,6 +132,13 @@ class Params
 		values[] = {0, 1, 2};
 		default = 0;
 	};
+	class Persistence			// --6
+	{
+		title = "Persistence";
+		texts[] = {"Disabled", "Enabled (dedicated server only)"};
+		values[] = {0, 1};
+		default = 1;
+	};
 };
 
 class CfgRespawnTemplates

@@ -14,6 +14,16 @@ scriptName "fn_preInitServer";
 
 if (!isServer) exitWith {nil;};
 
+if (isDedicated) then {
+	if (paramsArray select 6 == 1) then {
+		INT_server_persistence = true;
+	} else {
+		INT_server_persistence = false;
+	};
+} else {
+	INT_server_persistence = false;
+};
+
 // Factions.
 private ["_indepEastAllies"];
 _indepEastAllies = true;
