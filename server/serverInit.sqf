@@ -49,3 +49,6 @@ INT_server_servicePointData = [];
 		[] call INT_fnc_spawnConvoy;
 	};
 };
+
+// Disable grid sectors.
+[false, true] call INT_fnc_setSectorIntel;
