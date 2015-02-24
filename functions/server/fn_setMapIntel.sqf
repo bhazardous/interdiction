@@ -24,7 +24,7 @@ _args = [_intelJob, "args"] call ALiVE_fnc_hashGet;
 
 // Throw the new radius in.
 if (typeName _args == "ARRAY") then {
-	_args set [0, _radius];
+	(_args select 4) set [0, _radius];
 };
 
 nil;
