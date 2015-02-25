@@ -36,6 +36,7 @@ if (alive _unit) then {
 
 // Handle spawn if possible, otherwise spectate.
 if (INT_global_campExists) then {
+	sleep 0.5;
 	_this call BIS_fnc_respawnMenuPosition;
 } else {
 	if (!isNull _unit && {_unit in INT_global_playerList} && {count INT_global_playerList > 1}) then {

@@ -19,6 +19,25 @@ scriptName "loadGame";
 		4 additional camps available,			(global: INT_global_campsAvailable)
 		5 tech1 available,						(global: INT_global_tech1)
 	]
+
+	"camps" = [
+		0 array of camp locations and directions, empty array if building doesn't exist
+		[
+			[
+				campPos,
+				campDir,
+				[servicePos, serviceDir],
+				[recruitPos, recruitDir]
+			],
+			[
+				campPos,
+				campDir,
+				[],
+				[]
+			]
+		],
+		1 service point data
+	]
 */
 
 // Retrieve mission data from its piggy back ride.
@@ -27,7 +46,7 @@ waitUntil {!isNil {[ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet
 INT_server_persistentData = [ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet;
 
 // Look for mission data, and fill in blanks if anything is missing.
-private ["_stats"];
+private ["_stats", "_camps"];
 _stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
 if (isNil "_stats") then {
 	"INTERDICTION: Mission stats not found in persistent data." call BIS_fnc_log;
@@ -35,21 +54,70 @@ if (isNil "_stats") then {
 	_stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
 };
 
+_camps = [INT_server_persistentData, "camps"] call CBA_fnc_hashGet;
+if (isNil "_camps") then {
+	"INTERDICTION: Mission camps not found in persistent data." call BIS_fnc_log;
+	[INT_server_persistentData, "camps", [[],[]]] call CBA_fnc_hashSet;
+	_camps = [INT_server_persistentData, "camps"] call CBA_fnc_hashGet;
+};
+
+// Server-side variables.
+INT_server_campData = _camps select 0;
+INT_server_servicePointData = _camps select 1;
+
+// Rebuild camps.
+INT_global_camps = [];
+INT_global_servicePoints = [];
+INT_global_recruitmentTents = [];
+
+private ["_campId"];
+_campId = 1;
+{
+	private ["_pos", "_rot", "_service", "_recruit", "_building", "_campMarker"];
+
+	_pos = _x select 0;
+	_rot = _x select 1;
+	_service = _x select 2;
+	_recruit = _x select 3;
+
+	// Spawn camp HQ.
+	_building = ["hq", _pos, _rot, false] call INT_fnc_spawnComposition;
+	{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
+
+	_campMarker = createMarker [format ["INT_mkr_resistanceCamp%1", _campId], _pos];
+	_campMarker setMarkerType "b_hq";
+	_campMarker setMarkerText "Camp";
+	_campId = _campId + 1;
+
+	INT_global_camps pushBack _pos;
+	[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
+
+	if (count _service == 2) then {
+		_building = ["service", _service select 0, _service select 1, false] call INT_fnc_spawnComposition;
+		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
+		INT_global_servicePoints pushBack (_service select 0);
+	};
+
+	if (count _recruit == 2) then {
+		_building = ["recruitment", _recruit select 0, _recruit select 1, false] call INT_fnc_spawnComposition;
+		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
+		INT_global_recruitmentTents pushBack (_recruit select 0);
+	};
+} forEach INT_server_campData;
+
 // Broadcast variables that need to be global.
+publicVariable "INT_global_camps";
+publicVariable "INT_global_servicePoints";
+publicVariable "INT_global_recruitmentTents";
+
 PUBLIC(INT_global_crewAvailable,_stats select 3);
 PUBLIC(INT_global_campsAvailable,_stats select 4);
 PUBLIC(INT_global_tech1,_stats select 5);
-
-// TODO: Additional persistence, force some defaults for now.
-PUBLIC(INT_global_campExists,false);	// A resistance HQ exists.
-PUBLIC(INT_global_campCount,0);			// Number of resistance camps.
-PUBLIC(INT_global_servicePointCount,0);	// Number of service points.
-PUBLIC(INT_global_servicePoints,[]);	// List of service point buildings.
-PUBLIC(INT_global_recruitmentTentCount,0);	// Number of recruitment tents.
-PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
-PUBLIC(INT_global_camps,[]);			// List of camp positions.
 PUBLIC(INT_global_canJoin,false);
 PUBLIC(INT_global_playerList,[INT_unit_invisibleMan]);
 
-INT_server_campData = [];
-INT_server_servicePointData = [];
+if (count INT_server_campData > 0) then {
+	PUBLIC(INT_global_campExists,true);
+} else {
+	PUBLIC(INT_global_campExists,false);
+};

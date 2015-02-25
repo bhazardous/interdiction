@@ -35,7 +35,7 @@ player hideObject false;
 1 fadeSound 1;
 
 // Force respawn.
-sleep 0.1;
+sleep 0.5;
 [player] call INT_fnc_respawn;
 
 // Add player to the playerList again.

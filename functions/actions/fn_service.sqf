@@ -21,11 +21,7 @@ if (isNull _vehicle) exitWith {
 	nil;
 };
 
-// Find the closest service point.
-private ["_servicePointId"];
-_servicePointId = [player, "INT_mkr_servicePoint", INT_global_servicePointCount] call INT_fnc_closest;
-
 // Send request to server.
-[[player, _action, _servicePointId, _vehicle], "INT_fnc_serviceRequest", false] call BIS_fnc_MP;
+[[player, _action, _vehicle], "INT_fnc_serviceRequest", false] call BIS_fnc_MP;
 
 nil;

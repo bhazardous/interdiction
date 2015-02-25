@@ -34,7 +34,7 @@ if (_type == "hq" && {INT_global_campsAvailable == 0}) exitWith {nil;};
 private ["_valid"];
 _valid = false;
 if (_type in ["service","recruitment"]) then {
-	for "_i" from 1 to INT_global_campCount do {
+	for "_i" from 1 to (count INT_global_camps) do {
 		private ["_campPos"];
 		_campPos = markerPos (format ["INT_mkr_resistanceCamp%1", _i]);
 		if (_campPos distance _pos < MAX_DISTANCE) exitWith {
@@ -50,17 +50,17 @@ if (!_valid) exitWith {
 
 // Get closest camp ID.
 private ["_campId"];
-if (INT_global_campCount > 0) then {
-	_campId = [_player, "INT_mkr_resistanceCamp", INT_global_campCount] call INT_fnc_closest;
+if (count INT_global_camps > 0) then {
+	_campId = [_player, "INT_mkr_resistanceCamp", count INT_global_camps] call INT_fnc_closest;
 	_campId = _campId - 1;
 };
 
 // One building per camp.
 if (_type in ["service","recruitment"]) then {
 	if (_type == "service") then {
-		_valid = !(INT_server_campData select _campId select 0);
+		_valid = count (INT_server_campData select _campId select 2) == 0;
 	} else {
-		_valid = !(INT_server_campData select _campId select 1);
+		_valid = count (INT_server_campData select _campId select 3) == 0;
 	};
 };
 if (!_valid) exitWith {
@@ -90,8 +90,7 @@ if (INT_global_buildingEnabled) then {
 			default {0};
 		};
 
-		_servicePointId = ([_player, "INT_mkr_servicePoint", INT_global_servicePointCount] call INT_fnc_closest) - 1;
-		_data = INT_server_servicePointData select _servicePointId;
+		_data = INT_server_servicePointData select _campId;
 
 		if (_data select 1 >= _cost) then {
 			_data set [1, (_data select 1) - _cost];
@@ -124,10 +123,6 @@ if (INT_global_buildingEnabled) then {
 			publicVariable "INT_global_campsAvailable";
 
 			// Respawn marker.
-			INT_global_campCount = INT_global_campCount + 1;
-			publicVariable "INT_global_campCount";
-
-			// Show the camp hint.
 			INT_global_lastCampGrid = mapGridPosition _pos;
 			INT_global_campBuiltBy = name _player;
 			publicVariable "INT_global_lastCampGrid";
@@ -136,20 +131,22 @@ if (INT_global_buildingEnabled) then {
 			[["ResistanceMovement", "BuildCamp", "CampBuilt"], true, true, false] call INT_fnc_broadcastHint;
 
 			// Map marker for HQ.
-			_campMarker = createMarker [format ["INT_mkr_resistanceCamp%1", INT_global_campCount], _pos];
+			_campMarker = createMarker [format ["INT_mkr_resistanceCamp%1", count INT_global_camps + 1], _pos];
 			_campMarker setMarkerType "b_hq";
 			_campMarker setMarkerText "Camp";
 
 			// Add camp position to array.
 			INT_global_camps pushBack _pos;
-			INT_server_campData pushBack [false,false];
+			publicVariable "INT_global_camps";
+			INT_server_campData pushBack [_pos, _rot, [], []];
+			INT_server_servicePointData pushBack [0,0,0];
 
 			// Add respawn point.
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 
 			// Add OPFOR detection trigger to camp position.
 			private ["_objectiveParams"];
-			_objectiveParams = [format ["ResistanceCamp%1", INT_global_campCount], _pos, 50, "MIL", 30];
+			_objectiveParams = [format ["ResistanceCamp%1", count INT_global_camps], _pos, 50, "MIL", 30];
 			[["EAST"], 150, _objectiveParams] call INT_fnc_triggerOpcomObjective;
 
 			// Notify friendly OPCOM of camp.
@@ -169,37 +166,22 @@ if (INT_global_buildingEnabled) then {
 
 		case "service": {
 			// Add new building to service point array.
-			INT_global_servicePoints pushBack (_building select 0);
+			INT_global_servicePoints pushBack _pos;
 			publicVariable "INT_global_servicePoints";
-			INT_global_servicePointCount = INT_global_servicePointCount + 1;
-			publicVariable "INT_global_servicePointCount";
 
-			// Create a hidden marker for the service point.
-			private ["_serviceMarker", "_data"];
-			_serviceMarker = createMarker [format ["INT_mkr_servicePoint%1", INT_global_servicePointCount], _pos];
-			_serviceMarker setMarkerType "Empty";
-
-			// Init service point data.
-			INT_server_servicePointData pushBack [0,0,0];
+			// Add service point to camp data.
 			_data = INT_server_campData select _campId;
-			_data set [0, true];
+			_data set [2, [_pos, _rot]];
 		};
 
 		case "recruitment": {
 			// Add new building to the recruitment array.
-			INT_global_recruitmentTents pushBack (_building select 0);
+			INT_global_recruitmentTents pushBack _pos;
 			publicVariable "INT_global_recruitmentTents";
-			INT_global_recruitmentTentCount = INT_global_recruitmentTentCount + 1;
-			publicVariable "INT_global_recruitmentTentCount";
-
-			// Create a hidden marker for the recruitment tent.
-			private ["_recruitMarker", "_data"];
-			_recruitMarker = createMarker [format ["INT_mkr_recruitment%1", INT_global_recruitmentTentCount], _pos];
-			_recruitMarker setMarkerType "Empty";
 
 			// Set camp data.
 			_data = INT_server_campData select _campId;
-			_data set [1, true];
+			_data set [3, [_pos, _rot]];
 		};
 	};
 } else {

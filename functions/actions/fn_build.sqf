@@ -43,7 +43,7 @@ if (count _pos == 0) exitWith {
 private ["_valid"];
 _valid = false;
 if (_type in ["service","recruitment"]) then {
-	for "_i" from 1 to INT_global_campCount do {
+	for "_i" from 1 to (count INT_global_camps) do {
 		private ["_campPos"];
 		_campPos = markerPos (format ["INT_mkr_resistanceCamp%1", _i]);
 		if (_campPos distance _pos < MAX_DISTANCE) exitWith {
