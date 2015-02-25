@@ -27,7 +27,8 @@ scriptName "loadGame";
 				campPos,
 				campDir,
 				[servicePos, serviceDir],
-				[recruitPos, recruitDir]
+				[recruitPos, recruitDir],
+				detected (bool)
 			],
 			[
 				campPos,
@@ -73,12 +74,13 @@ INT_global_recruitmentTents = [];
 private ["_campId"];
 _campId = 1;
 {
-	private ["_pos", "_rot", "_service", "_recruit", "_building", "_campMarker"];
+	private ["_pos", "_rot", "_service", "_recruit", "_detected", "_building", "_campMarker"];
 
 	_pos = _x select 0;
 	_rot = _x select 1;
 	_service = _x select 2;
 	_recruit = _x select 3;
+	_detected = _x select 4;
 
 	// Spawn camp HQ.
 	_building = ["hq", _pos, _rot, false] call INT_fnc_spawnComposition;
@@ -87,7 +89,6 @@ _campId = 1;
 	_campMarker = createMarker [format ["INT_mkr_resistanceCamp%1", _campId], _pos];
 	_campMarker setMarkerType "b_hq";
 	_campMarker setMarkerText "Camp";
-	_campId = _campId + 1;
 
 	INT_global_camps pushBack _pos;
 	[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
@@ -103,6 +104,14 @@ _campId = 1;
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
 		INT_global_recruitmentTents pushBack (_recruit select 0);
 	};
+
+	if (!_detected) then {
+		private ["_objectiveParams"];
+		_objectiveParams = [format ["ResistanceCamp%1", _campId], _pos, 50, "MIL", 30];
+		[INT_server_faction_enemy, 150, _objectiveParams, _campId - 1] call INT_fnc_triggerOpcomObjective;
+	};
+
+	_campId = _campId + 1;
 } forEach INT_server_campData;
 
 // Broadcast variables that need to be global.

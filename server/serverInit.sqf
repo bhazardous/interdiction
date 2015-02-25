@@ -24,7 +24,7 @@ waitUntil {!isNil "ALiVE_globalForcePool"};
 INT_server_persistentData = [] call CBA_fnc_hashCreate;
 [ALiVE_globalForcePool, "missionData", INT_server_persistentData] call ALiVE_fnc_hashSet;
 [INT_server_persistentData, "stats", [5,5,5,5,5,true]] call CBA_fnc_hashSet;
-[INT_server_persistentData, "camps", [[[[2099.27,4161.88,0],0,[[2096.86,4157.08,0],195.242],[]]],[[0,96,0]]]] call CBA_fnc_hashSet;
+[INT_server_persistentData, "camps", [[[[2099.27,4161.88,0],0,[[2096.86,4157.08,0],195.242],[],false]],[[0,96,0]]]] call CBA_fnc_hashSet;
 */
 
 // General mission variables.

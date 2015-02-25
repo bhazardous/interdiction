@@ -138,16 +138,17 @@ if (INT_global_buildingEnabled) then {
 			// Add camp position to array.
 			INT_global_camps pushBack _pos;
 			publicVariable "INT_global_camps";
-			INT_server_campData pushBack [_pos, _rot, [], []];
+			INT_server_campData pushBack [_pos, _rot, [], [], false];
 			INT_server_servicePointData pushBack [0,0,0];
 
 			// Add respawn point.
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 
 			// Add OPFOR detection trigger to camp position.
-			private ["_objectiveParams"];
+			private ["_objectiveParams", "_campId"];
 			_objectiveParams = [format ["ResistanceCamp%1", count INT_global_camps], _pos, 50, "MIL", 30];
-			[["EAST"], 150, _objectiveParams] call INT_fnc_triggerOpcomObjective;
+			_campId = (count INT_global_camps) - 1;
+			[INT_server_faction_enemy, 150, _objectiveParams, _campId] call INT_fnc_triggerOpcomObjective;
 
 			// Notify friendly OPCOM of camp.
 			[INT_module_alive_blufor_opcom, _objectiveParams] call INT_fnc_addOpcomObjective;
