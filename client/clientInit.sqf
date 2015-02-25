@@ -47,7 +47,7 @@ scriptName "clientInit";
 		INT_local_playerStarted = true;
 	} else {
 		INT_local_playerStarted = true;
-		[] call INT_fnc_respawn;
+		[player] call INT_fnc_respawn;
 	};
 
 	2 fadeSound 1;

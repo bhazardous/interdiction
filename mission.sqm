@@ -19,7 +19,8 @@ class Mission
 		"alive_mil_logistics",
 		"A3_Characters_F_Gamma",
 		"alive_mil_c2istar",
-		"alive_sup_combatsupport"
+		"alive_sup_combatsupport",
+		"A3_Structures_F_Mil_Helipads"
 	};
 	addOnsAuto[]=
 	{
@@ -39,6 +40,7 @@ class Mission
 		"A3_Characters_F_Gamma",
 		"alive_mil_c2istar",
 		"alive_sup_combatsupport",
+		"A3_Structures_F_Mil_Helipads",
 		"a3_map_stratis"
 	};
 	randomSeed=10103462;
@@ -2003,6 +2005,19 @@ class Mission
 					skill=0.60000002;
 				};
 			};
+		};
+	};
+	class Vehicles
+	{
+		items=1;
+		class Item0
+		{
+			position[]={4373.6885,226.92783,3816.833};
+			id=24;
+			side="EMPTY";
+			vehicle="Land_HelipadEmpty_F";
+			skill=0.60000002;
+			text="INT_unit_invisibleMan";
 		};
 	};
 };

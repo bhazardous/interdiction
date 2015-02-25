@@ -23,7 +23,7 @@ scriptName "loadGame";
 
 // Retrieve mission data from its piggy back ride.
 waitUntil {!isNil "ALiVE_globalForcePool"};
-waitUntil {!isNil ([ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet)};
+waitUntil {!isNil {[ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet}};
 INT_server_persistentData = [ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet;
 
 // Look for mission data, and fill in blanks if anything is missing.
@@ -49,6 +49,7 @@ PUBLIC(INT_global_recruitmentTentCount,0);	// Number of recruitment tents.
 PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
 PUBLIC(INT_global_camps,[]);			// List of camp positions.
 PUBLIC(INT_global_canJoin,false);
+PUBLIC(INT_global_playerList,[INT_unit_invisibleMan]);
 
 INT_server_campData = [];
 INT_server_servicePointData = [];
