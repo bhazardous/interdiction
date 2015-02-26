@@ -97,7 +97,6 @@ switch (worldName) do {
 		["end1", false, 0] call BIS_fnc_endMission;
 	};
 };
-["manage"] spawn INT_fnc_objectiveManager;
 
 // CQB locality.
 private ["_locality"];

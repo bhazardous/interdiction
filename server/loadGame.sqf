@@ -39,6 +39,10 @@ scriptName "loadGame";
 		],
 		1 service point data
 	]
+
+	"objectives" = [
+		[objectiveName, state]
+	]
 */
 
 // Retrieve mission data from its piggy back ride.
@@ -47,7 +51,7 @@ waitUntil {!isNil {[ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet
 INT_server_persistentData = [ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet;
 
 // Look for mission data, and fill in blanks if anything is missing.
-private ["_stats", "_camps"];
+private ["_stats", "_camps", "_objectives"];
 _stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
 if (isNil "_stats") then {
 	"INTERDICTION: Mission stats not found in persistent data." call BIS_fnc_log;
@@ -62,9 +66,17 @@ if (isNil "_camps") then {
 	_camps = [INT_server_persistentData, "camps"] call CBA_fnc_hashGet;
 };
 
+_objectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
+if (isNil "_objectives") then {
+	"INTERDICTION: Mission objectives not found in persistent data." call BIS_fnc_log;
+	[INT_server_persistentData, "objectives", []] call CBA_fnc_hashSet;
+	_objectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
+};
+
 // Server-side variables.
 INT_server_campData = _camps select 0;
 INT_server_servicePointData = _camps select 1;
+INT_server_persistentObjectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
 
 // Rebuild camps.
 INT_global_camps = [];
@@ -114,6 +126,21 @@ _campId = 1;
 	_campId = _campId + 1;
 } forEach INT_server_campData;
 
+// Set objective states.
+waitUntil {!isNil "INT_server_objectivesLoaded"};
+{
+	switch (_x select 1) do {
+		case 1:	{	// STATUS_FRIENDLY
+			["setState", [_x select 0, 1]] call INT_fnc_objectiveManager;
+			["triggerObjective", [_x select 0, true]] call INT_fnc_objectiveManager;
+		};
+
+		case 3: {	// STATUS_DESTROYED
+			["forceDestroy", [_x select 0]] call INT_fnc_objectiveManager;
+		};
+	};
+} forEach INT_server_persistentObjectives;
+
 // Broadcast variables that need to be global.
 publicVariable "INT_global_camps";
 publicVariable "INT_global_servicePoints";
@@ -130,3 +157,6 @@ if (count INT_server_campData > 0) then {
 } else {
 	PUBLIC(INT_global_campExists,false);
 };
+
+// Start the objective manager.
+["manage"] spawn INT_fnc_objectiveManager;

@@ -118,7 +118,6 @@ switch (_action) do {
 		};
 
 		case "objectiveDestroyed": {
-				// Move objective to destroyed list.
 				private ["_obj"];
 
 				_obj = ["getObjective", _params] call INT_fnc_objectiveManager;
@@ -127,11 +126,8 @@ switch (_action) do {
 				if (_obj select 6 == STATUS_FRIENDLY) then {
 					call compile format ["%1 call %2", _obj select 5, _obj select 3];
 				};
-				_obj set [6, STATUS_DESTROYED];
+				["setState", [_obj select 0, STATUS_DESTROYED]] call INT_fnc_objectiveManager;
 
-				if (getMarkerColor (_obj select 0) != "") then {
-					deleteMarker (_obj select 0);
-				};
 				_ret = true;
 		};
 
@@ -146,6 +142,68 @@ switch (_action) do {
 						_ret = _x;
 					};
 				} forEach _objectives;
+		};
+
+		case "setState": {
+				private ["_obj", "_objectiveName", "_state"];
+
+				_objectiveName = _params select 0;
+				_state = _params select 1;
+				_obj = ["getObjective", [_objectiveName]] call INT_fnc_objectiveManager;
+				_obj set [6, _state];
+
+				// Update persistence.
+				if (_state != STATUS_CONTESTED) then {
+					private ["_success"];
+					_success = false;
+
+					{
+						if (_x select 0 == _objectiveName) then {
+							if (_state != STATUS_ENEMY) then {
+								_x set [1, _state];
+								_success = true;
+							} else {
+								// Enemy held objectives don't need to be stored.
+								INT_server_persistentObjectives deleteAt _forEachIndex;
+							};
+						};
+					} forEach INT_server_persistentObjectives;
+
+					if (!_success && {_state != STATUS_ENEMY}) then {
+						INT_server_persistentObjectives pushBack [_objectiveName, _state];
+					};
+				};
+
+				if (getMarkerColor _objectiveName != "") then {
+					switch (_state) do {
+						case STATUS_FRIENDLY: { _objectiveName setMarkerColor "ColorWEST";};
+						case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
+						case STATUS_CONTESTED: {_objectiveName setMarkerColor "ColorBlack";};
+						case STATUS_DESTROYED: {deleteMarker _objectiveName;};
+					};
+				};
+
+				_ret = true;
+		};
+
+		case "forceDestroy": {
+				private ["_obj"];
+
+				_obj = ["getObjective", [_params select 0]] call INT_fnc_objectiveManager;
+
+				if (count _obj > 0) then {
+					private ["_position"];
+
+					_position = _obj select 1;
+					["objectiveDestroyed", [_params select 0]] call INT_fnc_objectiveManager;
+					{
+						private ["_building"];
+						_building = _position nearestObject _x;
+						_building setDamage 1;
+					} forEach (_obj select 7)
+				};
+
+				_ret = true;
 		};
 
 		case "exit": {

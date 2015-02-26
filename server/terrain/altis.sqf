@@ -147,3 +147,5 @@ INT_module_alive_opfor_civ setVariable ["roadblocks", "15"];
 INT_module_alive_opfor_mil setVariable ["sizeFilter", "200"];
 INT_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 INT_module_alive_indfor_mil setVariable ["randomcamps", "0"];
+
+INT_server_objectivesLoaded = true;

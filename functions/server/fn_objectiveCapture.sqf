@@ -27,10 +27,7 @@ _loop = 0;
 _success = true;
 
 // Objective is now contested.
-_objective set [6, STATUS_CONTESTED];
-if (getMarkerColor _objectiveName != "") then {
-	_objectiveName setMarkerColor "ColorBlack";
-};
+["setState", [_objectiveName, STATUS_CONTESTED]] call INT_fnc_objectiveManager;
 
 while {_loop < LOOPS} do {
 	// Friendly presence?
@@ -64,10 +61,10 @@ while {_loop < LOOPS} do {
 if (_success) then {
 	if (_side) then {
 		// Objective switched from enemy to friendly.
-		_objective set [6, STATUS_FRIENDLY];
+		["setState", [_objectiveName, STATUS_FRIENDLY]] call INT_fnc_objectiveManager;
 	} else {
 		// Objective switched from friendly enemy.
-		_objective set [6, STATUS_ENEMY];
+		["setState", [_objectiveName, STATUS_ENEMY]] call INT_fnc_objectiveManager;
 	};
 
 	// Call function attached to objective.
@@ -75,17 +72,10 @@ if (_success) then {
 } else {
 	if (_side) then {
 		// Contest failed, objective remains enemy.
-		_objective set [6, STATUS_ENEMY];
+		["setState", [_objectiveName, STATUS_ENEMY]] call INT_fnc_objectiveManager;
 	} else {
 		// Contest failed, objective remains friendly
-		_objective set [6, STATUS_FRIENDLY];
-	};
-};
-
-if (getMarkerColor _objectiveName != "") then {
-	switch (_objective select 6) do {
-		case STATUS_FRIENDLY: { _objectiveName setMarkerColor "ColorWEST";};
-		case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
+		["setState", [_objectiveName, STATUS_FRIENDLY]] call INT_fnc_objectiveManager;
 	};
 };
 

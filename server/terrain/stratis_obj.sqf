@@ -18,3 +18,5 @@ scriptName "stratis_obj";
 	"INT_fnc_captureMapIntel", [true], [false], [82837], true] call INT_fnc_addObjective;
 ["AgiaMarinaRadio", [3064.28,6189.8], 50,
 	"INT_fnc_captureMapIntel", [true], [false], [69296], true] call INT_fnc_addObjective;
+
+INT_server_objectivesLoaded = true;
