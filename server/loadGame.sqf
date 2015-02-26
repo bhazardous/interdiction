@@ -45,6 +45,11 @@ scriptName "loadGame";
 	]
 */
 
+// Allow players to join while this is all happening.
+PUBLIC(INT_global_playerList,[INT_unit_invisibleMan]);
+PUBLIC(INT_global_canJoin,false);
+PUBLIC(INT_global_campExists,false);
+
 // Retrieve mission data from its piggy back ride.
 waitUntil {!isNil "ALiVE_globalForcePool"};
 waitUntil {!isNil {[ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet}};
@@ -149,13 +154,9 @@ publicVariable "INT_global_recruitmentTents";
 PUBLIC(INT_global_crewAvailable,_stats select 3);
 PUBLIC(INT_global_campsAvailable,_stats select 4);
 PUBLIC(INT_global_tech1,_stats select 5);
-PUBLIC(INT_global_canJoin,false);
-PUBLIC(INT_global_playerList,[INT_unit_invisibleMan]);
 
 if (count INT_server_campData > 0) then {
 	PUBLIC(INT_global_campExists,true);
-} else {
-	PUBLIC(INT_global_campExists,false);
 };
 
 // Start the objective manager.
