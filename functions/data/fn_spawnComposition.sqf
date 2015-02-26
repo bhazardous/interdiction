@@ -15,12 +15,13 @@ scriptName "fn_spawnComposition";
 	ARRAY - all the objects created
 */
 
-private ["_objects", "_compName", "_composition", "_pos", "_dir"];
+private ["_objects", "_compName", "_composition", "_pos", "_dir", "_fort"];
 _compName = [_this, 0, "", [""]] call BIS_fnc_param;
 _pos = [_this, 1, [0,0,0], [[]], [2,3]] call BIS_fnc_param;
 _dir = [_this, 2, 0, [0]] call BIS_fnc_param;
 _local = [_this, 3, true, [true]] call BIS_fnc_param;
 _objects = [];
+_fort = ([_compName, "fort_"] call CBA_fnc_find != -1);
 
 // Get composition.
 _composition = [_compName] call INT_fnc_getComposition;
@@ -58,8 +59,10 @@ if (count _composition == 0) exitWith {
 	_object setVectorUp (surfaceNormal _objPos);
 
 	// Other.
-	_object enableSimulation false;
-	_object allowDamage false;
+	if (!_fort) then {
+		_object enableSimulation false;
+		_object allowDamage false;
+	};
 
 	// Add to array.
 	_objects pushBack _object;
