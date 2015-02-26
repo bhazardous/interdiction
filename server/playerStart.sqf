@@ -6,7 +6,7 @@ scriptName "playerStart";
 	Description:
 --------------------------------------------------------------------*/
 #define __filename "playerStart.sqf"
-#define DEBUG_BLUFOR true
+#define DEBUG_BLUFOR false
 #define DEBUG_OPFOR false
 
 "respawn_west" setMarkerAlpha 0;
@@ -42,7 +42,6 @@ if (DEBUG_BLUFOR) then {
 		[] spawn {
 			waitUntil {time > 2};
 			player setPos [2099.27,4161.88,0];
-			skipTime 2;
 		};
 	};
 };
