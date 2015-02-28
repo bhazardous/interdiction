@@ -12,7 +12,7 @@ class CfgHints
 		displayName = "Resistance Movement";
 		class Interdiction
 		{
-			displayName = "Interdiction";
+			displayName = "--- Interdiction";
 			description = "%3Interdiction%4 is a military term for the act of %3delaying%4, %3disrupting%4, or %3destroying%4 enemy forces or supplies en route to the battle area.%1- Wikipedia";
 			tip = "You have arrived at %11 to stop enemy forces pushing closer to your homeland. Disrupt the enemy, take their resources and inspire the local populace to rise up and join the fight.";
 			arguments[] = {
@@ -29,7 +29,7 @@ class CfgHints
 		class AmmoCache
 		{
 			displayName = "Ammo Cache";
-			description = "The %3ammo cache%4 is used to store valuable weapons and ammo you've captured from the enemy.";
+			description = "%3Not yet implemented%4%1The %3ammo cache%4 is used to store valuable weapons and ammo you've captured from the enemy.";
 			tip = "You can place down a cache even without a camp nearby, allowing the resistance to hide equipment throughout %11 for easy access.";
 			arguments[] = {
 				"worldName"
@@ -103,6 +103,19 @@ class CfgHints
 			description = "Weaken the enemy. Target their personnel, vehicles, equipment and strategic locations.";
 			tip = "The enemy will respond to threats, constantly attacking the same location will cause it to be reinforced.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Annoucning_ca.paa";
+		};
+		class MissionPersistence
+		{
+			displayName = "Persistence";
+			description = "This mission is compatible with %3ALiVE persistence%4, the camps you've constructed and resources collected will be saved along with your progress.%1Persistence will only function on a dedicated server, regardless of your settings.";
+			tip = "If your %3War Room%4 server profile and server side settings are incorrect, the mission will most likely fail to start.%1Please test your persistence settings with a simple mission if you're not sure.";
+			image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+			class LoadedSave
+			{
+				displayName = "Mission Resumed";
+				description = "Your save has been loaded using %3ALiVE persistence%4.%1If there are any mission specific errors or bugs with your save, please report them on the Interdiction thread.";
+				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+			};
 		};
 		class RadarStations
 		{

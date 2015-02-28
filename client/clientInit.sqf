@@ -62,10 +62,12 @@ scriptName "clientInit";
 	INT_local_flexiMenu call ALiVE_fnc_flexiMenu_add;
 
 	// Hints.
-	sleep 15;
-	[["ResistanceMovement", "Interdiction"], 15, "", 35, "", true, true, true] call BIS_fnc_advHint;
-	sleep 60;
-	if (!INT_global_campExists) then {
-		[["ResistanceMovement","BuildCamp","CampHint"],15,"",35,"",true,true,true] call BIS_fnc_advHint;
+	if (INT_global_canJoin) then {
+		sleep 15;
+		[["ResistanceMovement", "Interdiction"], 15, "", 35, "", true, true, true] call BIS_fnc_advHint;
+		sleep 60;
+		if (!INT_global_campExists) then {
+			[["ResistanceMovement","BuildCamp","CampHint"],15,"",35,"",true,true,true] call BIS_fnc_advHint;
+		};
 	};
 };

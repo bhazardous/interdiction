@@ -161,3 +161,5 @@ if (count INT_server_campData > 0) then {
 
 // Start the objective manager.
 ["manage"] spawn INT_fnc_objectiveManager;
+
+[["ResistanceMovement","MissionPersistence","LoadedSave"]] call INT_fnc_broadcastHint;
