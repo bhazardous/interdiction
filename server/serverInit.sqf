@@ -17,17 +17,6 @@ if (INT_server_persistence) then {
 	};
 };
 
-/* DEBUG - TESTING PERSISTENCE */
-/*
-INT_server_newGame = false;
-waitUntil {!isNil "ALiVE_globalForcePool"};
-INT_server_persistentData = [] call CBA_fnc_hashCreate;
-[ALiVE_globalForcePool, "missionData", INT_server_persistentData] call ALiVE_fnc_hashSet;
-[INT_server_persistentData, "stats", [5,5,5,5,5,true]] call CBA_fnc_hashSet;
-[INT_server_persistentData, "camps", [[[[2099.27,4161.88,0],0,[[2096.86,4157.08,0],195.242],[],false]],[[0,96,0]]]] call CBA_fnc_hashSet;
-[INT_server_persistentData, "objectives", [["RadioCompound",3],["EasternRadioTowers",1],["AgiaMarinaRadio",1]]] call CBA_fnc_hashSet;
-*/
-
 // General mission variables.
 INT_server_killThreshold = 15;			// Number of OPFOR killed for civilians to join resistance movement.
 INT_server_crewThreshold = 5;			// Reach the kill threshold x times to unlock support crew.

@@ -94,6 +94,7 @@ if (INT_global_buildingEnabled) then {
 
 		if (_data select 1 >= _cost) then {
 			_data set [1, (_data select 1) - _cost];
+			[] call INT_fnc_updatePersistence;
 		} else {
 			[["ResistanceMovement","BuildCamp","FortParts"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 			_valid = false;
@@ -121,6 +122,8 @@ if (INT_global_buildingEnabled) then {
 			// Camps available.
 			INT_global_campsAvailable = INT_global_campsAvailable - 1;
 			publicVariable "INT_global_campsAvailable";
+			INT_server_statData set [4, INT_global_campsAvailable];
+			[] call INT_fnc_updatePersistence;
 
 			// Respawn marker.
 			INT_global_lastCampGrid = mapGridPosition _pos;
@@ -140,6 +143,7 @@ if (INT_global_buildingEnabled) then {
 			publicVariable "INT_global_camps";
 			INT_server_campData pushBack [_pos, _rot, [], [], false];
 			INT_server_servicePointData pushBack [0,0,0];
+			[] call INT_fnc_updatePersistence;
 
 			// Add respawn point.
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
@@ -173,6 +177,7 @@ if (INT_global_buildingEnabled) then {
 			// Add service point to camp data.
 			_data = INT_server_campData select _campId;
 			_data set [2, [_pos, _rot]];
+			[] call INT_fnc_updatePersistence;
 		};
 
 		case "recruitment": {
@@ -183,6 +188,7 @@ if (INT_global_buildingEnabled) then {
 			// Set camp data.
 			_data = INT_server_campData select _campId;
 			_data set [3, [_pos, _rot]];
+			[] call INT_fnc_updatePersistence;
 		};
 	};
 } else {

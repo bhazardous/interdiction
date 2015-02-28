@@ -36,17 +36,17 @@ if (_faction in INT_server_faction_enemy) then {
 	};
 
 	if (isPlayer _killer) then {
-		private ["_stats", "_kills"];
+		private ["_kills"];
 
-		_stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
-		_kills = _stats select 0;
+		_kills = INT_server_statData select 0;
 		_kills = _kills + _value;
 		if (_kills >= INT_server_killThreshold) then {
 			_kills = _kills - INT_server_killThreshold;
 			["kills"] call INT_fnc_resistanceActivity;
 		};
 
-		_stats set [0, _kills];
+		INT_server_statData set [0, _kills];
+		[] call INT_fnc_updatePersistence;
 	};
 };
 

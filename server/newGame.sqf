@@ -31,18 +31,20 @@ PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
 private ["_camps"];
 
 waitUntil {!isNil "ALiVE_globalForcePool"};
-INT_server_persistentData = [] call CBA_fnc_hashCreate;
-[ALiVE_globalForcePool, "missionData", INT_server_persistentData] call ALiVE_fnc_hashSet;
+INT_server_persistentData = [];
 
-[INT_server_persistentData, "stats", [0,0,0,0,1,false]] call CBA_fnc_hashSet;
-[INT_server_persistentData, "camps", [[],[]]] call CBA_fnc_hashSet;
-[INT_server_persistentData, "objectives", []] call CBA_fnc_hashSet;
+INT_server_persistentData set [0, [0,0,0,0,1,false]];
+INT_server_persistentData set [1, [[],[]]];
+INT_server_persistentData set [2, []];
+
+[] call INT_fnc_updatePersistence;
 
 // Reference vars directly to persistent data.
-_camps = [INT_server_persistentData, "camps"] call CBA_fnc_hashGet;
+INT_server_statData = INT_server_persistentData select 0;
+_camps = INT_server_persistentData select 1;
 INT_server_campData = _camps select 0;
 INT_server_servicePointData = _camps select 1;
-INT_server_persistentObjectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
+INT_server_persistentObjectives = INT_server_persistentData select 2;
 
 // Start the objective manager.
 ["manage"] spawn INT_fnc_objectiveManager;

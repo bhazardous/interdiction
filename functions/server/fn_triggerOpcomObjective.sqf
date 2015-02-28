@@ -92,7 +92,7 @@ if (_triggerSide == "ERROR") exitWith {
 private ["_triggerCondition", "_triggerActivation", "_trigger"];
 _triggerCondition = format ["this || {count ([getPosATL thisTrigger, %1, ['%2', 'entity']] call ALiVE_fnc_getNearProfiles) > 0}",
 	_triggerRadius, _triggerSide];
-_triggerActivation = format ["[%1, %2] call INT_fnc_addOpcomObjective; (INT_server_campData select %3) set [4, true]; deleteVehicle thisTrigger;",
+_triggerActivation = format ["[%1, %2] call INT_fnc_addOpcomObjective; (INT_server_campData select %3) set [4, true]; [] call INT_fnc_updatePersistence; deleteVehicle thisTrigger;",
 	_opcomList, _objectiveParams, _campId];
 _trigger = createTrigger ["EmptyDetector", _objectiveParams select 1];
 _trigger setTriggerArea [_triggerRadius, _triggerRadius, 0, false];

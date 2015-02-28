@@ -21,11 +21,10 @@ switch (_reason) do {
 		[1] call INT_fnc_spawnResistance;
 
 		// Tick counters for unlocks.
-		private ["_stats", "_crewCounter", "_campCounter"];
+		private ["_crewCounter", "_campCounter"];
 
-		_stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
-		_crewCounter = _stats select 1;
-		_campCounter = _stats select 2;
+		_crewCounter = INT_server_statData select 1;
+		_campCounter = INT_server_statData select 2;
 
 		_crewCounter = _crewCounter + 1;
 		_campCounter = _campCounter + 1;
@@ -37,7 +36,7 @@ switch (_reason) do {
 			_crewCounter = _crewCounter - INT_server_crewThreshold;
 			[["ResistanceMovement","CombatSupport","SupportCrew"]] call INT_fnc_broadcastHint;
 
-			_stats set [3, INT_global_crewAvailable];
+			INT_server_statData set [3, INT_global_crewAvailable];
 		};
 
 		if (_campCounter >= INT_server_campThreshold) then {
@@ -45,7 +44,7 @@ switch (_reason) do {
 			publicVariable "INT_global_campsAvailable";
 			_campCounter = _campCounter - INT_server_campThreshold;
 
-			_stats set [4, INT_global_campsAvailable];
+			INT_server_statData set [4, INT_global_campsAvailable];
 		};
 
 		// Unlock tech1.
@@ -54,11 +53,12 @@ switch (_reason) do {
 			publicVariable "INT_global_tech1";
 			[["ResistanceMovement", "BuildCamp", "UnlockTechOne"]] call INT_fnc_broadcastHint;
 
-			_stats set [5, true];
+			INT_server_statData set [5, true];
 		};
 
-		_stats set [1, _crewCounter];
-		_stats set [2, _campCounter];
+		INT_server_statData set [1, _crewCounter];
+		INT_server_statData set [2, _campCounter];
+		[] call INT_fnc_updatePersistence;
 	};
 
 	default {

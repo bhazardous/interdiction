@@ -322,4 +322,6 @@ switch (_action) do {
 		};
 };
 
+[] call INT_fnc_updatePersistence;
+
 nil;

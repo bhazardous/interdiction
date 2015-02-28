@@ -11,7 +11,7 @@ scriptName "loadGame";
 /*
 	PERSISTENT DATA ROAD MAP
 
-	"stats" = [
+	0 = [
 		0 kill count,
 		1 support counter (for next unlock),
 		2 camp counter (for next unlock),
@@ -20,7 +20,7 @@ scriptName "loadGame";
 		5 tech1 available,						(global: INT_global_tech1)
 	]
 
-	"camps" = [
+	1 = [
 		0 array of camp locations and directions, empty array if building doesn't exist
 		[
 			[
@@ -40,7 +40,7 @@ scriptName "loadGame";
 		1 service point data
 	]
 
-	"objectives" = [
+	2 = [
 		[objectiveName, state]
 	]
 */
@@ -51,37 +51,52 @@ PUBLIC(INT_global_canJoin,false);
 PUBLIC(INT_global_campExists,false);
 
 // Retrieve mission data from its piggy back ride.
+private ["_data"];
+
 waitUntil {!isNil "ALiVE_globalForcePool"};
 waitUntil {!isNil {[ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet}};
-INT_server_persistentData = [ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet;
+_data = [ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet;
+INT_server_persistentData = _data call compile preprocessFileLineNumbers "server\convertPersistenceData.sqf";
 
 // Look for mission data, and fill in blanks if anything is missing.
-private ["_stats", "_camps", "_objectives"];
-_stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
-if (isNil "_stats") then {
-	"INTERDICTION: Mission stats not found in persistent data." call BIS_fnc_log;
-	[INT_server_persistentData, "stats", [0,0,0,0,1,false]] call CBA_fnc_hashSet;
-	_stats = [INT_server_persistentData, "stats"] call CBA_fnc_hashGet;
+private ["_camps"];
+
+// --- Stats
+if (count INT_server_persistentData >= 1) then {
+	INT_server_statData = INT_server_persistentData select 0;
 };
 
-_camps = [INT_server_persistentData, "camps"] call CBA_fnc_hashGet;
+if (isNil "INT_server_statData") then {
+	"INTERDICTION: Mission stats not found in persistent data." call BIS_fnc_log;
+	INT_server_persistentData set [0, [0,0,0,0,1,false]];
+	INT_server_statData = INT_server_persistentData select 0;
+};
+
+// --- Camps
+if (count INT_server_persistentData >= 2) then {
+	_camps = INT_server_persistentData select 1;
+};
+
 if (isNil "_camps") then {
 	"INTERDICTION: Mission camps not found in persistent data." call BIS_fnc_log;
-	[INT_server_persistentData, "camps", [[],[]]] call CBA_fnc_hashSet;
-	_camps = [INT_server_persistentData, "camps"] call CBA_fnc_hashGet;
+	INT_server_persistentData set [1, [[],[]]];
+	_camps = INT_server_persistentData select 1;
 };
 
-_objectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
-if (isNil "_objectives") then {
+// --- Objectives
+if (count INT_server_persistentData >= 3) then {
+	INT_server_persistentObjectives = INT_server_persistentData select 2;
+};
+
+if (isNil "INT_server_persistentObjectives") then {
 	"INTERDICTION: Mission objectives not found in persistent data." call BIS_fnc_log;
-	[INT_server_persistentData, "objectives", []] call CBA_fnc_hashSet;
-	_objectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
+	INT_server_persistentData set [2, []];
+	INT_server_persistentObjectives = INT_server_persistentData select 2;
 };
 
 // Server-side variables.
 INT_server_campData = _camps select 0;
 INT_server_servicePointData = _camps select 1;
-INT_server_persistentObjectives = [INT_server_persistentData, "objectives"] call CBA_fnc_hashGet;
 
 // Rebuild camps.
 INT_global_camps = [];
@@ -151,13 +166,15 @@ publicVariable "INT_global_camps";
 publicVariable "INT_global_servicePoints";
 publicVariable "INT_global_recruitmentTents";
 
-PUBLIC(INT_global_crewAvailable,_stats select 3);
-PUBLIC(INT_global_campsAvailable,_stats select 4);
-PUBLIC(INT_global_tech1,_stats select 5);
+PUBLIC(INT_global_crewAvailable,INT_server_statData select 3);
+PUBLIC(INT_global_campsAvailable,INT_server_statData select 4);
+PUBLIC(INT_global_tech1,INT_server_statData select 5);
 
 if (count INT_server_campData > 0) then {
 	PUBLIC(INT_global_campExists,true);
 };
+
+[] call INT_fnc_updatePersistence;
 
 // Start the objective manager.
 ["manage"] spawn INT_fnc_objectiveManager;

@@ -165,12 +165,14 @@ switch (_action) do {
 							} else {
 								// Enemy held objectives don't need to be stored.
 								INT_server_persistentObjectives deleteAt _forEachIndex;
+								[] call INT_fnc_updatePersistence;
 							};
 						};
 					} forEach INT_server_persistentObjectives;
 
 					if (!_success && {_state != STATUS_ENEMY}) then {
 						INT_server_persistentObjectives pushBack [_objectiveName, _state];
+						[] call INT_fnc_updatePersistence;
 					};
 				};
 

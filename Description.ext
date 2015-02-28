@@ -74,6 +74,7 @@ class CfgFunctions
 			class addSupport {};
 			class broadcastHint {};
 			class serviceRequest {};
+			class updatePersistence {};
 		};
 	};
 };

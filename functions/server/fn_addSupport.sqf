@@ -34,6 +34,12 @@ if (INT_global_crewAvailable <= 0) exitWith {
 	nil;
 };
 
+// Decrement crew.
+INT_global_crewAvailable = INT_global_crewAvailable - 1;
+publicVariable "INT_global_crewAvailable";
+INT_server_statData set [3, INT_global_crewAvailable];
+[] call INT_fnc_updatePersistence;
+
 switch (_type) do {
 		case "transport": {
 				_callsign = CALLSIGN;
