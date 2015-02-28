@@ -20,7 +20,8 @@ class Mission
 		"A3_Characters_F_Gamma",
 		"alive_mil_c2istar",
 		"alive_sup_combatsupport",
-		"A3_Structures_F_Mil_Helipads"
+		"A3_Structures_F_Mil_Helipads",
+		"alive_sys_data"
 	};
 	addOnsAuto[]=
 	{
@@ -40,6 +41,7 @@ class Mission
 		"A3_Characters_F_Gamma",
 		"alive_mil_c2istar",
 		"alive_sup_combatsupport",
+		"alive_sys_data",
 		"A3_Structures_F_Mil_Helipads",
 		"a3_map_stratis"
 	};
@@ -65,7 +67,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=24;
+		items=25;
 		class Item0
 		{
 			side="EAST";
@@ -156,7 +158,7 @@ class Mission
 					position[]={252.10934,-0.076921754,146.39014};
 					class args
 					{
-						items=7;
+						items=8;
 						class Item0
 						{
 							value="false";
@@ -199,6 +201,12 @@ class Mission
 							parentCls="ALiVE_sys_profile";
 							typeName="activeLimiter";
 						};
+						class Item7
+						{
+							value="1";
+							parentCls="ALiVE_sys_profile";
+							typeName="speedModifier";
+						};
 					};
 					id=2;
 					side="LOGIC";
@@ -206,6 +214,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
+					text="INT_module_alive_profile";
 				};
 			};
 		};
@@ -1239,6 +1248,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
+					text="INT_module_alive_playerOptions";
 				};
 			};
 		};
@@ -1526,6 +1536,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
+					text="INT_module_alive_indfor_logistics";
 					syncId=5;
 					synchronizations[]={4};
 				};
@@ -2006,6 +2017,77 @@ class Mission
 				};
 			};
 		};
+		class Item24
+		{
+			side="LOGIC";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={449.90836,-127.01095,145.53564};
+					class args
+					{
+						items=8;
+						class Item0
+						{
+							value="false";
+							parentCls="ALiVE_sys_data";
+							typeName="debug";
+						};
+						class Item1
+						{
+							value="CouchDB";
+							parentCls="ALiVE_sys_data";
+							typeName="source";
+						};
+						class Item2
+						{
+							value="false";
+							parentCls="ALiVE_sys_data";
+							typeName="saveDateTime";
+						};
+						class Item3
+						{
+							value="true";
+							parentCls="ALiVE_sys_data";
+							typeName="disableStats";
+						};
+						class Item4
+						{
+							value="true";
+							parentCls="ALiVE_sys_data";
+							typeName="disableAAR";
+						};
+						class Item5
+						{
+							value="true";
+							parentCls="ALiVE_sys_data";
+							typeName="disablePerf";
+						};
+						class Item6
+						{
+							value="true";
+							parentCls="ALiVE_sys_data";
+							typeName="disablePerfMon";
+						};
+						class Item7
+						{
+							value="[['entities',150],['vehicles',300],['agents',450],['allDead',600],['objects',750],['triggers',900]]";
+							parentCls="ALiVE_sys_data";
+							typeName="customPerfMonCode";
+						};
+					};
+					id=24;
+					side="LOGIC";
+					vehicle="ALiVE_sys_data";
+					leader=1;
+					lock="UNLOCKED";
+					skill=0.60000002;
+					text="INT_module_alive_data";
+				};
+			};
+		};
 	};
 	class Vehicles
 	{
@@ -2013,7 +2095,7 @@ class Mission
 		class Item0
 		{
 			position[]={4373.6885,226.92783,3816.833};
-			id=24;
+			id=25;
 			side="EMPTY";
 			vehicle="Land_HelipadEmpty_F";
 			skill=0.60000002;
