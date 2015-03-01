@@ -17,17 +17,17 @@ scriptName "fn_serviceRequest";
 // TODO: Lots of code duplication in this file.
 // TODO: Also messy as fuck.
 
-private ["_player", "_action", "_id", "_vehicle", "_markerName", "_data"];
+private ["_player", "_action", "_id", "_pos", "_vehicle", "_data"];
 _player = _this select 0;
 _action = _this select 1;
-_id = _this select 2;
-_vehicle = _this select 3;
+_vehicle = _this select 2;
+_id = ([_player, "INT_mkr_resistanceCamp", count INT_global_camps] call INT_fnc_closest) - 1;
 
 if (_action == "check") exitWith {
 	private ["_fuel", "_parts", "_military"];
-	_fuel = (INT_server_servicePointData select (_id - 1)) select 0;
-	_parts = (INT_server_servicePointData select (_id - 1)) select 1;
-	_military = (INT_server_servicePointData select (_id - 1)) select 2;
+	_fuel = INT_server_servicePointData select _id select 0;
+	_parts = INT_server_servicePointData select _id select 1;
+	_military = INT_server_servicePointData select _id select 2;
 	[["INT_local_partsUsed", _parts], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 	[["INT_local_fuelUsed", _fuel], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
 	[["INT_local_militaryUsed", _military], "INT_fnc_setVariable", _player] call BIS_fnc_MP;
@@ -74,13 +74,13 @@ if (_action == "assess") exitWith {
 };
 
 // Player and vehicle in position.
-_markerName = format ["INT_mkr_servicePoint%1", _id];
-if (_player distance (markerPos _markerName) > 10) exitWith {
+_pos = INT_server_campData select _id select 2 select 0;
+if (_player distance _pos > 10) exitWith {
 	// Player not close enough to service point.
 	[["ResistanceMovement","ServicePoint","SPDistPlayer"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 	nil;
 };
-if (_vehicle distance (markerPos _markerName) > 10) exitWith {
+if (_vehicle distance _pos > 10) exitWith {
 	// Vehicle not close enough to service point.
 	[["ResistanceMovement","ServicePoint","SPDistVehicle"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 	nil;
@@ -90,9 +90,6 @@ if (_player distance _vehicle > 6) exitWith {
 	[["ResistanceMovement","ServicePoint","SPDistVehicleP"],true,true,false,_player,true] call INT_fnc_broadcastHint;
 	nil;
 };
-
-// Change marker ID into array position.
-_id = _id - 1;
 
 // Grab the data for this service point.
 // _data = [fuel, parts]
@@ -324,5 +321,7 @@ switch (_action) do {
 				};
 		};
 };
+
+[] call INT_fnc_updatePersistence;
 
 nil;

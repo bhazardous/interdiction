@@ -10,12 +10,13 @@ scriptName "fn_triggerOpcomObjective";
 	Parameter(s):
 	#0 ARRAY - A list of side / faction OPCOMs to add the objective to.
 	#1 NUMBER - Discovery radius (spotting distance)
-	#1 ARRAY - Objective params
+	#2 ARRAY - Objective params
 		#0 STRING - Objective name
 		#1 POSITION - Objective position
 		#2 NUMBER - Radius (size of objective used by ALiVE OPCOM)
 		#3 STRING - Objective type ("MIL" or "CIV")
 		#4 NUMBER - Objective priority (for use by ALiVE)
+	#3 NUMBER - Camp ID
 
 	Returns:
 	BOOL - true if trigger was created
@@ -25,10 +26,15 @@ private ["_factionList", "_triggerRadius", "_objectiveParams"];
 _factionList = [_this, 0,  [], [[]]] call BIS_fnc_param;
 _triggerRadius = [_this, 1, 400, [0]] call BIS_fnc_param;
 _objectiveParams = [_this, 2, [], [[]], [5]] call BIS_fnc_param;
+_campId = [_this, 3, -1, [0]] call BIS_fnc_param;
 
 if (count _factionList == 0) exitWith {
 	["No factions or sides given"] call BIS_fnc_error;
 	false;
+};
+
+if (_campId < 0) exitWith {
+	["Invalid camp ID"] call BIS_fnc_error;
 };
 
 private ["_opcomList"];
@@ -86,8 +92,8 @@ if (_triggerSide == "ERROR") exitWith {
 private ["_triggerCondition", "_triggerActivation", "_trigger"];
 _triggerCondition = format ["this || {count ([getPosATL thisTrigger, %1, ['%2', 'entity']] call ALiVE_fnc_getNearProfiles) > 0}",
 	_triggerRadius, _triggerSide];
-_triggerActivation = format ["[%1, %2] call INT_fnc_addOpcomObjective; deleteVehicle thisTrigger;",
-	_opcomList, _objectiveParams];
+_triggerActivation = format ["[%1, %2] call INT_fnc_addOpcomObjective; (INT_server_campData select %3) set [4, true]; [] call INT_fnc_updatePersistence; deleteVehicle thisTrigger;",
+	_opcomList, _objectiveParams, _campId];
 _trigger = createTrigger ["EmptyDetector", _objectiveParams select 1];
 _trigger setTriggerArea [_triggerRadius, _triggerRadius, 0, false];
 _trigger setTriggerStatements [_triggerCondition, _triggerActivation, ""];

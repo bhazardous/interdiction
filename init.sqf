@@ -10,9 +10,9 @@ scriptName "init";
 INT_global_debugEnabled = true;
 
 if (isServer) then {
-	call compile preprocessFileLineNumbers "server\serverInit.sqf";
+	execVM "server\serverInit.sqf";
 };
 
 if (hasInterface) then {
-	call compile preprocessFileLineNumbers "client\clientInit.sqf";
+	execVM "client\clientInit.sqf";
 };

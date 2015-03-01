@@ -36,12 +36,18 @@ if (_faction in INT_server_faction_enemy) then {
 	};
 
 	if (isPlayer _killer) then {
-		INT_server_kills = INT_server_kills + _value;
-		if (INT_server_kills >= INT_server_killThreshold) then {
-			INT_server_kills = INT_server_kills - INT_server_killThreshold;
+		private ["_kills"];
+
+		_kills = INT_server_statData select 0;
+		_kills = _kills + _value;
+		if (_kills >= INT_server_killThreshold) then {
+			_kills = _kills - INT_server_killThreshold;
 			["kills"] call INT_fnc_resistanceActivity;
 		};
-	}
+
+		INT_server_statData set [0, _kills];
+		[] call INT_fnc_updatePersistence;
+	};
 };
 
 nil;

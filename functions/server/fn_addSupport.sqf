@@ -34,6 +34,12 @@ if (INT_global_crewAvailable <= 0) exitWith {
 	nil;
 };
 
+// Decrement crew.
+INT_global_crewAvailable = INT_global_crewAvailable - 1;
+publicVariable "INT_global_crewAvailable";
+INT_server_statData set [3, INT_global_crewAvailable];
+[] call INT_fnc_updatePersistence;
+
 switch (_type) do {
 		case "transport": {
 				_callsign = CALLSIGN;
@@ -75,8 +81,11 @@ _vehicle lock 3;
 
 // Get closest recruitment tent.
 private ["_id", "_spawnPos"];
-_id = [_vehicle, "INT_mkr_recruitment", INT_global_recruitmentTentCount] call INT_fnc_closest;
-_spawnPos = markerPos (format ["INT_mkr_recruitment%1", _id]);
+_id = ([_player, "INT_mkr_resistanceCamp", count INT_global_camps] call INT_fnc_closest) - 1;
+if (count (INT_server_campData select _id select 3) == 0) exitWith {
+	["INT_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
+};
+_spawnPos = INT_server_campData select _id select 3;
 
 // Prepare group.
 private ["_turrets", "_group", "_unit"];

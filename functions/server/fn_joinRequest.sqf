@@ -17,7 +17,10 @@ private ["_player", "_class", "_capacity"];
 _player = _this select 0;
 
 if (isNil "INT_global_playerList") then {
-	INT_global_playerList = [];
+	INT_global_playerList = [INT_unit_invisibleMan];
+};
+
+if (isNil "INT_server_vehicleRoom") then {
 	INT_server_vehicleRoom = 0;
 };
 

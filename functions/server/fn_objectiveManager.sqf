@@ -13,6 +13,10 @@ scriptName "fn_objectiveManager";
 	bool - success
 */
 #define SLEEP_TIME 1
+#define STATUS_ENEMY		0
+#define STATUS_FRIENDLY		1
+#define STATUS_CONTESTED	2
+#define STATUS_DESTROYED	3
 
 private ["_action", "_ret"];
 _action = _this select 0;
@@ -24,9 +28,7 @@ switch (_action) do {
 
 				// Create objectives hash.
 				INT_server_objectiveMgr = [] call CBA_fnc_hashCreate;
-				[INT_server_objectiveMgr, "objectives", [] call CBA_fnc_hashCreate] call CBA_fnc_hashSet;
-				[INT_server_objectiveMgr, "objectiveList", []] call CBA_fnc_hashSet;
-				[INT_server_objectiveMgr, "objectiveDestroyed", []] call CBA_fnc_hashSet;
+				[INT_server_objectiveMgr, "objectives", []] call CBA_fnc_hashSet;
 				[INT_server_objectiveMgr, "status", "idle"] call CBA_fnc_hashSet;
 				_ret = true;
 		};
@@ -43,49 +45,50 @@ switch (_action) do {
 
 				while {!_quit} do {
 					{
-						private ["_objective", "_friendlies", "_enemies"];
-						_objective = [_objectives, _x] call CBA_fnc_hashGet;
+						private ["_friendlies", "_enemies"];
 						_friendlies = false;
 						_enemies = false;
 
-						// Remove object if attached buildings are destroyed.
-						if (count (_objective select 6) > 0) then {
-							private ["_destroyed"];
-							_destroyed = [_objective select 6, _objective select 0] call INT_fnc_checkBuildings;
-							if (_destroyed) then {
-								["objectiveDestroyed", [_x]] call INT_fnc_objectiveManager;
-							};
-						};
-
-						if (_objective select 5 != "contested" || _objective select 5 != "destroyed") then {
-							// Friendly presence?
-							_friendlies = [INT_server_side_blufor, _objective select 0, _objective select 1]
-								call INT_fnc_checkPresence;
-
-							// Enemy presence?
-							_enemies = [INT_server_side_opfor, _objective select 0, _objective select 1]
-								call INT_fnc_checkPresence;
-							if (!_enemies) then {
-								_enemies = [INT_server_side_indfor, _objective select 0, _objective select 1]
-									call INT_fnc_checkPresence;
-							};
-
-							switch (_objective select 5) do {
-								case "enemy": {
-									if (_friendlies && !_enemies) then {
-										[_x, true] spawn INT_fnc_objectiveCapture;
-									};
+						if (_x select 6 != STATUS_DESTROYED) then {
+							// Remove object if attached buildings are destroyed.
+							if (count (_x select 7) > 0) then {
+								private ["_destroyed"];
+								_destroyed = [_x select 7, _x select 1] call INT_fnc_checkBuildings;
+								if (_destroyed) then {
+									["objectiveDestroyed", [_x select 0]] call INT_fnc_objectiveManager;
 								};
-								case "friendly": {
-									if (!_friendlies && _enemies) then {
-										[_x, false] spawn INT_fnc_objectiveCapture;
+							};
+
+							if (_x select 6 != STATUS_CONTESTED) then {
+								// Friendly presence?
+								_friendlies = [INT_server_side_blufor, _x select 1, _x select 2]
+									call INT_fnc_checkPresence;
+
+								// Enemy presence?
+								_enemies = [INT_server_side_opfor, _x select 1, _x select 2]
+									call INT_fnc_checkPresence;
+								if (!_enemies) then {
+									_enemies = [INT_server_side_indfor, _x select 1, _x select 2]
+										call INT_fnc_checkPresence;
+								};
+
+								switch (_x select 6) do {
+									case STATUS_ENEMY: {
+										if (_friendlies && !_enemies) then {
+											[_x select 0, true] spawn INT_fnc_objectiveCapture;
+										};
+									};
+									case STATUS_FRIENDLY: {
+										if (!_friendlies && _enemies) then {
+											[_x select 0, false] spawn INT_fnc_objectiveCapture;
+										};
 									};
 								};
 							};
 						};
 
 						sleep SLEEP_TIME;
-					} forEach ([INT_server_objectiveMgr, "objectiveList"] call CBA_fnc_hashGet);
+					} forEach _objectives;
 					sleep SLEEP_TIME;
 
 					if ([INT_server_objectiveMgr, "status"] call CBA_fnc_hashGet == "exit") then {
@@ -97,15 +100,16 @@ switch (_action) do {
 		};
 
 		case "triggerObjective": {
-				private ["_objectiveName", "_friendly", "_objective"];
-				_objectiveName = _params select 0;
+				private ["_friendly", "_objective"];
+
 				_friendly = _params select 1;
-				_objective = [[INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet, _objectiveName] call CBA_fnc_hashGet;
+				_objective = ["getObjective", _params] call INT_fnc_objectiveManager;
+
 				if (count _objective > 0) then {
 					if (_friendly) then {
-						call compile format ["%1 call %2", _objective select 3, _objective select 2];
+						call compile format ["%1 call %2", _objective select 4, _objective select 3];
 					} else {
-						call compile format ["%1 call %2", _objective select 4, _objective select 2];
+						call compile format ["%1 call %2", _objective select 5, _objective select 3];
 					};
 					_ret = true;
 				} else {
@@ -114,25 +118,93 @@ switch (_action) do {
 		};
 
 		case "objectiveDestroyed": {
-				// Move objective to destroyed list.
-				private ["_objName", "_objectiveList", "_objectives", "_obj"];
-				_objName = _params select 0;
-				_objectiveList = [INT_server_objectiveMgr, "objectiveList"] call CBA_fnc_hashGet;
-				_objectives = [INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
-				_obj = [_objectives, _objName] call CBA_fnc_hashGet;
+				private ["_obj"];
 
-				_objectiveList deleteAt (_objectiveList find _objName);
-				([INT_server_objectiveMgr, "objectiveDestroyed"] call CBA_fnc_hashGet) pushBack _objName;
+				_obj = ["getObjective", _params] call INT_fnc_objectiveManager;
 
 				// Objective is now held by nobody.
-				if (_obj select 5 == "friendly") then {
-					call compile format ["%1 call %2", _obj select 4, _obj select 2];
+				if (_obj select 6 == STATUS_FRIENDLY) then {
+					call compile format ["%1 call %2", _obj select 5, _obj select 3];
 				};
-				_obj set [5, "destroyed"];
+				["setState", [_obj select 0, STATUS_DESTROYED]] call INT_fnc_objectiveManager;
 
-				if (getMarkerColor _objName != "") then {
-					deleteMarker _objName;
+				_ret = true;
+		};
+
+		case "getObjective": {
+				private ["_objectives"];
+
+				_ret = [];
+				_objectives = [INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						_ret = _x;
+					};
+				} forEach _objectives;
+		};
+
+		case "setState": {
+				private ["_obj", "_objectiveName", "_state"];
+
+				_objectiveName = _params select 0;
+				_state = _params select 1;
+				_obj = ["getObjective", [_objectiveName]] call INT_fnc_objectiveManager;
+				_obj set [6, _state];
+
+				// Update persistence.
+				if (_state != STATUS_CONTESTED) then {
+					private ["_success"];
+					_success = false;
+
+					{
+						if (_x select 0 == _objectiveName) then {
+							if (_state != STATUS_ENEMY) then {
+								_x set [1, _state];
+								_success = true;
+							} else {
+								// Enemy held objectives don't need to be stored.
+								INT_server_persistentObjectives deleteAt _forEachIndex;
+								[] call INT_fnc_updatePersistence;
+							};
+						};
+					} forEach INT_server_persistentObjectives;
+
+					if (!_success && {_state != STATUS_ENEMY}) then {
+						INT_server_persistentObjectives pushBack [_objectiveName, _state];
+						[] call INT_fnc_updatePersistence;
+					};
 				};
+
+				if (getMarkerColor _objectiveName != "") then {
+					switch (_state) do {
+						case STATUS_FRIENDLY: { _objectiveName setMarkerColor "ColorWEST";};
+						case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
+						case STATUS_CONTESTED: {_objectiveName setMarkerColor "ColorBlack";};
+						case STATUS_DESTROYED: {deleteMarker _objectiveName;};
+					};
+				};
+
+				_ret = true;
+		};
+
+		case "forceDestroy": {
+				private ["_obj"];
+
+				_obj = ["getObjective", [_params select 0]] call INT_fnc_objectiveManager;
+
+				if (count _obj > 0) then {
+					private ["_position"];
+
+					_position = _obj select 1;
+					["objectiveDestroyed", [_params select 0]] call INT_fnc_objectiveManager;
+					{
+						private ["_building"];
+						_building = _position nearestObject _x;
+						_building setDamage 1;
+					} forEach (_obj select 7)
+				};
+
 				_ret = true;
 		};
 

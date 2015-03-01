@@ -48,7 +48,7 @@ if (_menuName == "main") then {
 	private ["_canService", "_nearService", "_checkService", "_nearRecruit", "_supportVeh"];
 	_nearService = [player, INT_global_servicePoints, 10] call INT_fnc_nearby;
 	_canService = _target isKindOf "AllVehicles" && {[player, _target, 6] call INT_fnc_nearby};
-	_checkService = _target in INT_global_servicePoints;
+	_checkService = [player, INT_global_servicePoints, 5] call INT_fnc_nearby;
 	if (_canService) then {
 		private ["_config"];
 		_config = (configFile >> "cfgVehicles" >> typeOf _target >> "displayName");
@@ -56,7 +56,7 @@ if (_menuName == "main") then {
 		INT_local_serviceType = getText _config;
 		INT_local_serviceName = format ["Service %1", INT_local_serviceType];
 	} else {
-		if (_target in INT_global_servicePoints) then {
+		if (_checkService) then {
 			_canService = true;
 			INT_local_serviceTarget = player;
 			INT_local_serviceName = "Service";

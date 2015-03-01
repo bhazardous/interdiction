@@ -18,7 +18,7 @@ _groups = [_this, 0, 1, [0]] call BIS_fnc_param;
 waitUntil {!isNil "INT_global_campExists"};
 
 [_groups] spawn {
-	while {INT_global_recruitmentTentCount == 0} do {sleep 10;};
+	while {count INT_global_recruitmentTents == 0} do {sleep 10;};
 	waitUntil {!isNil "ALiVE_profileSystemInit"};
 
 	private ["_count"];
@@ -33,13 +33,11 @@ waitUntil {!isNil "INT_global_campExists"};
 		};
 
 		// Select a random recruitment tent.
-		private ["_tent", "_position", "_dir", "_profile"];
-		_tent = INT_global_recruitmentTents select (floor (random INT_global_recruitmentTentCount));
-		_position = position _tent;
-		_dir = direction _tent;
+		private ["_position", "_profile"];
+		_position = INT_global_recruitmentTents select (floor (random count INT_global_recruitmentTents));
 
 		// Spawn the group.
-		_profile = [_groupClass, _position, _dir] call ALiVE_fnc_createProfilesFromGroupConfig;
+		_profile = [_groupClass, _position, random 360] call ALiVE_fnc_createProfilesFromGroupConfig;
 
 		sleep 10;
 	};

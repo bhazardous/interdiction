@@ -14,6 +14,34 @@ scriptName "fn_preInitServer";
 
 if (!isServer) exitWith {nil;};
 
+if (isDedicated) then {
+	if (paramsArray select 6 == 1) then {
+		INT_server_persistence = true;
+
+		// Enable persistence related options for all modules.
+		INT_module_alive_data setVariable ["saveDateTime", "true"];
+		INT_module_alive_profile setVariable ["persistent", "true"];
+		INT_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true"];
+		INT_module_alive_playerOptions setVariable ["saveLoadout", "true"];
+		INT_module_alive_playerOptions setVariable ["saveAmmo", "true"];
+		INT_module_alive_playerOptions setVariable ["saveHealth", "true"];
+		INT_module_alive_playerOptions setVariable ["savePosition", "true"];
+		INT_module_alive_playerOptions setVariable ["saveScores", "true"];
+		INT_module_alive_playerOptions setVariable ["storeToDB", "true"];
+		INT_module_alive_blufor_opcom setVariable ["persistent", "true"];
+		INT_module_alive_opfor_opcom setVariable ["persistent", "true"];
+		INT_module_alive_indfor_opcom setVariable ["persistent", "true"];
+		INT_module_alive_blufor_logistics setVariable ["persistent", "true"];
+		INT_module_alive_indfor_logistics setVariable ["persistent", "true"];
+		INT_module_alive_opfor_cqb_mil setVariable ["CQB_persistent", "true"];
+		INT_module_alive_opfor_cqb_civ setVariable ["CQB_persistent", "true"];
+	} else {
+		INT_server_persistence = false;
+	};
+} else {
+	INT_server_persistence = false;
+};
+
 // Factions.
 private ["_indepEastAllies"];
 _indepEastAllies = true;
@@ -87,7 +115,6 @@ switch (worldName) do {
 		["end1", false, 0] call BIS_fnc_endMission;
 	};
 };
-["manage"] spawn INT_fnc_objectiveManager;
 
 // CQB locality.
 private ["_locality"];

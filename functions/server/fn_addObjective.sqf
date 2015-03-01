@@ -21,7 +21,7 @@ scriptName "fn_addObjective";
 #define DEBUG true
 
 private ["_objName", "_position", "_radius", "_function", "_paramsCapture", "_paramsLost", "_objArray",
-	"_obj", "_opcom"];
+	"_obj", "_opcom", "_objectives"];
 _objName = [_this, 0, "", [""]] call BIS_fnc_param;
 _position = [_this, 1, [0,0], [[]], [2,3]] call BIS_fnc_param;
 _radius = [_this, 2, 100, [0]] call BIS_fnc_param;
@@ -33,27 +33,30 @@ _opcom = [_this, 7, false, [false]] call BIS_fnc_param;
 
 // Add objective to the manager.
 /* _objArray:
-		0 - position
-		1 - radius
-		2 - function
-		3 - params (captured)
-		4 - params (lost)
-		5 - status
-		6 - bound object */
-_objArray = [_position, _radius, _function, _paramsCapture, _paramsLost, "enemy", _obj];
-[[INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet, _objName, _objArray] call CBA_fnc_hashSet;
-([INT_server_objectiveMgr, "objectiveList"] call CBA_fnc_hashGet) pushBack _objName;
+		0 - name
+		1 - position
+		2 - radius
+		3 - function
+		4 - params (captured)
+		5 - params (lost)
+		6 - status
+		7 - bound object */
+_objArray = [_objName, _position, _radius, _function, _paramsCapture, _paramsLost, 0, _obj];
+_objectives = [INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+if (!isNil "_objectives") then {
+	_objectives pushBack _objArray;
 
-if (_opcom) then {
-	[objNull, [("obj_" + _objName), _position, _radius, "MIL", 0]] call INT_fnc_addOpcomObjective;
-};
+	if (_opcom) then {
+		[objNull, [("obj_" + _objName), _position, _radius, "MIL", 0]] call INT_fnc_addOpcomObjective;
+	};
 
-if (DEBUG) then {
-	private ["_marker"];
-	_marker = createMarker [_objName, _position];
-	_marker setMarkerShape "ELLIPSE";
-	_marker setMarkerSize [_radius, _radius];
-	_marker setMarkerColor "ColorEAST";
+	if (DEBUG) then {
+		private ["_marker"];
+		_marker = createMarker [_objName, _position];
+		_marker setMarkerShape "ELLIPSE";
+		_marker setMarkerSize [_radius, _radius];
+		_marker setMarkerColor "ColorEAST";
+	};
 };
 
 nil;

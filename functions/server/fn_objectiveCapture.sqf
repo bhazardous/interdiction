@@ -14,28 +14,29 @@ scriptName "fn_objectiveCapture";
 */
 #define SLEEP_TIME 2
 #define LOOPS 10
+#define STATUS_ENEMY		0
+#define STATUS_FRIENDLY		1
+#define STATUS_CONTESTED	2
+#define STATUS_DESTROYED	3
 
 private ["_objectiveName", "_objective", "_side", "_loop", "_success", "_friendlies", "_enemies"];
 _objectiveName = _this select 0;
-_objective = [[INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet, _objectiveName] call CBA_fnc_hashGet;
+_objective = ["getObjective", [_objectiveName]] call INT_fnc_objectiveManager;
 _side = _this select 1;
 _loop = 0;
 _success = true;
 
 // Objective is now contested.
-_objective set [5, "contested"];
-if (getMarkerColor _objectiveName != "") then {
-	_objectiveName setMarkerColor "ColorBlack";
-};
+["setState", [_objectiveName, STATUS_CONTESTED]] call INT_fnc_objectiveManager;
 
 while {_loop < LOOPS} do {
 	// Friendly presence?
-	_friendlies = [INT_server_side_blufor, _objective select 0, _objective select 1] call INT_fnc_checkPresence;
+	_friendlies = [INT_server_side_blufor, _objective select 1, _objective select 2] call INT_fnc_checkPresence;
 
 	// Enemy presence?
-	_enemies = [INT_server_side_opfor, _objective select 0, _objective select 1] call INT_fnc_checkPresence;
+	_enemies = [INT_server_side_opfor, _objective select 1, _objective select 2] call INT_fnc_checkPresence;
 	if (!_enemies) then {
-		_enemies = [INT_server_side_indfor, _objective select 0, _objective select 1] call INT_fnc_checkPresence;
+		_enemies = [INT_server_side_indfor, _objective select 1, _objective select 2] call INT_fnc_checkPresence;
 	};
 
 	if (_side) then {
@@ -60,10 +61,10 @@ while {_loop < LOOPS} do {
 if (_success) then {
 	if (_side) then {
 		// Objective switched from enemy to friendly.
-		_objective set [5, "friendly"];
+		["setState", [_objectiveName, STATUS_FRIENDLY]] call INT_fnc_objectiveManager;
 	} else {
 		// Objective switched from friendly enemy.
-		_objective set [5, "enemy"];
+		["setState", [_objectiveName, STATUS_ENEMY]] call INT_fnc_objectiveManager;
 	};
 
 	// Call function attached to objective.
@@ -71,17 +72,10 @@ if (_success) then {
 } else {
 	if (_side) then {
 		// Contest failed, objective remains enemy.
-		_objective set [5, "enemy"];
+		["setState", [_objectiveName, STATUS_ENEMY]] call INT_fnc_objectiveManager;
 	} else {
 		// Contest failed, objective remains friendly
-		_objective set [5, "friendly"];
-	};
-};
-
-if (getMarkerColor _objectiveName != "") then {
-	switch (_objective select 5) do {
-		case "friendly": { _objectiveName setMarkerColor "ColorWEST";};
-		case "enemy": {_objectiveName setMarkerColor "ColorEAST";};
+		["setState", [_objectiveName, STATUS_FRIENDLY]] call INT_fnc_objectiveManager;
 	};
 };
 

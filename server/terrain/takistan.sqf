@@ -124,3 +124,5 @@ INT_module_alive_opfor_civ setVariable ["sizeFilter", "225"];
 INT_module_alive_opfor_mil setVariable ["sizeFilter", "100"];
 INT_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 INT_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
+
+INT_server_objectivesLoaded = true;
