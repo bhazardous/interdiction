@@ -19,22 +19,22 @@ if (isDedicated) then {
 		INT_server_persistence = true;
 
 		// Enable persistence related options for all modules.
-		INT_module_alive_data setVariable ["saveDateTime", "true"];
-		INT_module_alive_profile setVariable ["persistent", "true"];
-		INT_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true"];
-		INT_module_alive_playerOptions setVariable ["saveLoadout", "true"];
-		INT_module_alive_playerOptions setVariable ["saveAmmo", "true"];
-		INT_module_alive_playerOptions setVariable ["saveHealth", "true"];
-		INT_module_alive_playerOptions setVariable ["savePosition", "true"];
-		INT_module_alive_playerOptions setVariable ["saveScores", "true"];
-		INT_module_alive_playerOptions setVariable ["storeToDB", "true"];
-		INT_module_alive_blufor_opcom setVariable ["persistent", "true"];
-		INT_module_alive_opfor_opcom setVariable ["persistent", "true"];
-		INT_module_alive_indfor_opcom setVariable ["persistent", "true"];
-		INT_module_alive_blufor_logistics setVariable ["persistent", "true"];
-		INT_module_alive_indfor_logistics setVariable ["persistent", "true"];
-		INT_module_alive_opfor_cqb_mil setVariable ["CQB_persistent", "true"];
-		INT_module_alive_opfor_cqb_civ setVariable ["CQB_persistent", "true"];
+		INT_module_alive_data setVariable ["saveDateTime", "true", true];
+		INT_module_alive_profile setVariable ["persistent", "true", true];
+		INT_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true", true];
+		INT_module_alive_playerOptions setVariable ["saveLoadout", "true", true];
+		INT_module_alive_playerOptions setVariable ["saveAmmo", "true", true];
+		INT_module_alive_playerOptions setVariable ["saveHealth", "true", true];
+		INT_module_alive_playerOptions setVariable ["savePosition", "true", true];
+		INT_module_alive_playerOptions setVariable ["saveScores", "true", true];
+		INT_module_alive_playerOptions setVariable ["storeToDB", "true", true];
+		INT_module_alive_blufor_opcom setVariable ["persistent", "true", true];
+		INT_module_alive_opfor_opcom setVariable ["persistent", "true", true];
+		INT_module_alive_indfor_opcom setVariable ["persistent", "true", true];
+		INT_module_alive_blufor_logistics setVariable ["persistent", "true", true];
+		INT_module_alive_indfor_logistics setVariable ["persistent", "true", true];
+		INT_module_alive_opfor_cqb_mil setVariable ["CQB_persistent", "true", true];
+		INT_module_alive_opfor_cqb_civ setVariable ["CQB_persistent", "true", true];
 	} else {
 		INT_server_persistence = false;
 	};
@@ -94,12 +94,12 @@ if (!_indepEastAllies) then {
 };
 
 // Set up module factions.
-INT_module_alive_blufor_opcom setVariable ["factions", [INT_server_faction_blufor]];
-INT_module_alive_opfor_opcom setVariable ["factions", [INT_server_faction_opfor]];
-INT_module_alive_indfor_opcom setVariable ["factions", [INT_server_faction_indfor]];
-INT_module_alive_opfor_mil setVariable ["faction", INT_server_faction_opfor];
-INT_module_alive_opfor_civ setVariable ["faction", INT_server_faction_opfor];
-INT_module_alive_indfor_mil setVariable ["faction", INT_server_faction_indfor];
+INT_module_alive_blufor_opcom setVariable ["factions", [INT_server_faction_blufor], true];
+INT_module_alive_opfor_opcom setVariable ["factions", [INT_server_faction_opfor], true];
+INT_module_alive_indfor_opcom setVariable ["factions", [INT_server_faction_indfor], true];
+INT_module_alive_opfor_mil setVariable ["faction", INT_server_faction_opfor, true];
+INT_module_alive_opfor_civ setVariable ["faction", INT_server_faction_opfor, true];
+INT_module_alive_indfor_mil setVariable ["faction", INT_server_faction_indfor, true];
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_FACTIONS", INT_server_faction_opfor, true];
 INT_module_alive_opfor_cqb_civ setVariable ["CQB_FACTIONS", INT_server_faction_opfor, true];
 
@@ -127,13 +127,13 @@ INT_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality, t
 INT_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality, true];
 
 // BLUFOR logistics.
-INT_module_alive_blufor_logistics setVariable ["forcePool", "0"];
+INT_module_alive_blufor_logistics setVariable ["forcePool", "0", true];
 
 // Weather.
-INT_module_alive_weather setVariable ["weather_override_setting", paramsArray select 1];
+INT_module_alive_weather setVariable ["weather_override_setting", paramsArray select 1, true];
 
 // OPCOM.
-INT_module_alive_blufor_opcom setVariable ["reinforcements", "0"];
+INT_module_alive_blufor_opcom setVariable ["reinforcements", "0", true];
 
 // Workaround for OPCOM divide by zero error.
 [] spawn {
