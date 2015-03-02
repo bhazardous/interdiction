@@ -37,13 +37,14 @@ waitUntil {!isNil "INT_global_campExists"};
 	[[], {INT_global_campExists;}]] call ALiVE_fnc_establishingShotCustom;
 
 // Unlock player.
+["respawning"] call BIS_fnc_blackOut;
 player setCaptive false;
 player enableSimulation true;
 player hideObject false;
 1 fadeSound 1;
 
 // Force respawn.
-sleep 0.5;
+sleep 2;
 [player] call INT_fnc_respawn;
 
 // Add player to the playerList again.

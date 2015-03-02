@@ -13,7 +13,7 @@ scriptName "clientInit";
 	0 fadeMusic 0;
 	0 fadeRadio 0;
 
-	["missionStart", true] call BIS_fnc_blackOut;
+	["missionStart", false] call BIS_fnc_blackOut;
 	waitUntil {!isNil "INT_global_unit_override"};
 	waitUntil {!isNull player};
 	waitUntil {time > 0};
