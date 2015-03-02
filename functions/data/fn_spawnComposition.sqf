@@ -60,7 +60,7 @@ if (count _composition == 0) exitWith {
 
 	// Other.
 	if (!_fort) then {
-		_object enableSimulation false;
+		// _object enableSimulation false;
 		_object allowDamage false;
 	};
 
