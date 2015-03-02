@@ -16,18 +16,18 @@ if (!isServer) exitWith {nil;};
 
 if (isDedicated) then {
 	if (paramsArray select 6 == 1) then {
-		INT_server_persistence = true;
+		INT_global_persistence = true;
 
 		// Enable persistence related options for all modules.
 		INT_module_alive_data setVariable ["saveDateTime", "true", true];
 		INT_module_alive_profile setVariable ["persistent", "true", true];
-		INT_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true", true];
-		INT_module_alive_playerOptions setVariable ["saveLoadout", "true", true];
-		INT_module_alive_playerOptions setVariable ["saveAmmo", "true", true];
-		INT_module_alive_playerOptions setVariable ["saveHealth", "true", true];
-		INT_module_alive_playerOptions setVariable ["savePosition", "true", true];
-		INT_module_alive_playerOptions setVariable ["saveScores", "true", true];
-		INT_module_alive_playerOptions setVariable ["storeToDB", "true", true];
+		INT_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true"];
+		INT_module_alive_playerOptions setVariable ["saveLoadout", "true"];
+		INT_module_alive_playerOptions setVariable ["saveAmmo", "true"];
+		INT_module_alive_playerOptions setVariable ["saveHealth", "true"];
+		INT_module_alive_playerOptions setVariable ["savePosition", "true"];
+		INT_module_alive_playerOptions setVariable ["saveScores", "true"];
+		INT_module_alive_playerOptions setVariable ["storeToDB", "true"];
 		INT_module_alive_blufor_opcom setVariable ["persistent", "true", true];
 		INT_module_alive_opfor_opcom setVariable ["persistent", "true", true];
 		INT_module_alive_indfor_opcom setVariable ["persistent", "true", true];
@@ -36,11 +36,13 @@ if (isDedicated) then {
 		INT_module_alive_opfor_cqb_mil setVariable ["CQB_persistent", "true", true];
 		INT_module_alive_opfor_cqb_civ setVariable ["CQB_persistent", "true", true];
 	} else {
-		INT_server_persistence = false;
+		INT_global_persistence = false;
 	};
 } else {
-	INT_server_persistence = false;
+	INT_global_persistence = false;
 };
+
+publicVariable "INT_global_persistence";
 
 // Factions.
 private ["_indepEastAllies"];

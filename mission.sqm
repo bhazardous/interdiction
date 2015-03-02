@@ -1561,7 +1561,7 @@ class Mission
 					rank="SERGEANT";
 					skill=0.60000002;
 					text="INT_unit_player1";
-					init="[] call INT_fnc_preInitServer;";
+					init="[] call INT_fnc_preInitServer; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf"";";
 				};
 			};
 		};

@@ -14,6 +14,14 @@ scriptName "fn_spectate";
 
 if (!hasInterface) exitWith {nil;};
 
+if (isNil "INT_local_spectating") then {
+	INT_local_spectating = false;
+};
+
+// Allow only one instance.
+if (INT_local_spectating) exitWith {nil;};
+INT_local_spectating = true;
+
 // Disable player.
 player setCaptive true;
 player enableSimulation false;
@@ -29,13 +37,14 @@ waitUntil {!isNil "INT_global_campExists"};
 	[[], {INT_global_campExists;}]] call ALiVE_fnc_establishingShotCustom;
 
 // Unlock player.
+["respawning"] call BIS_fnc_blackOut;
 player setCaptive false;
 player enableSimulation true;
 player hideObject false;
 1 fadeSound 1;
 
 // Force respawn.
-sleep 0.5;
+sleep 2;
 [player] call INT_fnc_respawn;
 
 // Add player to the playerList again.
@@ -43,5 +52,7 @@ if (!(player in INT_global_playerList)) then {
 	INT_global_playerList pushBack player;
 	publicVariable "INT_global_playerList";
 };
+
+INT_local_spectating = false;
 
 nil;

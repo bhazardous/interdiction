@@ -10,7 +10,7 @@ scriptName "serverInit";
 
 // If using persistence, determine if this is a new game or loading from DB.
 INT_server_newGame = true;
-if (INT_server_persistence) then {
+if (INT_global_persistence) then {
 	waitUntil {!isNil "ALiVE_sys_data_dictionaryLoaded"};
 	if (ALiVE_sys_data_dictionaryLoaded) then {
 		INT_server_newGame = false;
