@@ -49,6 +49,7 @@ class CfgFunctions
 			class getComposition {};
 			class moveComposition {};
 			class spawnComposition {};
+			class simulateComposition {};
 			class rotateRelative {};
 			class getRealTurrets {};
 			class insideMarkers {};

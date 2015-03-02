@@ -110,6 +110,7 @@ if (INT_global_buildingEnabled) then {
 	// Keep ALiVE logitstics enabled for fortifications.
 	if (!_fort) then {
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
+		[[_building, false], "INT_fnc_simulateComposition"] call BIS_fnc_MP;
 	} else {
 		[INT_module_alive_required, "updateObject", _building] call ALiVE_fnc_logistics;
 	};
