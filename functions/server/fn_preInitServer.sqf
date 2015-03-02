@@ -66,6 +66,7 @@ switch (paramsArray select 3) do {
 		INT_server_spawn_sea = ["B_Boat_Transport_01_F"];
 		INT_server_spawn_land = ["B_G_Offroad_01_F","B_G_Van_01_transport_F"];
 		INT_server_spawn_capacity = [[5],[6,13]];
+		INT_server_ammoCrate = "Box_East_Wps_F";
 	};
 	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
 		// Factions, sides.
@@ -85,6 +86,7 @@ switch (paramsArray select 3) do {
 		INT_server_spawn_sea = ["B_Boat_Transport_01_F"];
 		INT_server_spawn_land = ["RHS_Ural_MSV_01","RHS_Ural_Civ_01","RHS_Ural_Open_Civ_01","RHS_Ural_Civ_03","RHS_Ural_Open_Civ_03","RHS_Ural_Civ_02","RHS_Ural_Open_Civ_02"];
 		INT_server_spawn_capacity = [[5],[15,15,15,15,15,15,15]];
+		INT_server_ammoCrate = "rhs_weapons_crate_ak_standard";
 	};
 };
 publicVariable "INT_global_unit_override";
