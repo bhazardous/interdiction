@@ -13,7 +13,7 @@ scriptName "fn_joinRequest";
 	nil
 */
 
-private ["_player", "_class", "_capacity"];
+private ["_player", "_class"];
 _player = _this select 0;
 
 if (isNil "INT_global_playerList") then {
@@ -34,26 +34,26 @@ if (INT_server_vehicleRoom == 0) then {
 	waitUntil {!isNil "INT_server_spawn_type"};
 	if (INT_server_spawn_type == 1) then {
 		_class = INT_server_spawn_sea;
-		_capacity = INT_server_spawn_capacity select 0;
+		INT_server_vehicleCapacity = INT_server_spawn_capacity select 0;
 	} else {
 		_class = INT_server_spawn_land;
-		_capacity = INT_server_spawn_capacity select 1;
+		INT_server_vehicleCapacity = INT_server_spawn_capacity select 1;
 	};
 
 	if (count _class > 1) then {
 		private ["_random"];
 		_random = floor (random (count _class));
 		_class = _class select _random;
-		_capacity = _capacity select _random;
+		INT_server_vehicleCapacity = INT_server_vehicleCapacity select _random;
 	} else {
 		_class = _class select 0;
-		_capacity = _capacity select 0;
+		INT_server_vehicleCapacity = INT_server_vehicleCapacity select 0;
 	};
 	INT_server_startVehicle = _class createVehicle INT_server_startPosition;
-	INT_server_vehicleRoom = _capacity;
+	INT_server_vehicleRoom = INT_server_vehicleCapacity;
 };
 
-if (INT_server_vehicleRoom == _capacity) then {
+if (INT_server_vehicleRoom == INT_server_vehicleCapacity) then {
 	// Driver slot.
 	[[INT_server_startVehicle, true], "INT_fnc_joinResponse", _player] call BIS_fnc_MP;
 } else {
