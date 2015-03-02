@@ -36,6 +36,9 @@ _unit addBackpack "B_Carryall_ocamo";
 clearAllItemsFromBackpack _unit;
 
 // Add magazines that were loaded first.
+private ["_playerAmmo"];
+
+_playerAmmo = INT_local_playerAmmo;
 {
     // If magazine is loaded.
     if (_x select 2) then {
@@ -45,10 +48,10 @@ clearAllItemsFromBackpack _unit;
             _unit addMagazine [_x select 0, _x select 1];
 
             // Wipe this mag from the array.
-            INT_local_playerAmmo = INT_local_playerAmmo - [_x];
+            _playerAmmo = _playerAmmo - [_x];
         };
     };
-} forEach INT_local_playerAmmo;
+} forEach _playerAmmo;
 
 // Add weapons.
 {_unit addWeapon _x} forEach INT_local_playerWeapons;
@@ -81,7 +84,7 @@ _otherMags = [];
     INT_local_playerUniformItems = INT_local_playerUniformItems - [_x select 0];
     INT_local_playerVestItems = INT_local_playerVestItems - [_x select 0];
     INT_local_playerBackpackItems = INT_local_playerBackpackItems - [_x select 0];
-} forEach INT_local_playerAmmo;
+} forEach _playerAmmo;
 
 // What we're left with now are arrays full of items.
 // These need to be added first, or the uniform might fill with magazines and block them.
