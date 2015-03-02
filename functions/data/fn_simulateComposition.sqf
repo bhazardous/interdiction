@@ -16,7 +16,7 @@ scriptName "fn_simulateComposition";
 private ["_composition", "_enabled"];
 
 _composition = [_this, 0, [], [[]]] call BIS_fnc_param;
-_enabled = [_this, 0, true, [true]] call BIS_fnc_param;
+_enabled = [_this, 1, true, [true]] call BIS_fnc_param;
 
 {
 	_x enableSimulation _enabled;
