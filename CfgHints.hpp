@@ -146,7 +146,7 @@ class CfgHints
 		class BuildCamp
 		{
 			displayName = "Resistance Camp";
-			description = "A camp allows the resistance to stay organized; without it, new recruits won't be able to make contact.";
+			description = "A camp allows the resistance to stay organized; without it, new recruits won't be able to make contact.%1The camp comes with an empty ammo crate to store spare equipment.";
 			tip = "Unless you've gathered alot of strength, it's wise to be subtle. The enemy force is much larger than yours; if they discover your camp the resistance will be easily overpowered.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
 			class CampHint

@@ -110,7 +110,7 @@ if (INT_global_buildingEnabled) then {
 	// Keep ALiVE logitstics enabled for fortifications.
 	if (!_fort) then {
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
-		[[_building, false], "INT_fnc_simulateComposition"] call BIS_fnc_MP;
+		// [[_building, false], "INT_fnc_simulateComposition"] call BIS_fnc_MP;
 	} else {
 		[INT_module_alive_required, "updateObject", _building] call ALiVE_fnc_logistics;
 	};
@@ -118,7 +118,7 @@ if (INT_global_buildingEnabled) then {
 	// Building specific script.
 	switch (_type) do {
 		case "hq": {
-			private ["_campMarker"];
+			private ["_campMarker", "_crate", "_cratePos"];
 
 			// Camps available.
 			INT_global_campsAvailable = INT_global_campsAvailable - 1;
@@ -168,6 +168,19 @@ if (INT_global_buildingEnabled) then {
 					[["ResistanceMovement", "Interdiction", "FieldManual"]] call INT_fnc_broadcastHint;
 				};
 			};
+
+			// Spawn additional empty ammo crate.
+			_cratePos = [[0,6], _rot] call INT_fnc_rotateRelative;
+			_cratePos set [0, (_pos select 0) + (_cratePos select 0)];
+			_cratePos set [1, (_pos select 1) + (_cratePos select 1)];
+			_cratePos set [2, 0];
+			_crate = INT_server_ammoCrate createVehicle _cratePos;
+			_crate setPos _cratePos;
+			_crate setDir (random 360);
+			clearWeaponCargoGlobal _crate;
+			clearMagazineCargoGlobal _crate;
+			clearItemCargoGlobal _crate;
+			[INT_module_alive_required, "updateObject", _crate] call ALiVE_fnc_logistics;
 		};
 
 		case "service": {

@@ -35,7 +35,7 @@ if (_faction in INT_server_faction_enemy) then {
 		_value = 1;
 	};
 
-	if (isPlayer _killer) then {
+	if (faction _killer == INT_server_faction_blufor) then {
 		private ["_kills"];
 
 		_kills = INT_server_statData select 0;
