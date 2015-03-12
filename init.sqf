@@ -7,7 +7,7 @@ scriptName "init";
 --------------------------------------------------------------------*/
 #define __filename "init.sqf"
 
-INT_global_debugEnabled = true;
+ITD_global_debugEnabled = true;
 
 if (isServer) then {
 	execVM "server\serverInit.sqf";

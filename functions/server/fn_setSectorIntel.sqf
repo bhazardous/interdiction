@@ -34,13 +34,13 @@ waitUntil {!isNil {_args = [_gridJob, "args"] call ALiVE_fnc_hashGet; _args}};
 // Any value set during init would be overwritten.
 if (_override) exitWith {
 	waitUntil {(_args select 4 select 0)};
-	[_enabled] call INT_fnc_setSectorIntel;
+	[_enabled] call ITD_fnc_setSectorIntel;
 	nil;
 };
 
 // Set the new value.
 (_args select 4) set [0, _enabled];
-[INT_module_alive_intel, "intelChance", _intelChance] call ALiVE_fnc_MI;
+[ITD_module_alive_intel, "intelChance", _intelChance] call ALiVE_fnc_MI;
 
 if (!_enabled) then {
 	waitUntil {!isNil "ALIVE_sectorPlotterEntities"};

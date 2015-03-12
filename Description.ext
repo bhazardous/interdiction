@@ -15,7 +15,7 @@ class Header
 
 respawn = 3;
 respawnDelay = 10;
-respawnTemplates[] = {"INT_Respawn"};
+respawnTemplates[] = {"ITD_Respawn"};
 
 enableDebugConsole = 2;
 
@@ -29,7 +29,7 @@ briefing = 0;
 
 class CfgFunctions
 {
-	class INT
+	class ITD
 	{
 		class actions
 		{
@@ -94,7 +94,7 @@ class Extended_Killed_EventHandlers
 {
 	class Man
 	{
-		serverKillEvent = "_this call INT_fnc_killedEvent";
+		serverKillEvent = "_this call ITD_fnc_killedEvent";
 	};
 };
 
@@ -153,10 +153,10 @@ class Params
 
 class CfgRespawnTemplates
 {
-	class INT_Respawn
+	class ITD_Respawn
 	{
-		onPlayerKilled = "INT_fnc_respawn";
-		onPlayerRespawn = "INT_fnc_respawn";
+		onPlayerKilled = "ITD_fnc_respawn";
+		onPlayerRespawn = "ITD_fnc_respawn";
 		respawnOnStart = 0;
 	};
 };

@@ -17,12 +17,12 @@ _ctrl = _this select 3;
 
 if (_ctrl) then {
 	// Abort.
-	INT_local_building_action = "abort";
-	INT_local_building = false;
+	ITD_local_building_action = "abort";
+	ITD_local_building = false;
 } else {
 	// Place.
-	INT_local_building_action = "build";
-	INT_local_building = false;
+	ITD_local_building_action = "build";
+	ITD_local_building = false;
 };
 
 nil;

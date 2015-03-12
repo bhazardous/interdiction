@@ -84,7 +84,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="INT_unit_testPlayer";
+					text="ITD_unit_testPlayer";
 				};
 			};
 		};
@@ -143,7 +143,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_required";
+					text="ITD_module_alive_required";
 				};
 			};
 		};
@@ -214,7 +214,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_profile";
+					text="ITD_module_alive_profile";
 				};
 			};
 		};
@@ -238,13 +238,13 @@ class Mission
 						};
 						class Item1
 						{
-							value="INT_mkr_taor";
+							value="ITD_mkr_taor";
 							parentCls="ALiVE_civ_placement";
 							typeName="taor";
 						};
 						class Item2
 						{
-							value="INT_mkr_indfor_taor";
+							value="ITD_mkr_indfor_taor";
 							parentCls="ALiVE_civ_placement";
 							typeName="blacklist";
 						};
@@ -339,7 +339,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_opfor_civ";
+					text="ITD_module_alive_opfor_civ";
 					syncId=0;
 					synchronizations[]={3,4,6};
 				};
@@ -365,13 +365,13 @@ class Mission
 						};
 						class Item1
 						{
-							value="INT_mkr_taor";
+							value="ITD_mkr_taor";
 							parentCls="ALiVE_mil_placement";
 							typeName="taor";
 						};
 						class Item2
 						{
-							value="INT_mkr_indfor_taor";
+							value="ITD_mkr_indfor_taor";
 							parentCls="ALiVE_mil_placement";
 							typeName="blacklist";
 						};
@@ -484,7 +484,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_opfor_mil";
+					text="ITD_module_alive_opfor_mil";
 					syncId=1;
 					synchronizations[]={3,4,6};
 				};
@@ -582,7 +582,7 @@ class Mission
 						};
 						class Item13
 						{
-							value="INT_mkr_taor";
+							value="ITD_mkr_taor";
 							parentCls="ALiVE_mil_cqb";
 							typeName="whitelist";
 						};
@@ -599,7 +599,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_opfor_cqb_mil";
+					text="ITD_module_alive_opfor_cqb_mil";
 				};
 			};
 		};
@@ -695,7 +695,7 @@ class Mission
 						};
 						class Item13
 						{
-							value="INT_mkr_taor";
+							value="ITD_mkr_taor";
 							parentCls="ALiVE_mil_cqb";
 							typeName="whitelist";
 						};
@@ -712,7 +712,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_opfor_cqb_civ";
+					text="ITD_module_alive_opfor_cqb_civ";
 				};
 			};
 		};
@@ -736,7 +736,7 @@ class Mission
 						};
 						class Item1
 						{
-							value="INT_mkr_indfor_taor";
+							value="ITD_mkr_indfor_taor";
 							parentCls="ALiVE_mil_placement";
 							typeName="taor";
 						};
@@ -855,7 +855,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_indfor_mil";
+					text="ITD_module_alive_indfor_mil";
 					syncId=2;
 					synchronizations[]={3,4,6};
 				};
@@ -934,7 +934,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_opfor_opcom";
+					text="ITD_module_alive_opfor_opcom";
 					syncId=3;
 					synchronizations[]={0,1,2};
 				};
@@ -1013,7 +1013,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_indfor_opcom";
+					text="ITD_module_alive_indfor_opcom";
 					syncId=4;
 					synchronizations[]={0,1,2,5};
 				};
@@ -1248,7 +1248,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_playerOptions";
+					text="ITD_module_alive_playerOptions";
 				};
 			};
 		};
@@ -1307,7 +1307,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_weather";
+					text="ITD_module_alive_weather";
 				};
 			};
 		};
@@ -1331,7 +1331,7 @@ class Mission
 						};
 						class Item1
 						{
-							value="INT_mkr_taor";
+							value="ITD_mkr_taor";
 							parentCls="ALiVE_amb_civ_placement";
 							typeName="taor";
 						};
@@ -1536,7 +1536,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_indfor_logistics";
+					text="ITD_module_alive_indfor_logistics";
 					syncId=5;
 					synchronizations[]={4};
 				};
@@ -1560,8 +1560,8 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="INT_unit_player1";
-					init="[] call INT_fnc_preInitServer; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf"";";
+					text="ITD_unit_player1";
+					init="[] call ITD_fnc_preInitServer; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf"";";
 				};
 			};
 		};
@@ -1583,7 +1583,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="INT_unit_player2";
+					text="ITD_unit_player2";
 				};
 			};
 		};
@@ -1605,7 +1605,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="INT_unit_player3";
+					text="ITD_unit_player3";
 				};
 			};
 		};
@@ -1627,7 +1627,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="INT_unit_player4";
+					text="ITD_unit_player4";
 				};
 			};
 		};
@@ -1649,7 +1649,7 @@ class Mission
 					leader=1;
 					rank="SERGEANT";
 					skill=0.60000002;
-					text="INT_unit_player5";
+					text="ITD_unit_player5";
 				};
 			};
 		};
@@ -1726,7 +1726,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_blufor_opcom";
+					text="ITD_module_alive_blufor_opcom";
 					syncId=6;
 					synchronizations[]={2,1,0,7};
 				};
@@ -1811,7 +1811,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_blufor_logistics";
+					text="ITD_module_alive_blufor_logistics";
 					syncId=7;
 					synchronizations[]={6};
 				};
@@ -1962,7 +1962,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_intel";
+					text="ITD_module_alive_intel";
 					init="this setVariable [""intelChance"", ""0.0""];";
 				};
 			};
@@ -2086,7 +2086,7 @@ class Mission
 					leader=1;
 					lock="UNLOCKED";
 					skill=0.60000002;
-					text="INT_module_alive_data";
+					text="ITD_module_alive_data";
 				};
 			};
 		};
@@ -2101,7 +2101,7 @@ class Mission
 			side="EMPTY";
 			vehicle="Land_HelipadEmpty_F";
 			skill=0.60000002;
-			text="INT_unit_invisibleMan";
+			text="ITD_unit_invisibleMan";
 		};
 	};
 };

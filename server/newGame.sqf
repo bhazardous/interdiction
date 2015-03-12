@@ -12,14 +12,14 @@ scriptName "newGame";
 call compile preprocessFileLineNumbers "server\playerStart.sqf";
 
 // Mission variables and other misc stuff.
-PUBLIC(INT_global_crewAvailable,0);		// Number of support crew (groups) available.
-PUBLIC(INT_global_campsAvailable,1);	// Number of camps that can be constructed.
-PUBLIC(INT_global_tech1,false);			// Tech tier 1.
+PUBLIC(ITD_global_crewAvailable,0);		// Number of support crew (groups) available.
+PUBLIC(ITD_global_campsAvailable,1);	// Number of camps that can be constructed.
+PUBLIC(ITD_global_tech1,false);			// Tech tier 1.
 
-PUBLIC(INT_global_campExists,false);	// A resistance HQ exists.
-PUBLIC(INT_global_camps,[]);			// List of camp positions.
-PUBLIC(INT_global_servicePoints,[]);	// List of service point buildings.
-PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
+PUBLIC(ITD_global_campExists,false);	// A resistance HQ exists.
+PUBLIC(ITD_global_camps,[]);			// List of camp positions.
+PUBLIC(ITD_global_servicePoints,[]);	// List of service point buildings.
+PUBLIC(ITD_global_recruitmentTents,[]);	// List of recruitment tents.
 
 [paramsArray select 2] call BIS_fnc_paramDaytime;
 
@@ -31,20 +31,20 @@ PUBLIC(INT_global_recruitmentTents,[]);	// List of recruitment tents.
 private ["_camps"];
 
 waitUntil {!isNil "ALiVE_globalForcePool"};
-INT_server_persistentData = [];
+ITD_server_persistentData = [];
 
-INT_server_persistentData set [0, [0,0,0,0,1,false]];
-INT_server_persistentData set [1, [[],[]]];
-INT_server_persistentData set [2, []];
+ITD_server_persistentData set [0, [0,0,0,0,1,false]];
+ITD_server_persistentData set [1, [[],[]]];
+ITD_server_persistentData set [2, []];
 
-[] call INT_fnc_updatePersistence;
+[] call ITD_fnc_updatePersistence;
 
 // Reference vars directly to persistent data.
-INT_server_statData = INT_server_persistentData select 0;
-_camps = INT_server_persistentData select 1;
-INT_server_campData = _camps select 0;
-INT_server_servicePointData = _camps select 1;
-INT_server_persistentObjectives = INT_server_persistentData select 2;
+ITD_server_statData = ITD_server_persistentData select 0;
+_camps = ITD_server_persistentData select 1;
+ITD_server_campData = _camps select 0;
+ITD_server_servicePointData = _camps select 1;
+ITD_server_persistentObjectives = ITD_server_persistentData select 2;
 
 // Start the objective manager.
-["manage"] spawn INT_fnc_objectiveManager;
+["manage"] spawn ITD_fnc_objectiveManager;

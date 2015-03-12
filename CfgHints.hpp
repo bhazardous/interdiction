@@ -167,8 +167,8 @@ class CfgHints
 				description = "A camp has been established at %3%11%4 by %3%12%4.%1%2You can respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
 				tip = "The camp has been marked on your map.";
 				arguments[] = {
-					"INT_global_lastCampGrid",
-					"INT_global_campBuiltBy"
+					"ITD_global_lastCampGrid",
+					"ITD_global_campBuiltBy"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
 			};
@@ -178,8 +178,8 @@ class CfgHints
 				description = "Another resistance camp has been established at %3%11%4 by %3%12%4.";
 				tip = "The new camp has been marked on your map.";
 				arguments[] = {
-					"INT_global_lastCampGrid",
-					"Int_global_campBuiltBy"
+					"ITD_global_lastCampGrid",
+					"ITD_global_campBuiltBy"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
 			};
@@ -232,8 +232,8 @@ class CfgHints
 				displayName = "Vehicle Repair";
 				description = "%11 requires %12 spare parts for a complete repair.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -242,9 +242,9 @@ class CfgHints
 				displayName = "Vehicle Repair";
 				description = "%11 requires %12 military parts and %13 spare parts for a complete repair.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_militaryUsed",
-					"INT_local_partsUsed"
+					"ITD_local_serviceType",
+					"ITD_local_militaryUsed",
+					"ITD_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -253,7 +253,7 @@ class CfgHints
 				displayName = "Vehicle Repair";
 				description = "%11 doesn't require any repairs.";
 				arguments[] = {
-					"INT_local_serviceType"
+					"ITD_local_serviceType"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -262,8 +262,8 @@ class CfgHints
 				displayName = "Vehicle Repaired";
 				description = "%11 has been repaired using %12 spare parts.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -272,9 +272,9 @@ class CfgHints
 				displayName = "Vehicle Repaired";
 				description = "%11 has been repaired using %12 spare parts and %13 military parts.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed",
-					"INT_local_militaryUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed",
+					"ITD_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -283,8 +283,8 @@ class CfgHints
 				displayName = "Vehicle Repaired";
 				description = "%11 has been partially repaired using %12 spare parts. The service point has no more parts remaining.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -293,8 +293,8 @@ class CfgHints
 				displayName = "Vehicle Repaired";
 				description = "%11 has been partially repaired using %12 military parts, you need more military parts before continuing repairs.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_militaryUsed"
+					"ITD_local_serviceType",
+					"ITD_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -303,7 +303,7 @@ class CfgHints
 				displayName = "Vehicle Repair";
 				description = "Repairs on %11 cannot be started without spare parts.";
 				arguments[] = {
-					"INT_local_serviceType"
+					"ITD_local_serviceType"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -312,7 +312,7 @@ class CfgHints
 				displayName = "Vehicle Repair";
 				description = "Repairs on %11 cannot be started without military parts.";
 				arguments[] = {
-					"INT_local_serviceType"
+					"ITD_local_serviceType"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -321,9 +321,9 @@ class CfgHints
 				displayName = "Vehicle Repaired";
 				description = "%11 has been partially repaired using %12 military parts and %13 parts, you need more parts to continue repairs.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_militaryUsed",
-					"INT_local_partsUsed"
+					"ITD_local_serviceType",
+					"ITD_local_militaryUsed",
+					"ITD_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -332,8 +332,8 @@ class CfgHints
 				displayName = "Vehicle Refuelled";
 				description = "%11 has been refuelled using %12 fuel.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_fuelUsed"
+					"ITD_local_serviceType",
+					"ITD_local_fuelUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -342,8 +342,8 @@ class CfgHints
 				displayName = "Vehicle Refuelled";
 				description = "%11 has been partially refuelled using %12 fuel. The service point is out of fuel.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_fuelUsed"
+					"ITD_local_serviceType",
+					"ITD_local_fuelUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -352,8 +352,8 @@ class CfgHints
 				displayName = "Fuel Siphoned";
 				description = "%11 fuel has been siphoned from %12.";
 				arguments[] = {
-					"INT_local_fuelUsed",
-					"INT_local_serviceType"
+					"ITD_local_fuelUsed",
+					"ITD_local_serviceType"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -362,7 +362,7 @@ class CfgHints
 				displayName = "Fuel Siphoned";
 				description = "No fuel was siphoned from %11, the tank is alread empty.";
 				arguments[] = {
-					"INT_local_serviceType"
+					"ITD_local_serviceType"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -371,8 +371,8 @@ class CfgHints
 				displayName = "Vehicle Stripped";
 				description = "%11 was stripped down for %12 parts.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -381,9 +381,9 @@ class CfgHints
 				displayName = "Vehicle Stripped";
 				description = "%11 was stripped down for %12 parts and %13 fuel.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed",
-					"INT_local_fuelUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed",
+					"ITD_local_fuelUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -392,9 +392,9 @@ class CfgHints
 				displayName = "Vehicle Stripped";
 				description = "%11 was stripped down for %12 parts and %13 military parts.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed",
-					"INT_local_militaryUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed",
+					"ITD_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -403,10 +403,10 @@ class CfgHints
 				displayName = "Vehicle Stripped";
 				description = "%11 was stripped down for %12 parts, %14 military parts and %13 fuel.";
 				arguments[] = {
-					"INT_local_serviceType",
-					"INT_local_partsUsed",
-					"INT_local_fuelUsed",
-					"INT_local_militaryUsed"
+					"ITD_local_serviceType",
+					"ITD_local_partsUsed",
+					"ITD_local_fuelUsed",
+					"ITD_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};
@@ -430,9 +430,9 @@ class CfgHints
 				displayName = "Service Point";
 				description = "%3Fuel%4: %11%1%3Spare parts%4: %12%1%3Military parts%4: %13";
 				arguments[] = {
-					"INT_local_fuelUsed",
-					"INT_local_partsUsed",
-					"INT_local_militaryUsed"
+					"ITD_local_fuelUsed",
+					"ITD_local_partsUsed",
+					"ITD_local_militaryUsed"
 				};
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
 			};

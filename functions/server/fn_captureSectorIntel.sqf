@@ -15,24 +15,24 @@ scriptName "fn_captureSectorIntel";
 private ["_captured"];
 _captured = _this select 0;
 
-if (isNil "INT_server_sectorIntel") then {
-	INT_server_sectorIntel = false;
-	INT_server_sectorIntelCount = 0;
+if (isNil "ITD_server_sectorIntel") then {
+	ITD_server_sectorIntel = false;
+	ITD_server_sectorIntelCount = 0;
 };
 
 if (_captured) then {
-	INT_server_sectorIntelCount = INT_server_sectorIntelCount + 1;
-	if (!INT_server_sectorIntel) then {
-		INT_server_sectorIntel = true;
-		[INT_server_sectorIntel] call INT_fnc_setSectorIntel;
+	ITD_server_sectorIntelCount = ITD_server_sectorIntelCount + 1;
+	if (!ITD_server_sectorIntel) then {
+		ITD_server_sectorIntel = true;
+		[ITD_server_sectorIntel] call ITD_fnc_setSectorIntel;
 	};
 } else {
-	if (INT_server_sectorIntelCount > 0) then {
-		INT_server_sectorIntelCount = INT_server_sectorIntelCount - 1;
+	if (ITD_server_sectorIntelCount > 0) then {
+		ITD_server_sectorIntelCount = ITD_server_sectorIntelCount - 1;
 	};
-	if (INT_server_sectorIntelCount == 0 && INT_server_sectorIntel) then {
-		INT_server_sectorIntel = false;
-		[INT_server_sectorIntel] call INT_fnc_setSectorIntel;
+	if (ITD_server_sectorIntelCount == 0 && ITD_server_sectorIntel) then {
+		ITD_server_sectorIntel = false;
+		[ITD_server_sectorIntel] call ITD_fnc_setSectorIntel;
 	};
 };
 

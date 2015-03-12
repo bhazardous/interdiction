@@ -24,24 +24,24 @@ _params = [_this, 1, [], [[]]] call BIS_fnc_param;
 
 switch (_action) do {
 		case "init": {
-				if (!isNil "INT_server_objectiveMgr") exitWith {_ret = false;};
+				if (!isNil "ITD_server_objectiveMgr") exitWith {_ret = false;};
 
 				// Create objectives hash.
-				INT_server_objectiveMgr = [] call CBA_fnc_hashCreate;
-				[INT_server_objectiveMgr, "objectives", []] call CBA_fnc_hashSet;
-				[INT_server_objectiveMgr, "status", "idle"] call CBA_fnc_hashSet;
+				ITD_server_objectiveMgr = [] call CBA_fnc_hashCreate;
+				[ITD_server_objectiveMgr, "objectives", []] call CBA_fnc_hashSet;
+				[ITD_server_objectiveMgr, "status", "idle"] call CBA_fnc_hashSet;
 				_ret = true;
 		};
 
 		case "manage": {
-				if ([INT_server_objectiveMgr, "status"] call CBA_fnc_hashGet != "idle") exitWith {_ret = false;};
-				[INT_server_objectiveMgr, "status", "running"] call CBA_fnc_hashSet;
+				if ([ITD_server_objectiveMgr, "status"] call CBA_fnc_hashGet != "idle") exitWith {_ret = false;};
+				[ITD_server_objectiveMgr, "status", "running"] call CBA_fnc_hashSet;
 
 				waitUntil {!isNil "ALiVE_profileHandler"};
 
 				private ["_quit", "_objectives"];
 				_quit = false;
-				_objectives = [INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
 
 				while {!_quit} do {
 					{
@@ -53,34 +53,34 @@ switch (_action) do {
 							// Remove object if attached buildings are destroyed.
 							if (count (_x select 7) > 0) then {
 								private ["_destroyed"];
-								_destroyed = [_x select 7, _x select 1] call INT_fnc_checkBuildings;
+								_destroyed = [_x select 7, _x select 1] call ITD_fnc_checkBuildings;
 								if (_destroyed) then {
-									["objectiveDestroyed", [_x select 0]] call INT_fnc_objectiveManager;
+									["objectiveDestroyed", [_x select 0]] call ITD_fnc_objectiveManager;
 								};
 							};
 
 							if (_x select 6 != STATUS_CONTESTED) then {
 								// Friendly presence?
-								_friendlies = [INT_server_side_blufor, _x select 1, _x select 2]
-									call INT_fnc_checkPresence;
+								_friendlies = [ITD_server_side_blufor, _x select 1, _x select 2]
+									call ITD_fnc_checkPresence;
 
 								// Enemy presence?
-								_enemies = [INT_server_side_opfor, _x select 1, _x select 2]
-									call INT_fnc_checkPresence;
+								_enemies = [ITD_server_side_opfor, _x select 1, _x select 2]
+									call ITD_fnc_checkPresence;
 								if (!_enemies) then {
-									_enemies = [INT_server_side_indfor, _x select 1, _x select 2]
-										call INT_fnc_checkPresence;
+									_enemies = [ITD_server_side_indfor, _x select 1, _x select 2]
+										call ITD_fnc_checkPresence;
 								};
 
 								switch (_x select 6) do {
 									case STATUS_ENEMY: {
 										if (_friendlies && !_enemies) then {
-											[_x select 0, true] spawn INT_fnc_objectiveCapture;
+											[_x select 0, true] spawn ITD_fnc_objectiveCapture;
 										};
 									};
 									case STATUS_FRIENDLY: {
 										if (!_friendlies && _enemies) then {
-											[_x select 0, false] spawn INT_fnc_objectiveCapture;
+											[_x select 0, false] spawn ITD_fnc_objectiveCapture;
 										};
 									};
 								};
@@ -91,7 +91,7 @@ switch (_action) do {
 					} forEach _objectives;
 					sleep SLEEP_TIME;
 
-					if ([INT_server_objectiveMgr, "status"] call CBA_fnc_hashGet == "exit") then {
+					if ([ITD_server_objectiveMgr, "status"] call CBA_fnc_hashGet == "exit") then {
 						_quit = true;
 					};
 				};
@@ -103,7 +103,7 @@ switch (_action) do {
 				private ["_friendly", "_objective"];
 
 				_friendly = _params select 1;
-				_objective = ["getObjective", _params] call INT_fnc_objectiveManager;
+				_objective = ["getObjective", _params] call ITD_fnc_objectiveManager;
 
 				if (count _objective > 0) then {
 					if (_friendly) then {
@@ -120,13 +120,13 @@ switch (_action) do {
 		case "objectiveDestroyed": {
 				private ["_obj"];
 
-				_obj = ["getObjective", _params] call INT_fnc_objectiveManager;
+				_obj = ["getObjective", _params] call ITD_fnc_objectiveManager;
 
 				// Objective is now held by nobody.
 				if (_obj select 6 == STATUS_FRIENDLY) then {
 					call compile format ["%1 call %2", _obj select 5, _obj select 3];
 				};
-				["setState", [_obj select 0, STATUS_DESTROYED]] call INT_fnc_objectiveManager;
+				["setState", [_obj select 0, STATUS_DESTROYED]] call ITD_fnc_objectiveManager;
 
 				_ret = true;
 		};
@@ -135,7 +135,7 @@ switch (_action) do {
 				private ["_objectives"];
 
 				_ret = [];
-				_objectives = [INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
 
 				{
 					if (_x select 0 == _params select 0) exitWith {
@@ -149,7 +149,7 @@ switch (_action) do {
 
 				_objectiveName = _params select 0;
 				_state = _params select 1;
-				_obj = ["getObjective", [_objectiveName]] call INT_fnc_objectiveManager;
+				_obj = ["getObjective", [_objectiveName]] call ITD_fnc_objectiveManager;
 				_obj set [6, _state];
 
 				// Update persistence.
@@ -164,15 +164,15 @@ switch (_action) do {
 								_success = true;
 							} else {
 								// Enemy held objectives don't need to be stored.
-								INT_server_persistentObjectives deleteAt _forEachIndex;
-								[] call INT_fnc_updatePersistence;
+								ITD_server_persistentObjectives deleteAt _forEachIndex;
+								[] call ITD_fnc_updatePersistence;
 							};
 						};
-					} forEach INT_server_persistentObjectives;
+					} forEach ITD_server_persistentObjectives;
 
 					if (!_success && {_state != STATUS_ENEMY}) then {
-						INT_server_persistentObjectives pushBack [_objectiveName, _state];
-						[] call INT_fnc_updatePersistence;
+						ITD_server_persistentObjectives pushBack [_objectiveName, _state];
+						[] call ITD_fnc_updatePersistence;
 					};
 				};
 
@@ -191,13 +191,13 @@ switch (_action) do {
 		case "forceDestroy": {
 				private ["_obj"];
 
-				_obj = ["getObjective", [_params select 0]] call INT_fnc_objectiveManager;
+				_obj = ["getObjective", [_params select 0]] call ITD_fnc_objectiveManager;
 
 				if (count _obj > 0) then {
 					private ["_position"];
 
 					_position = _obj select 1;
-					["objectiveDestroyed", [_params select 0]] call INT_fnc_objectiveManager;
+					["objectiveDestroyed", [_params select 0]] call ITD_fnc_objectiveManager;
 					{
 						private ["_building"];
 						_building = _position nearestObject _x;
@@ -209,8 +209,8 @@ switch (_action) do {
 		};
 
 		case "exit": {
-				if ([INT_server_objectiveMgr, "status"] call CBA_fnc_hashGet == "running") then {
-					[INT_server_objectiveMgr, "status", "exit"] call CBA_fnc_hashSet;
+				if ([ITD_server_objectiveMgr, "status"] call CBA_fnc_hashGet == "running") then {
+					[ITD_server_objectiveMgr, "status", "exit"] call CBA_fnc_hashSet;
 					_ret = true;
 				} else {
 					_ret = false;

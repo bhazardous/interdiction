@@ -9,43 +9,43 @@ scriptName "takistan";
 
 // TAOR markers.
 private ["_taorMarker"];
-_taorMarker = createMarkerLocal ["INT_mkr_taor", [6380.06,6398,0]];	// OPFOR. (entire terrain)
+_taorMarker = createMarkerLocal ["ITD_mkr_taor", [6380.06,6398,0]];	// OPFOR. (entire terrain)
 _taorMarker setMarkerShapeLocal "RECTANGLE";
 _taorMarker setMarkerSizeLocal [6500,6400];
 
-_taorMarker = createMarkerLocal ["INT_mkr_indfor_taor", [5733.1,11366.3,0]];	// INDFOR. (one area)
+_taorMarker = createMarkerLocal ["ITD_mkr_indfor_taor", [5733.1,11366.3,0]];	// INDFOR. (one area)
 _taorMarker setMarkerShapeLocal "RECTANGLE";
 _taorMarker setMarkerSizeLocal [300,700];
 _taorMarker setMarkerDirLocal 43;
 
 // OPFOR force size + HQ position.
-INT_module_alive_opfor_mil setVariable ["size", "600"];
-INT_module_alive_opfor_civ setVariable ["size", "1250"];
-INT_module_alive_opfor_mil setPosATL [1829.99,5612.28,0.00143862];
+ITD_module_alive_opfor_mil setVariable ["size", "600"];
+ITD_module_alive_opfor_civ setVariable ["size", "1250"];
+ITD_module_alive_opfor_mil setPosATL [1829.99,5612.28,0.00143862];
 
 // INDFOR size + HQ.
-INT_module_alive_indfor_mil setVariable ["size", "350"];
-INT_module_alive_indfor_mil setPosATL [5733.1,11366.3,0];
+ITD_module_alive_indfor_mil setVariable ["size", "350"];
+ITD_module_alive_indfor_mil setPosATL [5733.1,11366.3,0];
 
 // CQB settings.
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.1];	// Percentage.
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 500];	// Distance between spawns. 99999 = off.
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
-INT_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
-INT_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
+ITD_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.1];	// Percentage.
+ITD_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
+ITD_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 500];	// Distance between spawns. 99999 = off.
+ITD_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
+ITD_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
+ITD_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
 
 // Spawn type.
-INT_server_spawn_type = 0;
+ITD_server_spawn_type = 0;
 
 // Spawn markers.
-INT_server_spawn_markers = 0;
+ITD_server_spawn_markers = 0;
 {
 	private ["_marker"];
-	_marker = createMarkerLocal [format ["INT_mkr_spawn%1", INT_server_spawn_markers], _x select 0];
+	_marker = createMarkerLocal [format ["ITD_mkr_spawn%1", ITD_server_spawn_markers], _x select 0];
 	_marker setMarkerDirLocal (_x select 1);
 	_marker setMarkerSizeLocal (_x select 2);
-	INT_server_spawn_markers = INT_server_spawn_markers + 1;
+	ITD_server_spawn_markers = ITD_server_spawn_markers + 1;
 } forEach [
 	[[874.974,1528.12,0],330,[150,800]],
 	[[5992.6,158.157,0],0,[800,100]],
@@ -62,11 +62,11 @@ INT_server_spawn_markers = 0;
 ];
 
 // Location markers.
-INT_server_location_markers = [];
+ITD_server_location_markers = [];
 {
 	private ["_marker"];
-	_marker = createMarkerLocal [format ["INT_mkr_loc_%1", count INT_server_location_markers], _x];
-	INT_server_location_markers pushBack _marker;
+	_marker = createMarkerLocal [format ["ITD_mkr_loc_%1", count ITD_server_location_markers], _x];
+	ITD_server_location_markers pushBack _marker;
 } forEach [
 	[2114.51,363.674,0],
 	[4426.77,833.028,0],
@@ -94,16 +94,16 @@ INT_server_location_markers = [];
 
 // Built-up civilian areas, and important areas close by.
 private ["_bua"];
-INT_server_civ_markers = [];
+ITD_server_civ_markers = [];
 _bua = 0;
 {
 	private ["_marker"];
-	_marker = createMarkerLocal [format ["INT_mkr_civ_%1", _bua], _x select 0];
+	_marker = createMarkerLocal [format ["ITD_mkr_civ_%1", _bua], _x select 0];
 	_marker setMarkerDirLocal (_x select 1);
 	_marker setMarkerShapeLocal (_x select 2);
 	_marker setMarkerSizeLocal (_x select 3);
 	_marker setMarkerAlphaLocal 0;
-	INT_server_civ_markers pushBack _marker;
+	ITD_server_civ_markers pushBack _marker;
 	_bua = _bua + 1;
 } forEach [
 	[[5281.84,6134.81,0],0,"ELLIPSE",[220,220]],
@@ -118,11 +118,11 @@ _bua = 0;
 ];
 
 // Scale down roadblocks / camps for this terrain.
-INT_module_alive_opfor_civ setVariable ["roadblocks", "50"];
-INT_module_alive_opfor_civ setVariable ["sizeFilter", "225"];
+ITD_module_alive_opfor_civ setVariable ["roadblocks", "50"];
+ITD_module_alive_opfor_civ setVariable ["sizeFilter", "225"];
 
-INT_module_alive_opfor_mil setVariable ["sizeFilter", "100"];
-INT_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
-INT_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
+ITD_module_alive_opfor_mil setVariable ["sizeFilter", "100"];
+ITD_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
+ITD_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
 
-INT_server_objectivesLoaded = true;
+ITD_server_objectivesLoaded = true;

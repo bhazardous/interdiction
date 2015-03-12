@@ -22,31 +22,31 @@ _faction = faction _man;
 
 lastKill = format ["%1 killed by %2", _man, _killer];
 
-if (_faction in INT_server_faction_enemy) then {
+if (_faction in ITD_server_faction_enemy) then {
 	if (!(_killer isKindOf "Man")) then {
 		_killer = effectiveCommander _killer;
 	};
 
 	// Kill value.
 	private ["_value"];
-	if (([position _man, INT_server_civ_markers] call INT_fnc_insideMarkers)) then {
+	if (([position _man, ITD_server_civ_markers] call ITD_fnc_insideMarkers)) then {
 		_value = 2;
 	} else {
 		_value = 1;
 	};
 
-	if (faction _killer == INT_server_faction_blufor) then {
+	if (faction _killer == ITD_server_faction_blufor) then {
 		private ["_kills"];
 
-		_kills = INT_server_statData select 0;
+		_kills = ITD_server_statData select 0;
 		_kills = _kills + _value;
-		if (_kills >= INT_server_killThreshold) then {
-			_kills = _kills - INT_server_killThreshold;
-			["kills"] call INT_fnc_resistanceActivity;
+		if (_kills >= ITD_server_killThreshold) then {
+			_kills = _kills - ITD_server_killThreshold;
+			["kills"] call ITD_fnc_resistanceActivity;
 		};
 
-		INT_server_statData set [0, _kills];
-		[] call INT_fnc_updatePersistence;
+		ITD_server_statData set [0, _kills];
+		[] call ITD_fnc_updatePersistence;
 	};
 };
 

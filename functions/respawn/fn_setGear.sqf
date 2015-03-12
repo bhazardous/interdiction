@@ -3,7 +3,7 @@ scriptName "fn_setGear";
 	Author: Bhaz
 
 	Description:
-	Uses the variables from INT_fnc_storeGear to restore gear.
+	Uses the variables from ITD_fnc_storeGear to restore gear.
 
 	Parameter(s):
 	#0 OBJECT - Unit
@@ -12,7 +12,7 @@ scriptName "fn_setGear";
 	nil
 */
 
-if (isNil "INT_local_playerWeapons") exitWith {nil;};
+if (isNil "ITD_local_playerWeapons") exitWith {nil;};
 
 _unit = _this select 0;
 
@@ -27,8 +27,8 @@ removeUniform _unit;
 removeVest _unit;
 
 // Vest / uniform.
-_unit addUniform INT_local_playerUniform;
-_unit addVest INT_local_playerVest;
+_unit addUniform ITD_local_playerUniform;
+_unit addVest ITD_local_playerVest;
 
 // Largest backpack in the game.
 // (Temporary, otherwise ammo like AA rounds are too large for vest and won't add.)
@@ -38,12 +38,12 @@ clearAllItemsFromBackpack _unit;
 // Add magazines that were loaded first.
 private ["_playerAmmo"];
 
-_playerAmmo = INT_local_playerAmmo;
+_playerAmmo = ITD_local_playerAmmo;
 {
     // If magazine is loaded.
     if (_x select 2) then {
         // If magazine type is an actual weapon (not a grenade).
-        if (_x select 4 in INT_local_playerWeapons || {_x select 4 in INT_local_playerMuzzles}) then {
+        if (_x select 4 in ITD_local_playerWeapons || {_x select 4 in ITD_local_playerMuzzles}) then {
             // Add the loaded mag.
             _unit addMagazine [_x select 0, _x select 1];
 
@@ -54,18 +54,18 @@ _playerAmmo = INT_local_playerAmmo;
 } forEach _playerAmmo;
 
 // Add weapons.
-{_unit addWeapon _x} forEach INT_local_playerWeapons;
+{_unit addWeapon _x} forEach ITD_local_playerWeapons;
 
 // Weapon attachments.
 removeAllPrimaryWeaponItems _unit;
 removeAllHandgunItems _unit;
-{_unit addPrimaryWeaponItem _x} forEach INT_local_playerWeaponItems;
-{_unit addSecondaryWeaponItem _x} forEach INT_local_playerSecWeaponItems;
-{_unit addHandgunItem _x} forEach INT_local_playerHandgunItems;
+{_unit addPrimaryWeaponItem _x} forEach ITD_local_playerWeaponItems;
+{_unit addSecondaryWeaponItem _x} forEach ITD_local_playerSecWeaponItems;
+{_unit addHandgunItem _x} forEach ITD_local_playerHandgunItems;
 
 // Backpack.
 removeBackpack _unit;
-_unit addBackpack INT_local_playerBackpack;
+_unit addBackpack ITD_local_playerBackpack;
 clearAllItemsFromBackpack _unit;
 
 // Get remaining magazines.
@@ -81,24 +81,24 @@ _otherMags = [];
     };
 
     // Remove the magazine type from cargo arrays.
-    INT_local_playerUniformItems = INT_local_playerUniformItems - [_x select 0];
-    INT_local_playerVestItems = INT_local_playerVestItems - [_x select 0];
-    INT_local_playerBackpackItems = INT_local_playerBackpackItems - [_x select 0];
+    ITD_local_playerUniformItems = ITD_local_playerUniformItems - [_x select 0];
+    ITD_local_playerVestItems = ITD_local_playerVestItems - [_x select 0];
+    ITD_local_playerBackpackItems = ITD_local_playerBackpackItems - [_x select 0];
 } forEach _playerAmmo;
 
 // What we're left with now are arrays full of items.
 // These need to be added first, or the uniform might fill with magazines and block them.
-{_unit addItemToUniform _x} forEach INT_local_playerUniformItems;
-{_unit addItemToVest _x} forEach INT_local_playerVestItems;
-{_unit addItemToBackpack _x} forEach INT_local_playerBackpackItems;
+{_unit addItemToUniform _x} forEach ITD_local_playerUniformItems;
+{_unit addItemToVest _x} forEach ITD_local_playerVestItems;
+{_unit addItemToBackpack _x} forEach ITD_local_playerBackpackItems;
 
 // Now add the magazines.
 {_unit addMagazine [_x select 0, _x select 1];} forEach _otherMags;
 {(unitBackpack _unit) addMagazineAmmoCargo [_x select 0, 1, _x select 1];} forEach _backpackMags;
 
 // Items, headgear, goggles.
-{_unit addItem _x; _unit assignItem _x;} forEach INT_local_playerItems;
-_unit addHeadgear INT_local_playerHeadgear;
-_unit addGoggles INT_local_playerGoggles;
+{_unit addItem _x; _unit assignItem _x;} forEach ITD_local_playerItems;
+_unit addHeadgear ITD_local_playerHeadgear;
+_unit addGoggles ITD_local_playerGoggles;
 
 nil;

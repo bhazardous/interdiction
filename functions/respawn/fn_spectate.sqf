@@ -14,13 +14,13 @@ scriptName "fn_spectate";
 
 if (!hasInterface) exitWith {nil;};
 
-if (isNil "INT_local_spectating") then {
-	INT_local_spectating = false;
+if (isNil "ITD_local_spectating") then {
+	ITD_local_spectating = false;
 };
 
 // Allow only one instance.
-if (INT_local_spectating) exitWith {nil;};
-INT_local_spectating = true;
+if (ITD_local_spectating) exitWith {nil;};
+ITD_local_spectating = true;
 
 // Disable player.
 player setCaptive true;
@@ -29,12 +29,12 @@ player hideObject true;
 1 fadeSound 0;
 
 waitUntil {!isNull player};
-waitUntil {!isNil "INT_global_playerList"};
-waitUntil {!isNil "INT_global_campExists"};
+waitUntil {!isNil "ITD_global_playerList"};
+waitUntil {!isNil "ITD_global_campExists"};
 
 // Start spectating.
-[INT_global_playerList, "Tracking resistance", 200, 300, 90, 1, [], 0,
-	[[], {INT_global_campExists;}]] call ALiVE_fnc_establishingShotCustom;
+[ITD_global_playerList, "Tracking resistance", 200, 300, 90, 1, [], 0,
+	[[], {ITD_global_campExists;}]] call ALiVE_fnc_establishingShotCustom;
 
 // Unlock player.
 ["respawning"] call BIS_fnc_blackOut;
@@ -45,14 +45,14 @@ player hideObject false;
 
 // Force respawn.
 sleep 2;
-[player] call INT_fnc_respawn;
+[player] call ITD_fnc_respawn;
 
 // Add player to the playerList again.
-if (!(player in INT_global_playerList)) then {
-	INT_global_playerList pushBack player;
-	publicVariable "INT_global_playerList";
+if (!(player in ITD_global_playerList)) then {
+	ITD_global_playerList pushBack player;
+	publicVariable "ITD_global_playerList";
 };
 
-INT_local_spectating = false;
+ITD_local_spectating = false;
 
 nil;

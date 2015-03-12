@@ -23,7 +23,7 @@ _spawnPositions = [];
 	if ([_markerPos, 1000] call ALiVE_fnc_anyPlayersInRange == 0) then {
 		_spawnPositions pushBack _markerPos;
 	};
-} forEach INT_server_location_markers;
+} forEach ITD_server_location_markers;
 
 // Don't spawn convoy if OPFOR lack map control.
 if (count _spawnPositions < 2) exitWith {nil;};
@@ -33,10 +33,10 @@ private ["_posIndex", "_position", "_dest", "_vehicleClass", "_vehicle", "_crewG
 _posIndex = floor (random (count _spawnPositions));
 _position = _spawnPositions deleteAt _posIndex;
 _dest = _spawnPositions select (floor (random (count _spawnPositions)));
-_vehicleClass = (INT_server_opfor_supply select (floor (random (count INT_server_opfor_supply))));
+_vehicleClass = (ITD_server_opfor_supply select (floor (random (count ITD_server_opfor_supply))));
 _vehicle = _vehicleClass createVehicle _position;
-_crewGroup = createGroup INT_server_side_opfor;
-_driver = _crewGroup createUnit [INT_server_opfor_unit, _position, [], 0, "NONE"];
+_crewGroup = createGroup ITD_server_side_opfor;
+_driver = _crewGroup createUnit [ITD_server_opfor_unit, _position, [], 0, "NONE"];
 _driver moveInDriver _vehicle;
 
 testVehicle = _vehicle;

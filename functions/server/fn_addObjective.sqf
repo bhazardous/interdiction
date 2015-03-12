@@ -42,12 +42,12 @@ _opcom = [_this, 7, false, [false]] call BIS_fnc_param;
 		6 - status
 		7 - bound object */
 _objArray = [_objName, _position, _radius, _function, _paramsCapture, _paramsLost, 0, _obj];
-_objectives = [INT_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
 if (!isNil "_objectives") then {
 	_objectives pushBack _objArray;
 
 	if (_opcom) then {
-		[objNull, [("obj_" + _objName), _position, _radius, "MIL", 0]] call INT_fnc_addOpcomObjective;
+		[objNull, [("obj_" + _objName), _position, _radius, "MIL", 0]] call ITD_fnc_addOpcomObjective;
 	};
 
 	if (DEBUG) then {

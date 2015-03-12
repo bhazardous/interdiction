@@ -14,7 +14,7 @@ scriptName "fn_service";
 
 private ["_action", "_vehicle"];
 _action = _this select 0;
-_vehicle = INT_local_serviceTarget;
+_vehicle = ITD_local_serviceTarget;
 
 if (isNull _vehicle) exitWith {
 	["Vehicle is null"] call BIS_fnc_error;
@@ -22,6 +22,6 @@ if (isNull _vehicle) exitWith {
 };
 
 // Send request to server.
-[[player, _action, _vehicle], "INT_fnc_serviceRequest", false] call BIS_fnc_MP;
+[[player, _action, _vehicle], "ITD_fnc_serviceRequest", false] call BIS_fnc_MP;
 
 nil;

@@ -10,7 +10,7 @@ scriptName "missionTasks";
 case "objCamp": {
 	if (_taskState == "") then {
 		[
-			INT_server_side_blufor,
+			ITD_server_side_blufor,
 			_taskID,
 			[
 				"Set up a (preferably hidden) resistance camp.",
@@ -32,7 +32,7 @@ case "objCamp": {
 case "objLiberate": {
 	if (_taskState == "") then {
 		[
-			INT_server_side_blufor,
+			ITD_server_side_blufor,
 			_taskID,
 			[
 				"Gather supplies, vehicles and manpower; push the enemy out.",

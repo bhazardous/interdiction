@@ -96,7 +96,7 @@ switch (typeName _test) do {
 			// Not a position, assume its an array of objects / markers / positions.
 			// Test against all.
 			{
-				if ([_obj, _x, _distance] call INT_fnc_nearby) then {
+				if ([_obj, _x, _distance] call ITD_fnc_nearby) then {
 					_ret = true;
 				};
 
