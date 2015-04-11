@@ -15,30 +15,30 @@ scriptName "fn_respawn";
 private ["_unit"];
 _unit = _this select 0;
 
-if (isNil "INT_local_playerStarted") exitWith {};
-waitUntil {!isNil "INT_global_campExists"};
-waitUntil {!isNil "INT_global_playerList"};
+if (isNil "ITD_local_playerStarted") exitWith {};
+waitUntil {!isNil "ITD_global_campExists"};
+waitUntil {!isNil "ITD_global_playerList"};
 
 ["INTERDICTION: RESPAWN: %1 %2", time, alive _unit] call BIS_fnc_logFormat;
 
 if (alive _unit) then {
 	// Unit just respawned.
-	[_unit] call INT_fnc_setGear;
+	[_unit] call ITD_fnc_setGear;
 
-	if (INT_global_campExists) then {
+	if (ITD_global_campExists) then {
 		sleep 2;
 		_this call BIS_fnc_respawnMenuPosition;
 		["respawning"] call BIS_fnc_blackIn;
 	} else {
 		sleep 2;
-		[] call INT_fnc_spectate;
+		[] call ITD_fnc_spectate;
 	};
 } else {
 	// Unit just died.
-	[_unit] call INT_fnc_storeGear;
-	if (!isNull _unit && {_unit in INT_global_playerList} && {count INT_global_playerList > 1}) then {
-		INT_global_playerList = INT_global_playerList - [_unit];
-		publicVariable "INT_global_playerList";
+	[_unit] call ITD_fnc_storeGear;
+	if (!isNull _unit && {_unit in ITD_global_playerList} && {count ITD_global_playerList > 1}) then {
+		ITD_global_playerList = ITD_global_playerList - [_unit];
+		publicVariable "ITD_global_playerList";
 	};
 
 	[_unit] spawn {

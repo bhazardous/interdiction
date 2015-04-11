@@ -16,51 +16,51 @@ scriptName "fn_joinRequest";
 private ["_player", "_class"];
 _player = _this select 0;
 
-if (isNil "INT_global_playerList") then {
-	INT_global_playerList = [INT_unit_invisibleMan];
+if (isNil "ITD_global_playerList") then {
+	ITD_global_playerList = [ITD_unit_invisibleMan];
 };
 
-if (isNil "INT_server_vehicleRoom") then {
-	INT_server_vehicleRoom = 0;
+if (isNil "ITD_server_vehicleRoom") then {
+	ITD_server_vehicleRoom = 0;
 };
 
 // Update joined player list.
-INT_global_playerList pushBack _player;
-publicVariable "INT_global_playerList";
+ITD_global_playerList pushBack _player;
+publicVariable "ITD_global_playerList";
 
 // Get a vehicle slot for the player.
-if (INT_server_vehicleRoom == 0) then {
+if (ITD_server_vehicleRoom == 0) then {
 	// Vehicle classname.
-	waitUntil {!isNil "INT_server_spawn_type"};
-	if (INT_server_spawn_type == 1) then {
-		_class = INT_server_spawn_sea;
-		INT_server_vehicleCapacity = INT_server_spawn_capacity select 0;
+	waitUntil {!isNil "ITD_server_spawn_type"};
+	if (ITD_server_spawn_type == 1) then {
+		_class = ITD_server_spawn_sea;
+		ITD_server_vehicleCapacity = ITD_server_spawn_capacity select 0;
 	} else {
-		_class = INT_server_spawn_land;
-		INT_server_vehicleCapacity = INT_server_spawn_capacity select 1;
+		_class = ITD_server_spawn_land;
+		ITD_server_vehicleCapacity = ITD_server_spawn_capacity select 1;
 	};
 
 	if (count _class > 1) then {
 		private ["_random"];
 		_random = floor (random (count _class));
 		_class = _class select _random;
-		INT_server_vehicleCapacity = INT_server_vehicleCapacity select _random;
+		ITD_server_vehicleCapacity = ITD_server_vehicleCapacity select _random;
 	} else {
 		_class = _class select 0;
-		INT_server_vehicleCapacity = INT_server_vehicleCapacity select 0;
+		ITD_server_vehicleCapacity = ITD_server_vehicleCapacity select 0;
 	};
-	INT_server_startVehicle = _class createVehicle INT_server_startPosition;
-	INT_server_vehicleRoom = INT_server_vehicleCapacity;
+	ITD_server_startVehicle = _class createVehicle ITD_server_startPosition;
+	ITD_server_vehicleRoom = ITD_server_vehicleCapacity;
 };
 
-if (INT_server_vehicleRoom == INT_server_vehicleCapacity) then {
+if (ITD_server_vehicleRoom == ITD_server_vehicleCapacity) then {
 	// Driver slot.
-	[[INT_server_startVehicle, true], "INT_fnc_joinResponse", _player] call BIS_fnc_MP;
+	[[ITD_server_startVehicle, true], "ITD_fnc_joinResponse", _player] call BIS_fnc_MP;
 } else {
 	// Cargo slot.
-	[[INT_server_startVehicle], "INT_fnc_joinResponse", _player] call BIS_fnc_MP;
+	[[ITD_server_startVehicle], "ITD_fnc_joinResponse", _player] call BIS_fnc_MP;
 };
 
-INT_server_vehicleRoom = INT_server_vehicleRoom - 1;
+ITD_server_vehicleRoom = ITD_server_vehicleRoom - 1;
 
 nil;

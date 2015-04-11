@@ -12,6 +12,6 @@ scriptName "fn_updatePersistence";
 	nil
 */
 
-[ALiVE_globalForcePool, "missionData", str INT_server_persistentData] call ALiVE_fnc_hashSet;
+[ALiVE_globalForcePool, "missionData", str ITD_server_persistentData] call ALiVE_fnc_hashSet;
 
 nil;

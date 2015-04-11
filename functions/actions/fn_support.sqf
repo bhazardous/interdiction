@@ -15,14 +15,14 @@ scriptName "fn_support";
 
 private ["_type"];
 _type = _this select 0;
-_vehicle = INT_local_supportTarget;
+_vehicle = ITD_local_supportTarget;
 
 if (isNull _vehicle) exitWith {
 	["Vehicle is null"] call BIS_fnc_error;
 	nil;
 };
 
-if (!([_vehicle, INT_global_recruitmentTents, VEHICLE_DISTANCE] call INT_fnc_nearby)) exitWith {
+if (!([_vehicle, ITD_global_recruitmentTents, VEHICLE_DISTANCE] call ITD_fnc_nearby)) exitWith {
 	// Vehicle not close enough to tent.
 	[["ResistanceMovement","CombatSupport","SupportErrDistance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
 };
@@ -33,6 +33,6 @@ if (count crew _vehicle > 0) then {
 };
 
 // Send the request to the server.
-[[_vehicle, _type, player], "INT_fnc_addSupport", false] call BIS_fnc_MP;
+[[_vehicle, _type, player], "ITD_fnc_addSupport", false] call BIS_fnc_MP;
 
 nil;

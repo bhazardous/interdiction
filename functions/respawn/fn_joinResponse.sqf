@@ -22,6 +22,6 @@ if (_driver) then {
 	player moveInCargo _vehicle;
 };
 
-INT_local_playerReady = true;
+ITD_local_playerReady = true;
 
 nil;

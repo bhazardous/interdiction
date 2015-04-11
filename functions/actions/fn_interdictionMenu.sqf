@@ -46,30 +46,30 @@ _menu = [];
 if (_menuName == "main") then {
 	// Service params.
 	private ["_canService", "_nearService", "_checkService", "_nearRecruit", "_supportVeh"];
-	_nearService = [player, INT_global_servicePoints, 10] call INT_fnc_nearby;
-	_canService = _target isKindOf "AllVehicles" && {[player, _target, 6] call INT_fnc_nearby};
-	_checkService = [player, INT_global_servicePoints, 5] call INT_fnc_nearby;
+	_nearService = [player, ITD_global_servicePoints, 10] call ITD_fnc_nearby;
+	_canService = _target isKindOf "AllVehicles" && {[player, _target, 6] call ITD_fnc_nearby};
+	_checkService = [player, ITD_global_servicePoints, 5] call ITD_fnc_nearby;
 	if (_canService) then {
 		private ["_config"];
 		_config = (configFile >> "cfgVehicles" >> typeOf _target >> "displayName");
-		INT_local_serviceTarget = _target;
-		INT_local_serviceType = getText _config;
-		INT_local_serviceName = format ["Service %1", INT_local_serviceType];
+		ITD_local_serviceTarget = _target;
+		ITD_local_serviceType = getText _config;
+		ITD_local_serviceName = format ["Service %1", ITD_local_serviceType];
 	} else {
 		if (_checkService) then {
 			_canService = true;
-			INT_local_serviceTarget = player;
-			INT_local_serviceName = "Service";
+			ITD_local_serviceTarget = player;
+			ITD_local_serviceName = "Service";
 		};
 	};
 
 	// Recruitment params.
-	_nearRecruit = [player, INT_global_recruitmentTents, 10] call INT_fnc_nearby;
+	_nearRecruit = [player, ITD_global_recruitmentTents, 10] call ITD_fnc_nearby;
 	_supportVeh = _target isKindOf "AllVehicles" &&
 		{alive _target} &&
 		{count crew _target == 0} &&
-		{[player, _target, 5] call INT_fnc_nearby} &&
-		{[_target, INT_global_recruitmentTents, 40] call INT_fnc_nearby};
+		{[player, _target, 5] call ITD_fnc_nearby} &&
+		{[_target, ITD_global_recruitmentTents, 40] call ITD_fnc_nearby};
 	_recruitMenu = _supportVeh || _nearRecruit;
 
 	// Menu.
@@ -82,9 +82,9 @@ if (_menuName == "main") then {
 							"",
 							"",
 							"",
-							["call INT_fnc_interdictionMenu", "build", 0],
+							["call ITD_fnc_interdictionMenu", "build", 0],
 							-1,
-							(INT_global_buildingEnabled),
+							(ITD_global_buildingEnabled),
 							(true)
 					],
 					[
@@ -92,7 +92,7 @@ if (_menuName == "main") then {
 							"",
 							"",
 							"",
-							["call INT_fnc_interdictionMenu", "service", 0],
+							["call ITD_fnc_interdictionMenu", "service", 0],
 							-1,
 							(_canService),
 							(_nearService)
@@ -102,7 +102,7 @@ if (_menuName == "main") then {
 							"",
 							"",
 							"",
-							["call INT_fnc_interdictionMenu", "recruitment", 0],
+							["call ITD_fnc_interdictionMenu", "recruitment", 0],
 							-1,
 							(_recruitMenu),
 							(_recruitMenu)
@@ -112,10 +112,10 @@ if (_menuName == "main") then {
 							"",
 							"",
 							"",
-							["call INT_fnc_interdictionMenu", "debug", 1],
+							["call ITD_fnc_interdictionMenu", "debug", 1],
 							-1,
-							(INT_global_debugEnabled),
-							(INT_global_debugEnabled)
+							(ITD_global_debugEnabled),
+							(ITD_global_debugEnabled)
 					]
 			]
 	];
@@ -125,7 +125,7 @@ if (_menuName == "main") then {
 if (_menuName == "build") then {
 	private ["_nearService"];
 
-	_nearService = [player, INT_global_servicePoints, 10] call INT_fnc_nearby;
+	_nearService = [player, ITD_global_servicePoints, 10] call ITD_fnc_nearby;
 
 	_menu =
 	[
@@ -133,32 +133,32 @@ if (_menuName == "build") then {
 			[
 					[
 							"Resistance HQ",
-							{["hq"] call INT_fnc_build;},
+							{["hq"] call ITD_fnc_build;},
 							"",
 							"Establish a camp, also acts as a respawn point.",
 							"",
 							-1,
-							(INT_global_campsAvailable > 0),
+							(ITD_global_campsAvailable > 0),
 							(true)
 					],
 					[
 							"Recruitment",
-							{["recruitment"] call INT_fnc_build;},
+							{["recruitment"] call ITD_fnc_build;},
 							"",
 							"Where new resistance recruits are processed.",
 							"",
 							-1,
-							(INT_global_tech1),
+							(ITD_global_tech1),
 							(true)
 					],
 					[
 							"Service Point",
-							{["service"] call INT_fnc_build;},
+							{["service"] call ITD_fnc_build;},
 							"",
 							"Strip down vehicles for parts or make repairs.",
 							"",
 							-1,
-							(INT_global_tech1),
+							(ITD_global_tech1),
 							(true)
 					],
 					[
@@ -166,7 +166,7 @@ if (_menuName == "build") then {
 							"",
 							"",
 							"",
-							["call INT_fnc_interdictionMenu", "buildFort", 1],
+							["call ITD_fnc_interdictionMenu", "buildFort", 1],
 							-1,
 							(_nearService),
 							(true)
@@ -183,7 +183,7 @@ if (_menuName == "buildFort") then {
 			[
 					[
 							"[2] Sandbag",
-							{["fort_sandbag"] call INT_fnc_build;},
+							{["fort_sandbag"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -193,7 +193,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[1] Sandbag (Short)",
-							{["fort_sandbag_short"] call INT_fnc_build;},
+							{["fort_sandbag_short"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -203,7 +203,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[2] Sandbag (Round)",
-							{["fort_sandbag_round"] call INT_fnc_build;},
+							{["fort_sandbag_round"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -213,7 +213,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[1] Sandbag (Corner)",
-							{["fort_sandbag_corner"] call INT_fnc_build;},
+							{["fort_sandbag_corner"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -223,7 +223,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[1] Sandbag (End)",
-							{["fort_sandbag_end"] call INT_fnc_build;},
+							{["fort_sandbag_end"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -233,7 +233,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[2] H-Barrier",
-							{["fort_barrier"] call INT_fnc_build;},
+							{["fort_barrier"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -243,7 +243,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[6] H-Barrier, 3-Length",
-							{["fort_barrier_3"] call INT_fnc_build;},
+							{["fort_barrier_3"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -253,7 +253,7 @@ if (_menuName == "buildFort") then {
 					],
 					[
 							"[10] H-Barrier, 5-Length",
-							{["fort_barrier_5"] call INT_fnc_build;},
+							{["fort_barrier_5"] call ITD_fnc_build;},
 							"",
 							"",
 							"",
@@ -268,23 +268,23 @@ if (_menuName == "buildFort") then {
 // MENU > SERVICE >
 if (_menuName == "service") then {
 	private ["_isVehicle", "_needsService", "_needsFuel", "_hasFuel", "_canStrip"];
-	if (INT_local_serviceTarget != player) then {
+	if (ITD_local_serviceTarget != player) then {
 		_isVehicle = true;
 	} else {
 		_isVehicle = false;
 	};
-	_needsService = damage INT_local_serviceTarget >= 0.05;
-	_needsFuel = fuel INT_local_serviceTarget <= 0.95;
-	_hasFuel = fuel INT_local_serviceTarget >= 0.05;
-	_canStrip = alive INT_local_serviceTarget;
+	_needsService = damage ITD_local_serviceTarget >= 0.05;
+	_needsFuel = fuel ITD_local_serviceTarget <= 0.95;
+	_hasFuel = fuel ITD_local_serviceTarget >= 0.05;
+	_canStrip = alive ITD_local_serviceTarget;
 
 	_menu =
 	[
-			["service", INT_local_serviceName, _menuRsc],
+			["service", ITD_local_serviceName, _menuRsc],
 			[
 					[
 							"Assess Damage",
-							{["assess"] call INT_fnc_service;},
+							{["assess"] call ITD_fnc_service;},
 							"",
 							"",
 							"",
@@ -294,7 +294,7 @@ if (_menuName == "service") then {
 					],
 					[
 							"Repair",
-							{["repair"] call INT_fnc_service;},
+							{["repair"] call ITD_fnc_service;},
 							"",
 							"Use spare parts from the service point to make repairs.",
 							"",
@@ -304,7 +304,7 @@ if (_menuName == "service") then {
 					],
 					[
 							"Refuel",
-							{["refuel"] call INT_fnc_service;},
+							{["refuel"] call ITD_fnc_service;},
 							"",
 							"",
 							"",
@@ -314,7 +314,7 @@ if (_menuName == "service") then {
 					],
 					[
 							"Strip Down",
-							{["strip"] call INT_fnc_service;},
+							{["strip"] call ITD_fnc_service;},
 							"",
 							"Strip the vehicle down for spare parts.",
 							"",
@@ -324,7 +324,7 @@ if (_menuName == "service") then {
 					],
 					[
 							"Siphon Fuel",
-							{["siphon"] call INT_fnc_service;},
+							{["siphon"] call ITD_fnc_service;},
 							"",
 							"Store the fuel in the service point for use elsewhere.",
 							"",
@@ -334,7 +334,7 @@ if (_menuName == "service") then {
 					],
 					[
 							"Check Stock",
-							{["check"] call INT_fnc_service;},
+							{["check"] call ITD_fnc_service;},
 							"",
 							"See how many resources are available at this service point.",
 							"",
@@ -352,10 +352,10 @@ if (_menuName == "recruitment") then {
 	_supportVeh = _target isKindOf "AllVehicles" && {alive _target} && {count crew _target == 0};
 	if (_supportVeh) then {
 		private ["_config", "_name"];
-		INT_local_supportTarget = _target;
+		ITD_local_supportTarget = _target;
 		_config = (configFile >> "cfgVehicles" >> typeOf _target >> "displayName");
 		_name = getText _config;
-		INT_local_supportName = format ["Support: %1", _name];
+		ITD_local_supportName = format ["Support: %1", _name];
 	};
 
 	_menu =
@@ -367,7 +367,7 @@ if (_menuName == "recruitment") then {
 							"",
 							"",
 							"Turn this vehicle into a support vehicle.",
-							["call INT_fnc_interdictionMenu", "supportVeh", 1],
+							["call ITD_fnc_interdictionMenu", "supportVeh", 1],
 							-1,
 							(_supportVeh),
 							(_supportVeh)
@@ -384,7 +384,7 @@ if (_menuName == "supportVeh") then {
 			[
 					[
 							"Transport",
-							{["transport"] call INT_fnc_support;},
+							{["transport"] call ITD_fnc_support;},
 							"",
 							"",
 							"",
@@ -394,7 +394,7 @@ if (_menuName == "supportVeh") then {
 					],
 					[
 							"Combat",
-							{["combat"] call INT_fnc_support;},
+							{["combat"] call ITD_fnc_support;},
 							"",
 							"",
 							"",
@@ -414,7 +414,7 @@ if (_menuName == "debug") then {
 			[
 					[
 							"Unlock Tech",
-							{INT_global_tech1 = true; publicVariable "INT_global_tech1";},
+							{ITD_global_tech1 = true; publicVariable "ITD_global_tech1";},
 							"",
 							"",
 							"",
@@ -424,7 +424,7 @@ if (_menuName == "debug") then {
 					],
 					[
 							"Spawn Resistance",
-							{[[1], "INT_fnc_spawnResistance", false] call BIS_fnc_MP;},
+							{[[1], "ITD_fnc_spawnResistance", false] call BIS_fnc_MP;},
 							"",
 							"",
 							"",
@@ -434,7 +434,7 @@ if (_menuName == "debug") then {
 					],
 					[
 							"Add Support Crew",
-							{INT_global_crewAvailable = INT_global_crewAvailable + 1; publicVariable "INT_global_crewAvailable";},
+							{ITD_global_crewAvailable = ITD_global_crewAvailable + 1; publicVariable "ITD_global_crewAvailable";},
 							"",
 							"",
 							"",
@@ -447,7 +447,7 @@ if (_menuName == "debug") then {
 							"",
 							"",
 							"",
-							["call INT_fnc_interdictionMenu", "debug_spawn", 1],
+							["call ITD_fnc_interdictionMenu", "debug_spawn", 1],
 							-1,
 							(true),
 							(true)

@@ -24,7 +24,7 @@ _objects = [];
 _fort = ([_compName, "fort_"] call CBA_fnc_find != -1);
 
 // Get composition.
-_composition = [_compName] call INT_fnc_getComposition;
+_composition = [_compName] call ITD_fnc_getComposition;
 if (count _composition == 0) exitWith {
 	["Composition not found - %1", _compName] call BIS_fnc_error;
 	[];
@@ -49,7 +49,7 @@ if (count _composition == 0) exitWith {
 	};
 
 	// Set position / direction.
-	_objPos = [_objPos, _dir] call INT_fnc_rotateRelative;
+	_objPos = [_objPos, _dir] call ITD_fnc_rotateRelative;
 	_objPos set [0, (_objPos select 0) + (_pos select 0)];
 	_objPos set [1, (_objPos select 1) + (_pos select 1)];
 	_objPos set [2, 0];

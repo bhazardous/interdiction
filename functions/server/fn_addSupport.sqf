@@ -22,23 +22,23 @@ _vehicle = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
 _type = [_this, 1, "", [""]] call BIS_fnc_param;
 _player = [_this, 2, objNull, [objNull]] call BIS_fnc_param;
 _success = false;
-_turrets = [_vehicle] call INT_fnc_getRealTurrets;
+_turrets = [_vehicle] call ITD_fnc_getRealTurrets;
 
 if (isNull _player) exitWith {
 	["Request sent from objNull?"] call BIS_fnc_error;
 	nil;
 };
 
-if (INT_global_crewAvailable <= 0) exitWith {
-	[["ResistanceMovement","CombatSupport","SupportErrNoCrew"], true, true, false, _player, true] call INT_fnc_broadcastHint;
+if (ITD_global_crewAvailable <= 0) exitWith {
+	[["ResistanceMovement","CombatSupport","SupportErrNoCrew"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
 	nil;
 };
 
 // Decrement crew.
-INT_global_crewAvailable = INT_global_crewAvailable - 1;
-publicVariable "INT_global_crewAvailable";
-INT_server_statData set [3, INT_global_crewAvailable];
-[] call INT_fnc_updatePersistence;
+ITD_global_crewAvailable = ITD_global_crewAvailable - 1;
+publicVariable "ITD_global_crewAvailable";
+ITD_server_statData set [3, ITD_global_crewAvailable];
+[] call ITD_fnc_updatePersistence;
 
 switch (_type) do {
 		case "transport": {
@@ -56,7 +56,7 @@ switch (_type) do {
 
 				// If number of turrets = 0, this can't possibly be a combat vehicle.
 				if (count _turrets == 0) then {
-					[["ResistanceMovement","CombatSupport","SupportErrNonCombat"], true, true, false, _player, true] call INT_fnc_broadcastHint;
+					[["ResistanceMovement","CombatSupport","SupportErrNonCombat"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
 					_type = "abort";
 				};
 		};
@@ -81,23 +81,23 @@ _vehicle lock 3;
 
 // Get closest recruitment tent.
 private ["_id", "_spawnPos"];
-_id = ([_player, "INT_mkr_resistanceCamp", count INT_global_camps] call INT_fnc_closest) - 1;
-if (count (INT_server_campData select _id select 3) == 0) exitWith {
-	["INT_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
+_id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closest) - 1;
+if (count (ITD_server_campData select _id select 3) == 0) exitWith {
+	["ITD_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
 };
-_spawnPos = INT_server_campData select _id select 3;
+_spawnPos = ITD_server_campData select _id select 3;
 
 // Prepare group.
 private ["_turrets", "_group", "_unit"];
-_group = createGroup INT_server_side_blufor;
+_group = createGroup ITD_server_side_blufor;
 [_group, 0] setWaypointPosition [_pos, 0];
 
 // Spawn driver and crew.
-_unit = _group createUnit [INT_server_blufor_unit, _spawnPos, [], 0, "NONE"];
+_unit = _group createUnit [ITD_server_blufor_unit, _spawnPos, [], 0, "NONE"];
 _unit assignAsDriver _vehicle;
 {
 	private ["_unit"];
-	_unit = _group createUnit [INT_server_blufor_unit, _spawnPos, [], 0, "NONE"];
+	_unit = _group createUnit [ITD_server_blufor_unit, _spawnPos, [], 0, "NONE"];
 	_unit assignAsTurret [_vehicle, _x];
 } forEach _turrets;
 (units _group) orderGetIn true;
@@ -109,13 +109,13 @@ waitUntil {count (crew _vehicle) == _crewSize ||
 	{!alive _vehicle}};
 if ({alive _x} count units _group < _crewSize) exitWith {
 	// Unit died.
-	[["ResistanceMovement","CombatSupport","SupportErrDead"], true, true, false, _player, true] call INT_fnc_broadcastHint;
+	[["ResistanceMovement","CombatSupport","SupportErrDead"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
 	_vehicle lock 0;
 	nil;
 };
 if (!alive _vehicle) exitWith {
 	// Vehicle destroyed.
-	[["ResistanceMovement","CombatSupport","SupportErrVDead"], true, true, false, _player, true] call INT_fnc_broadcastHint;
+	[["ResistanceMovement","CombatSupport","SupportErrVDead"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
 	_vehicle lock 0;
 	nil;
 };
@@ -138,7 +138,7 @@ switch (_type) do {
 				SUP_TRANSPORTARRAYS pushBack [_pos, _dir, _class, _callsign, _tasks, "", FLIGHT_HEIGHT];
 				publicVariable "SUP_TRANSPORTARRAYS";
 
-				_variable = format ["NEO_radioTrasportArray_%1", INT_server_side_blufor];
+				_variable = format ["NEO_radioTrasportArray_%1", ITD_server_side_blufor];
 				_transportArray = NEO_radioLogic getVariable _variable;
 				if (isNil "_transportArray") then {
 					_transportArray = [];
@@ -160,7 +160,7 @@ switch (_type) do {
 
 				// ALiVE support data.
 				_vehicle setVariable ["ALiVE_combatSupport", true];
-				_variable = format ["NEO_radioCasArray_%1", INT_server_side_blufor];
+				_variable = format ["NEO_radioCasArray_%1", ITD_server_side_blufor];
 				_casArray = NEO_radioLogic getVariable _variable;
 				_casArray pushBack [_vehicle, _group, _callsign];
 				NEO_radioLogic setVariable [_variable, _casArray, true];
@@ -175,7 +175,7 @@ switch (_type) do {
 };
 
 if (_success) then {
-	[["ResistanceMovement","CombatSupport","SupportAvailable"]] call INT_fnc_broadcastHint;
+	[["ResistanceMovement","CombatSupport","SupportAvailable"]] call ITD_fnc_broadcastHint;
 };
 
 nil;
