@@ -203,7 +203,7 @@ class Mission
 						};
 						class Item7
 						{
-							value="1";
+							value="0.75";
 							parentCls="ALiVE_sys_profile";
 							typeName="speedModifier";
 						};
