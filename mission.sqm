@@ -1679,7 +1679,7 @@ class Mission
 						};
 						class Item2
 						{
-							value="occupation";
+							value="asymmetric";
 							parentCls="ALiVE_mil_OPCOM";
 							typeName="controltype";
 						};
