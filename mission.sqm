@@ -21,7 +21,8 @@ class Mission
 		"alive_mil_c2istar",
 		"alive_sup_combatsupport",
 		"A3_Structures_F_Mil_Helipads",
-		"alive_sys_data"
+		"alive_sys_data",
+		"alive_mil_ied"
 	};
 	addOnsAuto[]=
 	{
@@ -42,6 +43,7 @@ class Mission
 		"alive_mil_c2istar",
 		"alive_sup_combatsupport",
 		"alive_sys_data",
+		"alive_mil_ied",
 		"A3_Structures_F_Mil_Helipads",
 		"a3_map_stratis"
 	};
@@ -67,7 +69,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=24;
+		items=25;
 		class Item0
 		{
 			side="EAST";
@@ -1728,7 +1730,7 @@ class Mission
 					skill=0.60000002;
 					text="ITD_module_alive_blufor_opcom";
 					syncId=6;
-					synchronizations[]={2,1,0};
+					synchronizations[]={2,1,0,7};
 				};
 			};
 		};
@@ -2005,6 +2007,84 @@ class Mission
 				};
 			};
 		};
+		class Item24
+		{
+			side="LOGIC";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={449.16736,-0.12728059,353.49805};
+					class args
+					{
+						items=9;
+						class Item0
+						{
+							value="0";
+							parentCls="ALiVE_mil_ied";
+							typeName="debug";
+						};
+						class Item1
+						{
+							value="ITD_mkr_taor";
+							parentCls="ALiVE_mil_ied";
+							typeName="taor";
+						};
+						class Item2
+						{
+							value="";
+							parentCls="ALiVE_mil_ied";
+							typeName="blacklist";
+						};
+						class Item3
+						{
+							value="50";
+							parentCls="ALiVE_mil_ied";
+							typeName="IED_Threat";
+						};
+						class Item4
+						{
+							value="0";
+							parentCls="ALiVE_mil_ied";
+							typeName="Bomber_Threat";
+						};
+						class Item5
+						{
+							value="";
+							parentCls="ALiVE_mil_ied";
+							typeName="Bomber_Type";
+						};
+						class Item6
+						{
+							value="10";
+							parentCls="ALiVE_mil_ied";
+							typeName="VB_IED_Threat";
+						};
+						class Item7
+						{
+							value="CIV";
+							parentCls="ALiVE_mil_ied";
+							typeName="VB_IED_Side";
+						};
+						class Item8
+						{
+							value="0";
+							parentCls="ALiVE_mil_ied";
+							typeName="Locs_IED";
+						};
+					};
+					id=24;
+					side="LOGIC";
+					vehicle="ALiVE_mil_ied";
+					leader=1;
+					lock="UNLOCKED";
+					skill=0.60000002;
+					syncId=7;
+					synchronizations[]={6};
+				};
+			};
+		};
 	};
 	class Vehicles
 	{
@@ -2012,7 +2092,7 @@ class Mission
 		class Item0
 		{
 			position[]={4373.6885,226.92783,3816.833};
-			id=24;
+			id=25;
 			side="EMPTY";
 			vehicle="Land_HelipadEmpty_F";
 			skill=0.60000002;
