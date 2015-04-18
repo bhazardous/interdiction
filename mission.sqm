@@ -67,7 +67,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=25;
+		items=24;
 		class Item0
 		{
 			side="EAST";
@@ -1728,96 +1728,11 @@ class Mission
 					skill=0.60000002;
 					text="ITD_module_alive_blufor_opcom";
 					syncId=6;
-					synchronizations[]={2,1,0,7};
+					synchronizations[]={2,1,0};
 				};
 			};
 		};
 		class Item21
-		{
-			side="LOGIC";
-			class Vehicles
-			{
-				items=1;
-				class Item0
-				{
-					position[]={449.04526,-124.31771,351.18799};
-					class args
-					{
-						items=10;
-						class Item0
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="debug";
-						};
-						class Item1
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="persistent";
-						};
-						class Item2
-						{
-							value="DYNAMIC";
-							parentCls="ALiVE_mil_logistics";
-							typeName="type";
-						};
-						class Item3
-						{
-							value="50";
-							parentCls="ALiVE_mil_logistics";
-							typeName="forcePool";
-						};
-						class Item4
-						{
-							value="true";
-							parentCls="ALiVE_mil_logistics";
-							typeName="allowInfantryReinforcement";
-						};
-						class Item5
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="allowMechanisedReinforcement";
-						};
-						class Item6
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="allowMotorisedReinforcement";
-						};
-						class Item7
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="allowArmourReinforcement";
-						};
-						class Item8
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="allowHeliReinforcement";
-						};
-						class Item9
-						{
-							value="false";
-							parentCls="ALiVE_mil_logistics";
-							typeName="allowPlaneReinforcement";
-						};
-					};
-					id=21;
-					side="LOGIC";
-					vehicle="ALiVE_mil_logistics";
-					leader=1;
-					lock="UNLOCKED";
-					skill=0.60000002;
-					text="ITD_module_alive_blufor_logistics";
-					syncId=7;
-					synchronizations[]={6};
-				};
-			};
-		};
-		class Item22
 		{
 			side="LOGIC";
 			class Vehicles
@@ -1956,7 +1871,7 @@ class Mission
 							typeName="runEvery";
 						};
 					};
-					id=22;
+					id=21;
 					side="LOGIC";
 					vehicle="ALiVE_MIL_C2ISTAR";
 					leader=1;
@@ -1967,7 +1882,7 @@ class Mission
 				};
 			};
 		};
-		class Item23
+		class Item22
 		{
 			side="LOGIC";
 			class Vehicles
@@ -2010,7 +1925,7 @@ class Mission
 							typeName="combatsupport_respawn";
 						};
 					};
-					id=23;
+					id=22;
 					side="LOGIC";
 					vehicle="ALiVE_sup_combatsupport";
 					leader=1;
@@ -2019,7 +1934,7 @@ class Mission
 				};
 			};
 		};
-		class Item24
+		class Item23
 		{
 			side="LOGIC";
 			class Vehicles
@@ -2080,7 +1995,7 @@ class Mission
 							typeName="customPerfMonCode";
 						};
 					};
-					id=24;
+					id=23;
 					side="LOGIC";
 					vehicle="ALiVE_sys_data";
 					leader=1;
@@ -2097,7 +2012,7 @@ class Mission
 		class Item0
 		{
 			position[]={4373.6885,226.92783,3816.833};
-			id=25;
+			id=24;
 			side="EMPTY";
 			vehicle="Land_HelipadEmpty_F";
 			skill=0.60000002;
