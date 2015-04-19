@@ -31,7 +31,6 @@ if (isDedicated) then {
 		ITD_module_alive_blufor_opcom setVariable ["persistent", "true", true];
 		ITD_module_alive_opfor_opcom setVariable ["persistent", "true", true];
 		ITD_module_alive_indfor_opcom setVariable ["persistent", "true", true];
-		ITD_module_alive_blufor_logistics setVariable ["persistent", "true", true];
 		ITD_module_alive_indfor_logistics setVariable ["persistent", "true", true];
 		ITD_module_alive_opfor_cqb_mil setVariable ["CQB_persistent", "true", true];
 		ITD_module_alive_opfor_cqb_civ setVariable ["CQB_persistent", "true", true];
@@ -129,9 +128,6 @@ switch (paramsArray select 5) do {
 };
 ITD_module_alive_opfor_cqb_civ setVariable ["CQB_locality_setting", _locality, true];
 ITD_module_alive_opfor_cqb_mil setVariable ["CQB_locality_setting", _locality, true];
-
-// BLUFOR logistics.
-ITD_module_alive_blufor_logistics setVariable ["forcePool", "0", true];
 
 // Weather.
 ITD_module_alive_weather setVariable ["weather_override_setting", paramsArray select 1, true];
