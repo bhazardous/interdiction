@@ -1491,7 +1491,7 @@ class Mission
 						};
 						class Item3
 						{
-							value="100000";
+							value="500";
 							parentCls="ALiVE_mil_logistics";
 							typeName="forcePool";
 						};
