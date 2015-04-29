@@ -85,7 +85,7 @@ _id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_
 if (count (ITD_server_campData select _id select 3) == 0) exitWith {
 	["ITD_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
 };
-_spawnPos = ITD_server_campData select _id select 3;
+_spawnPos = ITD_server_campData select _id select 3 select 0;
 
 // Prepare group.
 private ["_turrets", "_group", "_unit"];
