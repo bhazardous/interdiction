@@ -33,11 +33,23 @@ waitUntil {!isNil "ITD_global_campExists"};
 		};
 
 		// Select a random recruitment tent.
-		private ["_position", "_profile"];
+		private ["_position", "_validPositon", "_profile"];
 		_position = ITD_global_recruitmentTents select (floor (random count ITD_global_recruitmentTents));
 
+		// Choose a position away from players.
+		_validPosition = [];
+		while {count _validPosition == 0} do {
+			sleep 5;
+			_validPosition = [_position, 1500] call ALiVE_fnc_getPositionDistancePlayers;
+		};
+
 		// Spawn the group.
-		_profile = [_groupClass, _position, random 360] call ALiVE_fnc_createProfilesFromGroupConfig;
+		_profile = [_groupClass, _validPosition, random 360] call ALiVE_fnc_createProfilesFromGroupConfig;
+
+		// Send the group to the camp.
+		private ["_waypoint"];
+		_waypoint = [_position] call ALiVE_fnc_createProfileWaypoint;
+		[_profile select 0, "addWaypoint", _waypoint] call ALiVE_fnc_profileEntity;
 
 		sleep 10;
 	};

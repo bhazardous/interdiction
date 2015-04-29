@@ -180,7 +180,7 @@ switch (_action) do {
 					switch (_state) do {
 						case STATUS_FRIENDLY: { _objectiveName setMarkerColor "ColorWEST";};
 						case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
-						case STATUS_CONTESTED: {_objectiveName setMarkerColor "ColorBlack";};
+						case STATUS_CONTESTED: {_objectiveName setMarkerColor "ColorUNKNOWN";};
 						case STATUS_DESTROYED: {deleteMarker _objectiveName;};
 					};
 				};
