@@ -49,17 +49,17 @@ switch (_action) do {
 						_friendlies = false;
 						_enemies = false;
 
-						if (_x select 6 != STATUS_DESTROYED) then {
+						if (_x select 7 != STATUS_DESTROYED) then {
 							// Remove object if attached buildings are destroyed.
-							if (count (_x select 7) > 0) then {
+							if (count (_x select 8) > 0) then {
 								private ["_destroyed"];
-								_destroyed = [_x select 7, _x select 1] call ITD_fnc_checkBuildings;
+								_destroyed = [_x select 8, _x select 1] call ITD_fnc_checkBuildings;
 								if (_destroyed) then {
 									["objectiveDestroyed", [_x select 0]] call ITD_fnc_objectiveManager;
 								};
 							};
 
-							if (_x select 6 != STATUS_CONTESTED) then {
+							if (_x select 7 != STATUS_CONTESTED) then {
 								// Friendly presence?
 								_friendlies = [ITD_server_side_blufor, _x select 1, _x select 2]
 									call ITD_fnc_checkPresence;
@@ -72,7 +72,7 @@ switch (_action) do {
 										call ITD_fnc_checkPresence;
 								};
 
-								switch (_x select 6) do {
+								switch (_x select 7) do {
 									case STATUS_ENEMY: {
 										if (_friendlies && !_enemies) then {
 											[_x select 0, true] spawn ITD_fnc_objectiveCapture;
@@ -123,10 +123,15 @@ switch (_action) do {
 				_obj = ["getObjective", _params] call ITD_fnc_objectiveManager;
 
 				// Objective is now held by nobody.
-				if (_obj select 6 == STATUS_FRIENDLY) then {
+				if (_obj select 7 == STATUS_FRIENDLY) then {
 					call compile format ["%1 call %2", _obj select 5, _obj select 3];
 				};
 				["setState", [_obj select 0, STATUS_DESTROYED]] call ITD_fnc_objectiveManager;
+
+				// Call destroy function.
+				if (count (_obj select 6) > 0) then {
+					call compile format ["%1 call %2", _obj select 6, _obj select 3];
+				};
 
 				_ret = true;
 		};
@@ -150,7 +155,7 @@ switch (_action) do {
 				_objectiveName = _params select 0;
 				_state = _params select 1;
 				_obj = ["getObjective", [_objectiveName]] call ITD_fnc_objectiveManager;
-				_obj set [6, _state];
+				_obj set [7, _state];
 
 				// Update persistence.
 				if (_state != STATUS_CONTESTED) then {
@@ -202,7 +207,7 @@ switch (_action) do {
 						private ["_building"];
 						_building = _position nearestObject _x;
 						_building setDamage 1;
-					} forEach (_obj select 7)
+					} forEach (_obj select 8)
 				};
 
 				_ret = true;
