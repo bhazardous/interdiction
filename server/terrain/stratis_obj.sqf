@@ -6,8 +6,9 @@ scriptName "stratis_obj";
 	Description:
 --------------------------------------------------------------------*/
 #define __filename "stratis_obj.sqf"
-#define ICON_RADAR "n_installation"
-#define ICON_RADIO "loc_Transmitter"
+#define ICON_MIL	"n_hq"
+#define ICON_RADAR	"n_installation"
+#define ICON_RADIO	"loc_Transmitter"
 
 /* Objective format:
 ["ObjectiveName",
@@ -46,5 +47,25 @@ scriptName "stratis_obj";
 	true] call ITD_fnc_addObjective;
 
 // Military installations.
+["CampMaxwell",
+	[3271.56,2949.52], 65,
+	ICON_MIL,
+	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	[117492]] call ITD_fnc_addObjective;
+["CampTempest",
+	[1971.3,3506.98], 60,
+	ICON_MIL,
+	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	[103156]] call ITD_fnc_addObjective;
+["CampRogain",
+	[4987.81,5920.04], 85,
+	ICON_MIL,
+	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	[19226]] call ITD_fnc_addObjective;
+["KaminoRange",
+	[6452.12,5376.88], 100,
+	ICON_MIL,
+	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	[29461]] call ITD_fnc_addObjective;
 
 ITD_server_objectivesLoaded = true;
