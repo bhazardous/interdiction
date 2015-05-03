@@ -50,22 +50,22 @@ scriptName "stratis_obj";
 ["CampMaxwell",
 	[3271.56,2949.52], 65,
 	ICON_MIL,
-	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	"ITD_fnc_captureFOB", [true, 0, [3271.56,2949.52]], [false, 0], ["destroyed", 0],
 	[117492]] call ITD_fnc_addObjective;
 ["CampTempest",
 	[1971.3,3506.98], 60,
 	ICON_MIL,
-	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	"ITD_fnc_captureFOB", [true, 1, [1971.3,3506.98]], [false, 1], ["destroyed", 1],
 	[103156]] call ITD_fnc_addObjective;
 ["CampRogain",
 	[4987.81,5920.04], 85,
 	ICON_MIL,
-	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	"ITD_fnc_captureFOB", [true, 2, [4987.81,5920.04]], [false, 2], ["destroyed", 2],
 	[19226]] call ITD_fnc_addObjective;
 ["KaminoRange",
 	[6452.12,5376.88], 100,
 	ICON_MIL,
-	"ITD_fnc_captureFOB", [true], [false], ["destroyed"],
+	"ITD_fnc_captureFOB", [true, 3, [6452.12,5376.88]], [false, 3], ["destroyed", 3],
 	[29461]] call ITD_fnc_addObjective;
 
 ITD_server_objectivesLoaded = true;
