@@ -87,6 +87,7 @@ class CfgFunctions
 			class serviceRequest {};
 			class updatePersistence {};
 			class captureFOB {};
+			class getClosestObjective {};
 		};
 	};
 };
