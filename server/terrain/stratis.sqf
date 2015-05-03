@@ -31,8 +31,8 @@ ITD_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.2];	// Percen
 ITD_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
 ITD_module_alive_opfor_cqb_civ setVariable ["CQB_DENSITY", 99999];	// Distance between spawns. 99999 = off.
 ITD_module_alive_opfor_cqb_mil setVariable ["CQB_DENSITY", 99999];
-ITD_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 4];		// Number of units per group.
-ITD_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 4];
+ITD_module_alive_opfor_cqb_civ setVariable ["CQB_amount", 3];		// Number of units per group.
+ITD_module_alive_opfor_cqb_mil setVariable ["CQB_amount", 3];
 
 // Spawn type.
 ITD_server_spawn_type = 1;
