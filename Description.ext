@@ -150,7 +150,7 @@ class Params
 		title = "Persistence";
 		texts[] = {"Disabled", "Enabled (dedicated server only)"};
 		values[] = {0, 1};
-		default = 1;
+		default = 0;
 	};
 };
 
