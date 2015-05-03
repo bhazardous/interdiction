@@ -88,6 +88,7 @@ class CfgFunctions
 			class updatePersistence {};
 			class captureFOB {};
 			class getClosestObjective {};
+			class createInsurgentBuilding {};
 		};
 	};
 };
