@@ -2099,6 +2099,28 @@ class Mission
 			text="ITD_unit_invisibleMan";
 		};
 	};
+	class Markers
+	{
+		items=3;
+		class Item0
+		{
+			position[]={30.84586,0.039034102,78.40332};
+			name="respawn_west";
+			type="Empty";
+		};
+		class Item1
+		{
+			position[]={44.84404,0.016383089,78.425781};
+			name="respawn_east";
+			type="Empty";
+		};
+		class Item2
+		{
+			position[]={57.389183,0.28847885,78.655273};
+			name="respawn_guerrila";
+			type="Empty";
+		};
+	};
 };
 class Intro
 {
