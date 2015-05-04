@@ -62,9 +62,9 @@ switch (paramsArray select 3) do {
 			"O_Truck_02_fuel_F", "O_Truck_03_repair_F", "O_Truck_02_box_F"];
 		ITD_server_blufor_unit = "B_G_Soldier_F";
 		ITD_server_opfor_unit = "O_Soldier_F";
-		ITD_server_spawn_sea = ["B_Boat_Transport_01_F"];
 		ITD_server_spawn_land = ["B_G_Offroad_01_F","B_G_Van_01_transport_F"];
-		ITD_server_spawn_capacity = [[5],[6,13]];
+		ITD_server_spawn_sea = ["B_Boat_Transport_01_F"];
+		ITD_server_spawn_capacity = [[6,13],[5]];
 		ITD_server_ammoCrate = "Box_East_Wps_F";
 	};
 	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
@@ -82,9 +82,9 @@ switch (paramsArray select 3) do {
 		ITD_server_opfor_supply = ["rhs_gaz66_ammo_msv", "RHS_Ural_Fuel_MSV_01", "rhs_gaz66_repair_msv"];
 		ITD_server_blufor_unit = "rhs_g_Soldier_F";
 		ITD_server_opfor_unit = "rhs_msv_rifleman";
-		ITD_server_spawn_sea = ["B_Boat_Transport_01_F"];
 		ITD_server_spawn_land = ["RHS_Ural_MSV_01","RHS_Ural_Civ_01","RHS_Ural_Open_Civ_01","RHS_Ural_Civ_03","RHS_Ural_Open_Civ_03","RHS_Ural_Civ_02","RHS_Ural_Open_Civ_02"];
-		ITD_server_spawn_capacity = [[5],[15,15,15,15,15,15,15]];
+		ITD_server_spawn_sea = ["B_Boat_Transport_01_F"];
+		ITD_server_spawn_capacity = [[15,15,15,15,15,15,15],[5]];
 		ITD_server_ammoCrate = "rhs_weapons_crate_ak_standard";
 	};
 };

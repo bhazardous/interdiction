@@ -89,6 +89,9 @@ class CfgFunctions
 			class captureFOB {};
 			class getClosestObjective {};
 			class createInsurgentBuilding {};
+			class spawnQueue {};
+			class selectSpawnVehicle {};
+			class updatePlayerList {};
 		};
 	};
 };
