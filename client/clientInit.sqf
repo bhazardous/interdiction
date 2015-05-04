@@ -13,7 +13,7 @@ scriptName "clientInit";
 	0 fadeMusic 0;
 	0 fadeRadio 0;
 
-	["missionStart", false] call BIS_fnc_blackOut;
+	["respawning", false] call BIS_fnc_blackOut;
 	waitUntil {!isNil "ITD_global_unit_override"};
 	waitUntil {!isNull player};
 	waitUntil {time > 0};
@@ -35,25 +35,7 @@ scriptName "clientInit";
 
 		sleep 1;
 	};
-
-	waitUntil {!isNil "ITD_global_canJoin"};
-	waitUntil {!isNil "ITD_global_campExists"};
-	if (ITD_global_canJoin) then {
-		// Mission is still starting (<30 sec)
-		[[player], "ITD_fnc_joinRequest", false] call BIS_fnc_MP;
-
-		// Wait for response from server.
-		waitUntil {!isNil "ITD_local_playerReady"};
-		ITD_local_playerStarted = true;
-	} else {
-		ITD_local_playerStarted = true;
-		[player] call ITD_fnc_respawn;
-	};
-
-	2 fadeSound 1;
-	2 fadeMusic 1;
-	2 fadeRadio 1;
-	["missionStart"] call BIS_fnc_blackIn;
+	ITD_local_unitReady = true;
 
 	// Add the CBA menu. Using ALiVE's menu 'cause it looks nicer. :)
 	ITD_local_flexiMenu = ["player", [[0x2F,[false,true,false]]], 0,

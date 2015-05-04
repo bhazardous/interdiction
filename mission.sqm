@@ -101,7 +101,7 @@ class Mission
 					position[]={150.33575,-130.15506,148.27441};
 					class args
 					{
-						items=6;
+						items=8;
 						class Item0
 						{
 							value="false";
@@ -122,17 +122,29 @@ class Mission
 						};
 						class Item3
 						{
+							value="0";
+							parentCls="ALiVE_require";
+							typeName="ALiVE_DISABLEMARKERS";
+						};
+						class Item4
+						{
+							value="0";
+							parentCls="ALiVE_require";
+							typeName="ALiVE_DISABLEADMINACTIONS";
+						};
+						class Item5
+						{
 							value="300";
 							parentCls="ALiVE_require";
 							typeName="ALiVE_GC_INTERVAL";
 						};
-						class Item4
+						class Item6
 						{
 							value="100";
 							parentCls="ALiVE_require";
 							typeName="ALiVE_GC_THRESHHOLD";
 						};
-						class Item5
+						class Item7
 						{
 							value="";
 							parentCls="ALiVE_require";
@@ -146,6 +158,7 @@ class Mission
 					lock="UNLOCKED";
 					skill=0.60000002;
 					text="ITD_module_alive_required";
+					init="[] call ITD_fnc_preInitServer; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf""";
 				};
 			};
 		};
@@ -1563,7 +1576,6 @@ class Mission
 					rank="SERGEANT";
 					skill=0.60000002;
 					text="ITD_unit_player1";
-					init="[] call ITD_fnc_preInitServer; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf"";";
 				};
 			};
 		};

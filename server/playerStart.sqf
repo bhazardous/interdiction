@@ -17,14 +17,9 @@ _marker = format ["ITD_mkr_spawn%1", floor(random ITD_server_spawn_markers)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;
 ITD_server_startPosition = _position;
 
-// Allow some players to load late.
-[] spawn {
-	ITD_global_canJoin = true;
-	publicVariable "ITD_global_canJoin";
-	sleep 30;
-	ITD_global_canJoin = false;
-	publicVariable "ITD_global_canJoin";
-};
+// Start a spawn wave.
+ITD_server_spawnQueue = [];
+[] spawn ITD_fnc_spawnQueue;
 
 // Switch to debug unit if in the editor.
 if (DEBUG_OPFOR) then {
