@@ -27,6 +27,9 @@ ITD_module_alive_opfor_mil setPosATL [1829.99,5612.28,0.00143862];
 ITD_module_alive_indfor_mil setVariable ["size", "400"];
 ITD_module_alive_indfor_mil setPosATL [12116.7,12649.7,0];
 
+// BLUFOR insurgency centre.
+ITD_module_alive_blufor_opcom setPosATL [6707.1,2555.54,0];
+
 // CQB settings.
 ITD_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.1];	// Percentage.
 ITD_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.4];
