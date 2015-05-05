@@ -67,5 +67,15 @@ scriptName "stratis_obj";
 	ICON_MIL,
 	"ITD_fnc_captureFOB", [true, 3, [6452.12,5376.88]], [false, 3], ["destroyed", 3],
 	[29461]] call ITD_fnc_addObjective;
+["LZConnor",
+	[2993.1,1912.09], 75,
+	ICON_MIL,
+	"ITD_fnc_captureFOB", [true, 4, [2993.1,1912.09]], [false, 4], ["destroyed", 4],
+	[145157]] call ITD_fnc_addObjective;
+["StratisAirBase",
+	[2159.17,5610.31], 265,
+	ICON_MIL,
+	"ITD_fnc_captureFOB", [true, 5, [2159.17,5610.31]], [false, 5], ["destroyed", 5],
+	[66671]] call ITD_fnc_addObjective;
 
 ITD_server_objectivesLoaded = true;
