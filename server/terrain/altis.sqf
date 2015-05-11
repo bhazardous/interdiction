@@ -151,4 +151,8 @@ ITD_module_alive_opfor_mil setVariable ["sizeFilter", "200"];
 ITD_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 ITD_module_alive_indfor_mil setVariable ["randomcamps", "0"];
 
-ITD_server_objectivesLoaded = true;
+// Objectives.
+[] spawn {
+	waitUntil {time > 10};
+	call compile preprocessFileLineNumbers "server\terrain\altis_obj.sqf";
+};
