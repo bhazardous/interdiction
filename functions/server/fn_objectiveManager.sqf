@@ -61,7 +61,7 @@ switch (_action) do {
 
 							if (_x select 7 != STATUS_CONTESTED) then {
 								// Friendly presence?
-								_friendlies = [ITD_server_side_blufor, _x select 1, _x select 2]
+								_friendlies = [ITD_global_side_blufor, _x select 1, _x select 2]
 									call ITD_fnc_checkPresence;
 
 								// Enemy presence?

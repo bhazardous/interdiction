@@ -7,9 +7,9 @@ scriptName "clientPreInit";
 --------------------------------------------------------------------*/
 #define __filename "clientPreInit.sqf"
 
-waitUntil {!isNil "ITD_global_persistence"};
+while {isNil "ITD_global_persistence"} do {};
 
-if (!isServer && {ITD_global_persistence}) then {
+if (!isServer && ITD_global_persistence) then {
 	// Set player options module settings before it inits client side.
 	ITD_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true"];
 	ITD_module_alive_playerOptions setVariable ["saveLoadout", "true"];

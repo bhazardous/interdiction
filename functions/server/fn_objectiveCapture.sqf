@@ -31,7 +31,7 @@ _success = true;
 
 while {_loop < LOOPS} do {
 	// Friendly presence?
-	_friendlies = [ITD_server_side_blufor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;
+	_friendlies = [ITD_global_side_blufor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;
 
 	// Enemy presence?
 	_enemies = [ITD_server_side_opfor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;

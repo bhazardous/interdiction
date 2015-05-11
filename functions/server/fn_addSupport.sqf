@@ -89,7 +89,7 @@ _spawnPos = ITD_server_campData select _id select 3 select 0;
 
 // Prepare group.
 private ["_turrets", "_group", "_unit"];
-_group = createGroup ITD_server_side_blufor;
+_group = createGroup ITD_global_side_blufor;
 [_group, 0] setWaypointPosition [_pos, 0];
 
 // Spawn driver and crew.
@@ -138,7 +138,7 @@ switch (_type) do {
 				SUP_TRANSPORTARRAYS pushBack [_pos, _dir, _class, _callsign, _tasks, "", FLIGHT_HEIGHT];
 				publicVariable "SUP_TRANSPORTARRAYS";
 
-				_variable = format ["NEO_radioTrasportArray_%1", ITD_server_side_blufor];
+				_variable = format ["NEO_radioTrasportArray_%1", ITD_global_side_blufor];
 				_transportArray = NEO_radioLogic getVariable _variable;
 				if (isNil "_transportArray") then {
 					_transportArray = [];
@@ -160,7 +160,7 @@ switch (_type) do {
 
 				// ALiVE support data.
 				_vehicle setVariable ["ALiVE_combatSupport", true];
-				_variable = format ["NEO_radioCasArray_%1", ITD_server_side_blufor];
+				_variable = format ["NEO_radioCasArray_%1", ITD_global_side_blufor];
 				_casArray = NEO_radioLogic getVariable _variable;
 				_casArray pushBack [_vehicle, _group, _callsign];
 				NEO_radioLogic setVariable [_variable, _casArray, true];

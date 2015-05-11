@@ -50,7 +50,7 @@ switch (paramsArray select 3) do {
 	case 0: {		// Vanilla (FIA, CSAT, AAF)
 		// Factions, sides.
 		ITD_server_faction_blufor = "BLU_G_F";
-		ITD_server_side_blufor = west;
+		ITD_global_side_blufor = west;
 		ITD_server_faction_opfor = "OPF_F";
 		ITD_server_side_opfor = east;
 		ITD_server_faction_indfor = "IND_F";
@@ -70,7 +70,7 @@ switch (paramsArray select 3) do {
 	case 1: {		// RHS_USRF (Insurgent, MSV, VDV)
 		// Factions, sides.
 		ITD_server_faction_blufor = "rhs_faction_insurgents";
-		ITD_server_side_blufor = independent;
+		ITD_global_side_blufor = independent;
 		ITD_server_faction_opfor = "rhs_faction_msv";
 		ITD_server_side_opfor = east;
 		ITD_server_faction_indfor = "rhs_faction_vdv";
@@ -88,6 +88,7 @@ switch (paramsArray select 3) do {
 		ITD_server_ammoCrate = "rhs_weapons_crate_ak_standard";
 	};
 };
+publicVariable "ITD_global_side_blufor";
 publicVariable "ITD_global_unit_override";
 ITD_server_faction_enemy = [ITD_server_faction_opfor, ITD_server_faction_indfor];
 
@@ -150,7 +151,7 @@ ITD_module_alive_blufor_opcom setVariable ["reinforcements", "0", true];
 if (ITD_global_unit_override != "") then {
 	// Give OPCOM a single lone unit.
 	private ["_group", "_unit"];
-	_group = createGroup ITD_server_side_blufor;
+	_group = createGroup ITD_global_side_blufor;
 	_unit = _group createUnit [ITD_global_unit_override, markerPos "ITD_mkr_taor", [], 0, "NONE"];
 };
 
