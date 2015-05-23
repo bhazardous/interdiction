@@ -102,6 +102,9 @@ _bua = 0;
 	[[3254.74,5800.5,0],35,"RECTANGLE",[80,80]]
 ];
 
+// Safe spawn.
+{_x setMarkerPos [7095.98,5956.21]} forEach ["respawn_west", "respawn_east", "respawn_guerrila"];
+
 // Objectives.
 [] spawn {
 	waitUntil {time > 10};

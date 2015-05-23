@@ -119,4 +119,7 @@ ITD_module_alive_opfor_civ setVariable ["roadblocks", "35"];
 ITD_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 ITD_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
 
+// Safe spawn.
+{_x setMarkerPos [14174.4,2684.13]} forEach ["respawn_west", "respawn_east", "respawn_guerrila"];
+
 ITD_server_objectivesLoaded = true;
