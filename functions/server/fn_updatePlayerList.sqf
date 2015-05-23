@@ -28,14 +28,9 @@ if (_add) then {
 	};
 } else {
 	// Remove.
-	if (player in ITD_global_playerList) then {
+	if (_player in ITD_global_playerList) then {
 		if (count ITD_global_playerList == 1) then {
 			ITD_global_playerList = [ITD_unit_invisibleMan];
-
-			// If all players are dead without a camp, start a new spawn wave.
-			if (ITD_global_campExists) then {
-				[] spawn ITD_fnc_spawnQueue;
-			};
 		};
 	} else {
 		ITD_global_playerList = ITD_global_playerList - [_player];

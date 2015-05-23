@@ -146,6 +146,13 @@ if (ITD_global_buildingEnabled) then {
 			ITD_server_servicePointData pushBack [0,0,0];
 			[] call ITD_fnc_updatePersistence;
 
+			// Delete the respawn markers if they still exist.
+			if (markerType "respawn_west" != "") then {
+				deleteMarker "respawn_west";
+				deleteMarker "respawn_east";
+				deleteMarker "respawn_guerrila";
+			};
+
 			// Add respawn point.
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 

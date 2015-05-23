@@ -146,6 +146,13 @@ _campId = 1;
 	_campId = _campId + 1;
 } forEach ITD_server_campData;
 
+// If there are camps, delete the respawn markers.
+if (count ITD_server_campData > 0) then {
+	deleteMarker "respawn_west";
+	deleteMarker "respawn_east";
+	deleteMarker "respawn_guerrila";
+};
+
 // Set objective states.
 waitUntil {!isNil "ITD_server_objectivesLoaded"};
 {
