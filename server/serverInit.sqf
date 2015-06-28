@@ -23,9 +23,11 @@ ITD_server_crewThreshold = 5;			// Reach the kill threshold x times to unlock su
 ITD_server_campThreshold = 10;			// Unlocks extra camps.
 
 PUBLIC(ITD_global_buildingEnabled,true);// Global toggle for building.
+PUBLIC(ITD_global_playerList,[ITD_unit_invisibleMan]);
 
 // (TEMPORARY) Random convoy spawner.
 [] spawn {
+	scriptName "serverInit_convoy";
 	// Every 10-30 mins.
 	while {true} do {
 		private ["_sleepTime"];

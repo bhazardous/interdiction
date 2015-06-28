@@ -9,8 +9,6 @@ scriptName "playerStart";
 #define DEBUG_BLUFOR false
 #define DEBUG_OPFOR false
 
-"respawn_west" setMarkerAlpha 0;
-
 // Get a random position from the spawn markers.
 private ["_marker", "_position"];
 _marker = format ["ITD_mkr_spawn%1", floor(random ITD_server_spawn_markers)];
@@ -19,7 +17,19 @@ ITD_server_startPosition = _position;
 
 // Start a spawn wave.
 ITD_server_spawnQueue = [];
-[] spawn ITD_fnc_spawnQueue;
+[] spawn {
+	scriptName "playerStart_spawner";
+
+	// Spawn waves begin when all players are dead, and are no longer required
+	// after a camp is built.
+	while {!ITD_global_campExists} do {
+		if (count ITD_global_playerList == 1
+			&& {ITD_global_playerList select 0 == ITD_unit_invisibleMan}) then {
+			[] call ITD_fnc_spawnQueue;
+		};
+		sleep 15;
+	};
+};
 
 // Switch to debug unit if in the editor.
 if (DEBUG_OPFOR) then {

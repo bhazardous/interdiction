@@ -20,12 +20,13 @@ scriptName "clientInit";
 
 	if (ITD_global_unit_override != "") then {
 		waitUntil {time > 0};
-		private ["_oldUnit", "_unitName", "_newUnit"];
+		private ["_oldUnit", "_unitName", "_newUnit", "_group"];
 		_oldUnit = player;
 		_unitName = format ["%1", player];
 
 		// Create new player unit.
-		_newUnit = (group player) createUnit [ITD_global_unit_override, [0,0,0], [], 0, "NONE"];
+		_group = createGroup ITD_global_side_blufor;
+		_newUnit = _group createUnit [ITD_global_unit_override, [0,0,0], [], 0, "NONE"];
 		selectPlayer _newUnit;
 		deleteVehicle _oldUnit;
 

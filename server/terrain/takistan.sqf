@@ -128,4 +128,10 @@ ITD_module_alive_opfor_mil setVariable ["sizeFilter", "100"];
 ITD_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 ITD_module_alive_indfor_mil setVariable ["randomcamps", "2500"];
 
+// Safe spawn.
+{_x setMarkerPos [12796,12797.8]} forEach ["respawn_west", "respawn_east", "respawn_guerrila"];
+
+// Move spectator cam somewhere interesting.
+ITD_unit_invisibleMan setPosATL [4606.81,9423.09,0];
+
 ITD_server_objectivesLoaded = true;

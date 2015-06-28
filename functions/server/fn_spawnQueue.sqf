@@ -15,10 +15,6 @@ scriptName "fn_spawnQueue";
 #define WAIT_TIME 15
 #define SLEEP_TIME 1
 
-if (isNil "ITD_global_playerList") then {
-	ITD_global_playerList = [ITD_unit_invisibleMan];
-};
-publicVariable "ITD_global_playerList";
 ITD_global_canJoin = true;
 publicVariable "ITD_global_canJoin";
 
@@ -89,7 +85,7 @@ while {count ITD_server_spawnQueue > 0} do {
 
 	// If the queue is empty, do a final wait for slow loaders.
 	if (count ITD_server_spawnQueue == 0) then {
-		sleep WAIT_TIME;
+		sleep 30;
 	};
 };
 
