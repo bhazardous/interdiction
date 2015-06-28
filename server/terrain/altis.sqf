@@ -26,6 +26,9 @@ ITD_module_alive_opfor_mil setPosATL [14734.9,16392.7,0];
 ITD_module_alive_indfor_mil setVariable ["size", "250"];
 ITD_module_alive_indfor_mil setPosATL [11589.3,11738.2,0];
 
+// BLUFOR insurgency centre.
+ITD_module_alive_blufor_opcom setPosATL [3514.11,13001.5,0];
+
 // CQB settings.
 ITD_module_alive_opfor_cqb_civ setVariable ["CQB_spawn_setting", 0.05];	// Percentage.
 ITD_module_alive_opfor_cqb_mil setVariable ["CQB_spawn_setting", 0.2];
@@ -148,4 +151,8 @@ ITD_module_alive_opfor_mil setVariable ["sizeFilter", "200"];
 ITD_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
 ITD_module_alive_indfor_mil setVariable ["randomcamps", "0"];
 
-ITD_server_objectivesLoaded = true;
+// Objectives.
+[] spawn {
+	waitUntil {time > 10};
+	call compile preprocessFileLineNumbers "server\terrain\altis_obj.sqf";
+};
