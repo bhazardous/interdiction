@@ -12,6 +12,7 @@ scriptName "fn_objectiveManager";
 	Returns:
 	bool - success
 */
+#include "persistentData.hpp"
 #define SLEEP_TIME 1
 #define STATUS_ENEMY		0
 #define STATUS_FRIENDLY		1
@@ -169,15 +170,13 @@ switch (_action) do {
 								_success = true;
 							} else {
 								// Enemy held objectives don't need to be stored.
-								ITD_server_persistentObjectives deleteAt _forEachIndex;
-								[] call ITD_fnc_updatePersistence;
+								DB_OBJECTIVES deleteAt _forEachIndex;
 							};
 						};
-					} forEach ITD_server_persistentObjectives;
+					} forEach DB_OBJECTIVES;
 
 					if (!_success && {_state != STATUS_ENEMY}) then {
-						ITD_server_persistentObjectives pushBack [_objectiveName, _state];
-						[] call ITD_fnc_updatePersistence;
+						DB_OBJECTIVES pushBack [_objectiveName, _state];
 					};
 				};
 

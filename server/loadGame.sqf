@@ -8,95 +8,57 @@ scriptName "loadGame";
 #define __filename "loadGame.sqf"
 #define PUBLIC(var,value) var = value; publicVariable #var
 
-/*
+/* -------------------------------------------------------
 	PERSISTENT DATA ROAD MAP
 
-	0 = [
-		0 kill count,
-		1 support counter (for next unlock),
-		2 camp counter (for next unlock),
-		3 support crew available,				(global: ITD_global_crewAvailable)
-		4 additional camps available,			(global: ITD_global_campsAvailable)
-		5 tech1 available,						(global: ITD_global_tech1)
-	]
+	ITD_version - current version of save data
 
-	1 = [
-		0 array of camp locations and directions, empty array if building doesn't exist
-		[
-			[
-				campPos,
-				campDir,
-				[servicePos, serviceDir],
-				[recruitPos, recruitDir],
-				detected (bool)
-			],
-			[
-				campPos,
-				campDir,
-				[],
-				[]
-			]
-		],
-		1 service point data
-	]
+	ITD_progress - array of general mission vars
+		0 - kill count,
+		1 - support counter (for next unlock),
+		2 - camp counter (for next unlock),
+		3 - support crew available,				(global: ITD_global_crewAvailable)
+		4 - additional camps available,			(global: ITD_global_campsAvailable)
+		5 - tech1 available,					(global: ITD_global_tech1)
 
-	2 = [
-		[objectiveName, state]
-	]
-*/
+	ITD_camps - array of camp locations, one entry per camp
+		0 - building array:
+			0 - HQ position
+			1 - HQ direction
+			2 - detected by enemy (bool)
+			3 - [service position, service direction, [serviceData]]
+			4 - [recruit position, recruit direction]
+
+	ITD_objectives - forEach array containing state of all objectives
+		0 - objective name
+		1 - objective state (integer)
+------------------------------------------------------- */
+
+
+/* -------------------------------------------------------
+	PERSISTENT DATA CHANGE LOG
+
+	v1
+		- Service point data merged with camps array
+------------------------------------------------------- */
 
 // Allow players to join while this is all happening.
 PUBLIC(ITD_global_playerList,[ITD_unit_invisibleMan]);
 PUBLIC(ITD_global_canJoin,false);
 PUBLIC(ITD_global_campExists,false);
 
-// Retrieve mission data from its piggy back ride.
-private ["_data"];
-
-waitUntil {!isNil "ALiVE_globalForcePool"};
-waitUntil {!isNil {[ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet}};
-_data = [ALiVE_globalForcePool, "missionData"] call ALiVE_fnc_hashGet;
-ITD_server_persistentData = _data call compile preprocessFileLineNumbers "server\convertPersistenceData.sqf";
-
-// Look for mission data, and fill in blanks if anything is missing.
-private ["_camps"];
-
-// --- Stats
-if (count ITD_server_persistentData >= 1) then {
-	ITD_server_statData = ITD_server_persistentData select 0;
+// Wait for and validate data.
+private ["_version"];
+waitUntil {!isNil "ALiVE_sys_data_mission_data"};
+_version = ["ITD_version"] call ALiVE_fnc_getData;
+if (_version != 1) exitWith {
+	// Error: invalid mission version? Corrupt / missing data or stuff from an unrelated mission.
+	[["ResistanceMovement","MissionPersistence","LoadError"]] call ITD_fnc_broadcastHint;
 };
 
-if (isNil "ITD_server_statData") then {
-	"INTERDICTION: Mission stats not found in persistent data." call BIS_fnc_log;
-	ITD_server_persistentData set [0, [0,0,0,0,1,false]];
-	ITD_server_statData = ITD_server_persistentData select 0;
-};
-
-// --- Camps
-if (count ITD_server_persistentData >= 2) then {
-	_camps = ITD_server_persistentData select 1;
-};
-
-if (isNil "_camps") then {
-	"INTERDICTION: Mission camps not found in persistent data." call BIS_fnc_log;
-	ITD_server_persistentData set [1, [[],[]]];
-	_camps = ITD_server_persistentData select 1;
-};
-
-// --- Objectives
-if (count ITD_server_persistentData >= 3) then {
-	ITD_server_persistentObjectives = ITD_server_persistentData select 2;
-};
-
-if (isNil "ITD_server_persistentObjectives") then {
-	"INTERDICTION: Mission objectives not found in persistent data." call BIS_fnc_log;
-	ITD_server_persistentData set [2, []];
-	ITD_server_persistentObjectives = ITD_server_persistentData select 2;
-};
-
-// Server-side variables.
-ITD_server_campData = _camps select 0;
-ITD_server_servicePointData = _camps select 1;
+// Retrieve data.
+ITD_server_db_progress = ["ITD_progress"] call ALiVE_fnc_getData;
+ITD_server_db_camps = ["ITD_camps"] call ALiVE_fnc_getData;
 
 // Rebuild camps.
 ITD_global_camps = [];
@@ -144,10 +106,10 @@ _campId = 1;
 	};
 
 	_campId = _campId + 1;
-} forEach ITD_server_campData;
+} forEach ITD_server_db_camps;
 
 // If there are camps, delete the respawn markers.
-if (count ITD_server_campData > 0) then {
+if (count ITD_server_db_camps > 0) then {
 	deleteMarker "respawn_west";
 	deleteMarker "respawn_east";
 	deleteMarker "respawn_guerrila";
@@ -166,22 +128,20 @@ waitUntil {!isNil "ITD_server_objectivesLoaded"};
 			["forceDestroy", [_x select 0]] call ITD_fnc_objectiveManager;
 		};
 	};
-} forEach ITD_server_persistentObjectives;
+} forEach ITD_server_db_objectives;
 
 // Broadcast variables that need to be global.
 publicVariable "ITD_global_camps";
 publicVariable "ITD_global_servicePoints";
 publicVariable "ITD_global_recruitmentTents";
 
-PUBLIC(ITD_global_crewAvailable,ITD_server_statData select 3);
-PUBLIC(ITD_global_campsAvailable,ITD_server_statData select 4);
-PUBLIC(ITD_global_tech1,ITD_server_statData select 5);
+PUBLIC(ITD_global_crewAvailable,ITD_server_db_progress select 3);
+PUBLIC(ITD_global_campsAvailable,ITD_server_db_progress select 4);
+PUBLIC(ITD_global_tech1,ITD_server_db_progress select 5);
 
-if (count ITD_server_campData > 0) then {
+if (count ITD_server_db_camps > 0) then {
 	PUBLIC(ITD_global_campExists,true);
 };
-
-[] call ITD_fnc_updatePersistence;
 
 // Start the objective manager.
 ["manage"] spawn ITD_fnc_objectiveManager;

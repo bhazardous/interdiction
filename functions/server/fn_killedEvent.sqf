@@ -12,6 +12,7 @@ scriptName "fn_killedEvent";
 	Returns:
 	nil
 */
+#include "persistentData.hpp"
 
 if (!isServer) exitWith {nil;};
 
@@ -38,15 +39,14 @@ if (_faction in ITD_server_faction_enemy) then {
 	if (faction _killer == ITD_server_faction_blufor) then {
 		private ["_kills"];
 
-		_kills = ITD_server_statData select 0;
+		_kills = DB_PROGRESS_KILLS;
 		_kills = _kills + _value;
 		if (_kills >= ITD_server_killThreshold) then {
 			_kills = _kills - ITD_server_killThreshold;
 			["kills"] call ITD_fnc_resistanceActivity;
 		};
 
-		ITD_server_statData set [0, _kills];
-		[] call ITD_fnc_updatePersistence;
+		SET_DB_PROGRESS_KILLS(_kills);
 	};
 };
 
