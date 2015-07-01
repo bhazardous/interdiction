@@ -15,6 +15,16 @@ if (ITD_global_persistence) then {
 	if (ALiVE_sys_data_dictionaryLoaded) then {
 		ITD_server_newGame = false;
 	};
+
+	// Verify the DB is working properly.
+	if (isNil "ALiVE_sys_data_mission_data") then {
+		// DB not working / server failed to authorize etc.
+		// The mission will never start, continuously display this error.
+		while {true} do {
+			[["ResistanceMovement","MissionPersistence","ServerSetup"]] call ITD_fnc_broadcastHint;
+			sleep 30;
+		};
+	};
 };
 
 // General mission variables.

@@ -51,9 +51,20 @@ PUBLIC(ITD_global_campExists,false);
 private ["_version"];
 waitUntil {!isNil "ALiVE_sys_data_mission_data"};
 _version = ["ITD_version"] call ALiVE_fnc_getData;
-if (_version != 1) exitWith {
-	// Error: invalid mission version? Corrupt / missing data or stuff from an unrelated mission.
-	[["ResistanceMovement","MissionPersistence","LoadError"]] call ITD_fnc_broadcastHint;
+if (!isNil "_number") then {
+	if (_version > 1) then {
+		// Not backwards compatible.
+		while {true} do {
+			[["ResistanceMovement","MissionPersistence","VersionError"]] call ITD_fnc_broadcastHint;
+			sleep 30;
+		};
+	};
+} else {
+	// Corrupt / missing data, or ALiVE data from another mission. (sharing pbo name etc.)
+	while {true} do {
+		[["ResistanceMovement","MissionPersistence","LoadError"]] call ITD_fnc_broadcastHint;
+		sleep 30;
+	};
 };
 
 // Retrieve data.

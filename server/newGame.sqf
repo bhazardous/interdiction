@@ -33,15 +33,11 @@ ITD_server_db_camps = [];
 ITD_server_db_objectives = [];
 
 if (ITD_global_persistence) then {
-	if (isNil "ALiVE_sys_data_mission_data") then {
-		// DB not working / server failed to authorize etc.
-		[["ResistanceMovement","MissionPersistence","ServerSetup"]] call ITD_fnc_broadcastHint;
-	} else {
-		// Persistence is enabled, pass references to the db hash.
-		["ITD_progress", ITD_server_db_progress] call ALiVE_fnc_setData;
-		["ITD_camps", ITD_server_db_camps] call ALiVE_fnc_setData;
-		["ITD_objectives", ITD_server_db_objectives] call ALiVE_fnc_setData;
-	};
+	// Persistence is enabled, pass references to the db hash.
+	["ITD_progress", ITD_server_db_progress] call ALiVE_fnc_setData;
+	["ITD_camps", ITD_server_db_camps] call ALiVE_fnc_setData;
+	["ITD_objectives", ITD_server_db_objectives] call ALiVE_fnc_setData;
+	["ITD_version", 1] call ALiVE_fnc_setData;
 };
 
 // Start the objective manager.
