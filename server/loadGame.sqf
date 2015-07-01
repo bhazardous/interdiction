@@ -49,9 +49,8 @@ PUBLIC(ITD_global_campExists,false);
 
 // Wait for and validate data.
 private ["_version"];
-waitUntil {!isNil "ALiVE_sys_data_mission_data"};
 _version = ["ITD_version"] call ALiVE_fnc_getData;
-if (!isNil "_number") then {
+if (!isNil "_version") then {
 	if (_version > 1) then {
 		// Not backwards compatible.
 		while {true} do {
@@ -70,6 +69,7 @@ if (!isNil "_number") then {
 // Retrieve data.
 ITD_server_db_progress = ["ITD_progress"] call ALiVE_fnc_getData;
 ITD_server_db_camps = ["ITD_camps"] call ALiVE_fnc_getData;
+ITD_server_db_objectives = ["ITD_objectives"] call ALiVE_fnc_getData;
 
 // Rebuild camps.
 ITD_global_camps = [];
@@ -83,9 +83,9 @@ _campId = 1;
 
 	_pos = _x select 0;
 	_rot = _x select 1;
-	_service = _x select 2;
-	_recruit = _x select 3;
-	_detected = _x select 4;
+	_detected = _x select 2;
+	_service = _x select 3;
+	_recruit = _x select 4;
 
 	// Spawn camp HQ.
 	_building = ["hq", _pos, _rot, false] call ITD_fnc_spawnComposition;
@@ -98,7 +98,7 @@ _campId = 1;
 	ITD_global_camps pushBack _pos;
 	[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 
-	if (count _service == 2) then {
+	if (count _service == 3) then {
 		_building = ["service", _service select 0, _service select 1, false] call ITD_fnc_spawnComposition;
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
 		ITD_global_servicePoints pushBack (_service select 0);

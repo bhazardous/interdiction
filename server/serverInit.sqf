@@ -11,19 +11,31 @@ scriptName "serverInit";
 // If using persistence, determine if this is a new game or loading from DB.
 ITD_server_newGame = true;
 if (ITD_global_persistence) then {
-	waitUntil {!isNil "ALiVE_sys_data_dictionaryLoaded"};
-	if (ALiVE_sys_data_dictionaryLoaded) then {
-		ITD_server_newGame = false;
-	};
-
 	// Verify the DB is working properly.
-	if (isNil "ALiVE_sys_data_mission_data") then {
+
+	// ALiVE_sys_data_disabled is hugely unreliable since it defaults to false, then
+	// potentially gets toggled a few seconds later.
+	// We're going to wait until the last possible moment, then wait a few more seconds
+	// to make sure the script has completed.
+	waitUntil {!isNil "ALiVE_dataDictionary"};
+	waitUntil {!isNil "ALiVE_sys_data_disabled"};
+	sleep 5;
+
+	if (ALiVE_sys_data_disabled) then {
 		// DB not working / server failed to authorize etc.
 		// The mission will never start, continuously display this error.
 		while {true} do {
 			[["ResistanceMovement","MissionPersistence","ServerSetup"]] call ITD_fnc_broadcastHint;
 			sleep 30;
 		};
+	};
+
+	// Determine whether this is a new save or loaded from DB.
+	waitUntil {!isNil "ALiVE_sys_data_dictionaryLoaded"};
+	waitUntil {!isNil "ALiVE_sys_data_mission_data"};
+	sleep 2;
+	if (ALiVE_sys_data_dictionaryLoaded) then {
+		ITD_server_newGame = false;
 	};
 };
 
