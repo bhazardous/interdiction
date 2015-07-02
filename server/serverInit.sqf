@@ -25,7 +25,7 @@ if (ITD_global_persistence) then {
 		// DB not working / server failed to authorize etc.
 		// The mission will never start, continuously display this error.
 		while {true} do {
-			[["ResistanceMovement","MissionPersistence","ServerSetup"]] call ITD_fnc_broadcastHint;
+			[["ResistanceMovement","MissionPersistence","ServerSetup"], true, true, false] call ITD_fnc_broadcastHint;
 			sleep 30;
 		};
 	};

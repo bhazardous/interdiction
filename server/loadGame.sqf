@@ -54,14 +54,14 @@ if (!isNil "_version") then {
 	if (_version > 1) then {
 		// Not backwards compatible.
 		while {true} do {
-			[["ResistanceMovement","MissionPersistence","VersionError"]] call ITD_fnc_broadcastHint;
+			[["ResistanceMovement","MissionPersistence","VersionError"], true, true, false] call ITD_fnc_broadcastHint;
 			sleep 30;
 		};
 	};
 } else {
 	// Corrupt / missing data, or ALiVE data from another mission. (sharing pbo name etc.)
 	while {true} do {
-		[["ResistanceMovement","MissionPersistence","LoadError"]] call ITD_fnc_broadcastHint;
+		[["ResistanceMovement","MissionPersistence","LoadError"], true, true, false] call ITD_fnc_broadcastHint;
 		sleep 30;
 	};
 };
