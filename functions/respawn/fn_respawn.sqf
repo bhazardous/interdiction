@@ -22,6 +22,28 @@ waitUntil {!isNil "ITD_local_unitReady"};
 
 ["INTERDICTION: RESPAWN: %1 %2", time, alive _unit] call BIS_fnc_logFormat;
 
+// This block only runs the first time a player joins.
+if (isNil "ITD_local_firstSpawn" && ITD_global_persistence) exitWith {
+	// Wait and see if ALiVE has player data to restore.
+	ITD_local_firstSpawn = true;
+	sleep 5;
+
+	if (!isNil {player getVariable "ALiVE_sys_player_playerLoaded"}) then {
+		// Data was restored, no respawn required.
+		["respawning"] call BIS_fnc_blackIn;
+		2 fadeSound 1;
+		2 fadeMusic 1;
+		2 fadeRadio 1;
+		player setCaptive false;
+		player hideObject false;
+		player enableSimulation true;
+		player switchMove "AidlPercMstpSrasWrfllOnon_G01";
+	} else {
+		// No data from DB, spawn normally.
+		_this call ITD_fnc_respawn;
+	};
+};
+
 if (alive _unit) then {
 	// Unit just respawned.
 	[_unit] call ITD_fnc_setGear;
@@ -35,6 +57,12 @@ if (alive _unit) then {
 		2 fadeSound 1;
 		2 fadeMusic 1;
 		2 fadeRadio 1;
+
+		// Reactivate player.
+		player setCaptive false;
+		player hideObject false;
+		player enableSimulation true;
+		player switchMove "AidlPercMstpSrasWrfllOnon_G01";
 	} else {
 		// Player has respawned, but isn't in the game yet.
 		player setCaptive true;

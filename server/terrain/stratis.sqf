@@ -111,5 +111,6 @@ _bua = 0;
 // Objectives.
 [] spawn {
 	waitUntil {time > 10};
+	waitUntil {!isNil "ITD_server_db_objectives"};
 	call compile preprocessFileLineNumbers "server\terrain\stratis_obj.sqf";
 };

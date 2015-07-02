@@ -116,6 +116,24 @@ class CfgHints
 				description = "Your save has been loaded using %3ALiVE persistence%4.%1If there are any mission specific errors or bugs with your save, please report them on the Interdiction thread.";
 				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
 			};
+			class LoadError
+			{
+				displayName = "Error Loading";
+				description = "There were problems with loading this mission from the %3War Room DB%4.%1If this is a new game, make sure you aren't sharing a mission .pbo name from one of your previous ops.";
+				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+			};
+			class VersionError
+			{
+				displayName = "Error Loading";
+				description = "The Interdiction save loaded from the %3War Room DB%4 was created with a newer version of Interdiction, please update the mission .pbo server-side.";
+				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+			};
+			class ServerSetup
+			{
+				displayName = "Database Connection";
+				description = "Your server failed to authenticate with the %3War Room DB%4.%1Please ensure your server is correctly setup.%1Recommend testing your server's DB connection with a smaller mission.";
+				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+			};
 		};
 		class RadarStations
 		{

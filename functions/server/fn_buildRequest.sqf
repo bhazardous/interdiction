@@ -14,6 +14,7 @@ scriptName "fn_buildRequest";
 	Returns:
 	nil
 */
+#include "persistentData.hpp"
 #define MAX_DISTANCE 100		// Max distance a building can be from HQ.
 
 private ["_player", "_type", "_pos", "_rot", "_class"];
@@ -49,18 +50,18 @@ if (!_valid) exitWith {
 };
 
 // Get closest camp ID.
-private ["_campId"];
+private ["_id"];
 if (count ITD_global_camps > 0) then {
-	_campId = [_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closest;
-	_campId = _campId - 1;
+	_id = [_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closest;
+	_id = _id - 1;
 };
 
 // One building per camp.
 if (_type in ["service","recruitment"]) then {
 	if (_type == "service") then {
-		_valid = count (ITD_server_campData select _campId select 2) == 0;
+		_valid = count (DB_CAMPS_SERVICE) == 0;
 	} else {
-		_valid = count (ITD_server_campData select _campId select 3) == 0;
+		_valid = count (DB_CAMPS_RECRUIT) == 0;
 	};
 };
 if (!_valid) exitWith {
@@ -90,11 +91,10 @@ if (ITD_global_buildingEnabled) then {
 			default {0};
 		};
 
-		_data = ITD_server_servicePointData select _campId;
+		_data = DB_CAMPS_SERVICE_DATA;
 
 		if (_data select 1 >= _cost) then {
 			_data set [1, (_data select 1) - _cost];
-			[] call ITD_fnc_updatePersistence;
 		} else {
 			[["ResistanceMovement","BuildCamp","FortParts"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
 			_valid = false;
@@ -123,8 +123,7 @@ if (ITD_global_buildingEnabled) then {
 			// Camps available.
 			ITD_global_campsAvailable = ITD_global_campsAvailable - 1;
 			publicVariable "ITD_global_campsAvailable";
-			ITD_server_statData set [4, ITD_global_campsAvailable];
-			[] call ITD_fnc_updatePersistence;
+			SET_DB_PROGRESS_CAMPS_AVAILABLE(ITD_global_campsAvailable);
 
 			// Respawn marker.
 			ITD_global_lastCampGrid = mapGridPosition _pos;
@@ -142,9 +141,7 @@ if (ITD_global_buildingEnabled) then {
 			// Add camp position to array.
 			ITD_global_camps pushBack _pos;
 			publicVariable "ITD_global_camps";
-			ITD_server_campData pushBack [_pos, _rot, [], [], false];
-			ITD_server_servicePointData pushBack [0,0,0];
-			[] call ITD_fnc_updatePersistence;
+			DB_CAMPS pushBack [_pos, _rot, false, [], []];
 
 			// Delete the respawn markers if they still exist.
 			if (markerType "respawn_west" != "") then {
@@ -157,10 +154,10 @@ if (ITD_global_buildingEnabled) then {
 			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
 
 			// Add OPFOR detection trigger to camp position.
-			private ["_objectiveParams", "_campId"];
+			private ["_objectiveParams", "_id"];
 			_objectiveParams = [format ["ResistanceCamp%1", count ITD_global_camps], _pos, 50, "MIL", 30];
-			_campId = (count ITD_global_camps) - 1;
-			[ITD_server_faction_enemy, 150, _objectiveParams, _campId] call ITD_fnc_triggerOpcomObjective;
+			_id = (count ITD_global_camps) - 1;
+			[ITD_server_faction_enemy, 150, _objectiveParams, _id] call ITD_fnc_triggerOpcomObjective;
 
 			// Notify friendly OPCOM of camp.
 			[ITD_module_alive_blufor_opcom, _objectiveParams] call ITD_fnc_addOpcomObjective;
@@ -196,9 +193,8 @@ if (ITD_global_buildingEnabled) then {
 			publicVariable "ITD_global_servicePoints";
 
 			// Add service point to camp data.
-			_data = ITD_server_campData select _campId;
-			_data set [2, [_pos, _rot]];
-			[] call ITD_fnc_updatePersistence;
+			_data = DB_CAMPS_ID;
+			_data set [3, [_pos, _rot, [0,0,0]]];
 		};
 
 		case "recruitment": {
@@ -207,9 +203,8 @@ if (ITD_global_buildingEnabled) then {
 			publicVariable "ITD_global_recruitmentTents";
 
 			// Set camp data.
-			_data = ITD_server_campData select _campId;
-			_data set [3, [_pos, _rot]];
-			[] call ITD_fnc_updatePersistence;
+			_data = DB_CAMPS_ID;
+			_data set [4, [_pos, _rot]];
 		};
 	};
 } else {

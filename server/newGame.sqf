@@ -27,24 +27,18 @@ PUBLIC(ITD_global_recruitmentTents,[]);	// List of recruitment tents.
 "objCamp" call BIS_fnc_missionTasks;
 "objLiberate" call BIS_fnc_missionTasks;
 
-// Persistent variables.
-private ["_camps"];
+// Persistence arrays.
+ITD_server_db_progress = [0,0,0,0,1,false];
+ITD_server_db_camps = [];
+ITD_server_db_objectives = [];
 
-waitUntil {!isNil "ALiVE_globalForcePool"};
-ITD_server_persistentData = [];
-
-ITD_server_persistentData set [0, [0,0,0,0,1,false]];
-ITD_server_persistentData set [1, [[],[]]];
-ITD_server_persistentData set [2, []];
-
-[] call ITD_fnc_updatePersistence;
-
-// Reference vars directly to persistent data.
-ITD_server_statData = ITD_server_persistentData select 0;
-_camps = ITD_server_persistentData select 1;
-ITD_server_campData = _camps select 0;
-ITD_server_servicePointData = _camps select 1;
-ITD_server_persistentObjectives = ITD_server_persistentData select 2;
+if (ITD_global_persistence) then {
+	// Persistence is enabled, pass references to the db hash.
+	["ITD_progress", ITD_server_db_progress] call ALiVE_fnc_setData;
+	["ITD_camps", ITD_server_db_camps] call ALiVE_fnc_setData;
+	["ITD_objectives", ITD_server_db_objectives] call ALiVE_fnc_setData;
+	["ITD_version", 1] call ALiVE_fnc_setData;
+};
 
 // Start the objective manager.
 ["manage"] spawn ITD_fnc_objectiveManager;

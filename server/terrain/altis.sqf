@@ -160,5 +160,6 @@ ITD_unit_invisibleMan setPosATL [7884.52,14629.3,0];
 // Objectives.
 [] spawn {
 	waitUntil {time > 10};
+	waitUntil {!isNil "ITD_server_db_objectives"};
 	call compile preprocessFileLineNumbers "server\terrain\altis_obj.sqf";
 };

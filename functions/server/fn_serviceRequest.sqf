@@ -14,6 +14,7 @@ scriptName "fn_serviceRequest";
 	Returns:
 	nil
 */
+#include "persistentData.hpp"
 // TODO: Lots of code duplication in this file.
 // TODO: Also messy as fuck.
 
@@ -24,10 +25,11 @@ _vehicle = _this select 2;
 _id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closest) - 1;
 
 if (_action == "check") exitWith {
-	private ["_fuel", "_parts", "_military"];
-	_fuel = ITD_server_servicePointData select _id select 0;
-	_parts = ITD_server_servicePointData select _id select 1;
-	_military = ITD_server_servicePointData select _id select 2;
+	private ["_data", "_fuel", "_parts", "_military"];
+	_data = DB_CAMPS_SERVICE_DATA;
+	_fuel = _data select 0;
+	_parts = _data select 1;
+	_military = _data select 2;
 	[["ITD_local_partsUsed", _parts], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 	[["ITD_local_fuelUsed", _fuel], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 	[["ITD_local_militaryUsed", _military], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
@@ -74,7 +76,7 @@ if (_action == "assess") exitWith {
 };
 
 // Player and vehicle in position.
-_pos = ITD_server_campData select _id select 2 select 0;
+_pos = DB_CAMPS_SERVICE_POSITION;
 if (_player distance _pos > 10) exitWith {
 	// Player not close enough to service point.
 	[["ResistanceMovement","ServicePoint","SPDistPlayer"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
@@ -92,8 +94,8 @@ if (_player distance _vehicle > 6) exitWith {
 };
 
 // Grab the data for this service point.
-// _data = [fuel, parts]
-_data = ITD_server_servicePointData select _id;
+// _data = [fuel, parts. military]
+_data = DB_CAMPS_SERVICE_DATA;
 
 // Player animation.
 [[_player, "AinvPknlMstpSnonWnonDr_medicUp1"], "ITD_fnc_playAnimation", _player] call BIS_fnc_MP;
@@ -321,7 +323,5 @@ switch (_action) do {
 				};
 		};
 };
-
-[] call ITD_fnc_updatePersistence;
 
 nil;

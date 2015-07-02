@@ -85,7 +85,6 @@ class CfgFunctions
 			class addSupport {};
 			class broadcastHint {};
 			class serviceRequest {};
-			class updatePersistence {};
 			class captureFOB {};
 			class getClosestObjective {};
 			class createInsurgentBuilding {};

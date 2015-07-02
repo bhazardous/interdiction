@@ -15,6 +15,7 @@ scriptName "clientInit";
 
 	["respawning", false] call BIS_fnc_blackOut;
 	waitUntil {!isNil "ITD_global_unit_override"};
+	waitUntil {!isNil "ITD_global_canJoin"};
 	waitUntil {!isNull player};
 	waitUntil {time > 0};
 

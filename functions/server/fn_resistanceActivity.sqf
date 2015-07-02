@@ -11,6 +11,7 @@ scriptName "fn_resistanceActivity";
 	Returns:
 	nil
 */
+#include "persistentData.hpp"
 
 private ["_reason"];
 _reason = [_this, 0, "", [""]] call BIS_fnc_param;
@@ -23,8 +24,8 @@ switch (_reason) do {
 		// Tick counters for unlocks.
 		private ["_crewCounter", "_campCounter"];
 
-		_crewCounter = ITD_server_statData select 1;
-		_campCounter = ITD_server_statData select 2;
+		_crewCounter = DB_PROGRESS_SUPPORT_COUNTER;
+		_campCounter = DB_PROGRESS_CAMP_COUNTER;
 
 		_crewCounter = _crewCounter + 1;
 		_campCounter = _campCounter + 1;
@@ -36,7 +37,7 @@ switch (_reason) do {
 			_crewCounter = _crewCounter - ITD_server_crewThreshold;
 			[["ResistanceMovement","CombatSupport","SupportCrew"]] call ITD_fnc_broadcastHint;
 
-			ITD_server_statData set [3, ITD_global_crewAvailable];
+			SET_DB_PROGRESS_CREW_AVAILABLE(ITD_global_crewAvailable);
 		};
 
 		if (_campCounter >= ITD_server_campThreshold) then {
@@ -44,7 +45,7 @@ switch (_reason) do {
 			publicVariable "ITD_global_campsAvailable";
 			_campCounter = _campCounter - ITD_server_campThreshold;
 
-			ITD_server_statData set [4, ITD_global_campsAvailable];
+			SET_DB_PROGRESS_CAMPS_AVAILABLE(ITD_global_campsAvailable);
 		};
 
 		// Unlock tech1.
@@ -53,12 +54,11 @@ switch (_reason) do {
 			publicVariable "ITD_global_tech1";
 			[["ResistanceMovement", "BuildCamp", "UnlockTechOne"]] call ITD_fnc_broadcastHint;
 
-			ITD_server_statData set [5, true];
+			SET_DB_PROGRESS_TECH1(true);
 		};
 
-		ITD_server_statData set [1, _crewCounter];
-		ITD_server_statData set [2, _campCounter];
-		[] call ITD_fnc_updatePersistence;
+		SET_DB_PROGRESS_SUPPORT_COUNTER(_crewCounter);
+		SET_DB_PROGRESS_CAMP_COUNTER(_campCounter);
 	};
 
 	default {
