@@ -152,6 +152,8 @@ PUBLIC(ITD_global_tech1,ITD_server_db_progress select 5);
 
 if (count ITD_server_db_camps > 0) then {
 	PUBLIC(ITD_global_campExists,true);
+} else {
+	[] spawn ITD_fnc_spawnQueue;
 };
 
 // Start the objective manager.
