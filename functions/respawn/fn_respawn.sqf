@@ -35,6 +35,12 @@ if (alive _unit) then {
 		2 fadeSound 1;
 		2 fadeMusic 1;
 		2 fadeRadio 1;
+
+		// Reactivate player.
+		player setCaptive false;
+		player hideObject false;
+		player enableSimulation true;
+		player switchMove "AidlPercMstpSrasWrfllOnon_G01";
 	} else {
 		// Player has respawned, but isn't in the game yet.
 		player setCaptive true;
