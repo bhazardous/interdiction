@@ -82,7 +82,7 @@ _vehicle lock 3;
 
 // Get closest recruitment tent.
 private ["_id", "_spawnPos"];
-_id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closest) - 1;
+_id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closestMarker) - 1;
 if (count (DB_CAMPS_RECRUIT) == 0) exitWith {
 	["ITD_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
 };

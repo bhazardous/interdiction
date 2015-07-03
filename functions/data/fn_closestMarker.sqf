@@ -1,4 +1,4 @@
-scriptName "fn_closest";
+scriptName "fn_closestMarker";
 /*
 	Author: Bhaz
 
