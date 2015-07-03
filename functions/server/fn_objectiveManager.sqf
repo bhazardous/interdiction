@@ -86,6 +86,25 @@ switch (_action) do {
 									};
 								};
 							};
+
+							if (_x select 7 != STATUS_FRIENDLY && _x select 7 != STATUS_CONTESTED) then {
+								// Find the distance to the closest player.
+								private ["_distance", "_opacity"];
+								_distance = (_x select 1) distance ([_x select 1, ITD_global_playerList] call ITD_fnc_closestObject);
+								if (_distance <= 100) then {
+									_opacity = 1.0;
+								} else {
+									// 100m = 100% opacity, 1100m+ = invisible, rounded to 10%.
+									_distance = (round (_distance - 100) / 100) / 10;
+									_opacity = 0.0 max (1.0 - _distance);
+								};
+
+								// Only set opacity if it's changed to avoid network traffic.
+								if (_x select 9 != _opacity) then {
+									(_x select 0) setMarkerAlpha _opacity;
+									_x set [9, _opacity];
+								};
+							};
 						};
 
 						sleep SLEEP_TIME;
@@ -182,9 +201,17 @@ switch (_action) do {
 
 				if (getMarkerColor _objectiveName != "") then {
 					switch (_state) do {
-						case STATUS_FRIENDLY: { _objectiveName setMarkerColor "ColorWEST";};
+						case STATUS_FRIENDLY: {
+							_objectiveName setMarkerColor "ColorWEST";
+							_objectiveName setMarkerAlpha 1;
+							_objective set [9, 1];
+						};
 						case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
-						case STATUS_CONTESTED: {_objectiveName setMarkerColor "ColorUNKNOWN";};
+						case STATUS_CONTESTED: {
+							_objectiveName setMarkerColor "ColorUNKNOWN";
+							_objectiveName setMarkerAlpha 1;
+							_objective set [9, 1];
+						};
 						case STATUS_DESTROYED: {deleteMarker _objectiveName;};
 					};
 				};
