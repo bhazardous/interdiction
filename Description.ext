@@ -90,6 +90,7 @@ class CfgFunctions
 			class getClosestObjective {};
 			class createInsurgentBuilding {};
 			class spawnQueue {};
+			class selectSpawn {};
 			class selectSpawnVehicle {};
 			class updatePlayerList {};
 		};

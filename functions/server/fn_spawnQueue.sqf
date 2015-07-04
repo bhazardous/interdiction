@@ -28,6 +28,7 @@ while {!ITD_global_campExists} do {
 
 		waitUntil {count ITD_server_spawnQueue > 0};
 		sleep WAIT_TIME;
+		[] call ITD_fnc_selectSpawn;
 
 		private ["_capacity", "_maxPlayers", "_vehicle"];
 		_capacity = 0;

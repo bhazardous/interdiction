@@ -9,12 +9,6 @@ scriptName "playerStart";
 #define DEBUG_BLUFOR false
 #define DEBUG_OPFOR false
 
-// Get a random position from the spawn markers.
-private ["_marker", "_position"];
-_marker = format ["ITD_mkr_spawn%1", floor(random ITD_server_spawn_markers)];
-_position = [_marker] call BIS_fnc_randomPosTrigger;
-ITD_server_startPosition = _position;
-
 // Start the spawner.
 [] spawn ITD_fnc_spawnQueue;
 
