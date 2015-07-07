@@ -5,6 +5,7 @@
 	Description:
 --------------------------------------------------------------------*/
 #include "CfgHints.hpp"
+#include "Dialogs.hpp"
 
 class Header
 {
@@ -39,6 +40,8 @@ class CfgFunctions
 			class service {};
 			class playAnimation {};
 			class support {};
+			class guiAction {};
+			class objectiveTimer {};
 		};
 		class data
 		{

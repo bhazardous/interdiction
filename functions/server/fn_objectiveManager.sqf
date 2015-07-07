@@ -31,6 +31,9 @@ switch (_action) do {
 				ITD_server_objectiveMgr = [] call CBA_fnc_hashCreate;
 				[ITD_server_objectiveMgr, "objectives", []] call CBA_fnc_hashSet;
 				[ITD_server_objectiveMgr, "status", "idle"] call CBA_fnc_hashSet;
+
+				// Global objectives var.
+				ITD_global_objectivesList = [];
 				_ret = true;
 		};
 
@@ -43,6 +46,7 @@ switch (_action) do {
 				private ["_quit", "_objectives"];
 				_quit = false;
 				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+				publicVariable "ITD_global_objectivesList";
 
 				while {!_quit} do {
 					{
@@ -87,7 +91,7 @@ switch (_action) do {
 								};
 							};
 
-							if (_x select 7 != STATUS_FRIENDLY && _x select 7 != STATUS_CONTESTED) then {
+							if (_x select 7 != STATUS_FRIENDLY) then {
 								// Find the distance to the closest player.
 								private ["_distance", "_opacity"];
 								_distance = (_x select 1) distance ([_x select 1, ITD_global_playerList] call ITD_fnc_closestObject);
@@ -101,7 +105,7 @@ switch (_action) do {
 
 								// Only set opacity if it's changed to avoid network traffic.
 								if (_x select 9 != _opacity) then {
-									(_x select 0) setMarkerAlpha _opacity;
+									("ITD_mkr_obj_" + (_x select 0)) setMarkerAlpha _opacity;
 									_x set [9, _opacity];
 								};
 							};
@@ -170,7 +174,7 @@ switch (_action) do {
 		};
 
 		case "setState": {
-				private ["_obj", "_objectiveName", "_state"];
+				private ["_obj", "_objectiveName", "_state", "_markerName"];
 
 				_objectiveName = _params select 0;
 				_state = _params select 1;
@@ -199,20 +203,21 @@ switch (_action) do {
 					};
 				};
 
-				if (getMarkerColor _objectiveName != "") then {
+				_markerName = "ITD_mkr_obj_" + _objectiveName;
+				if (getMarkerColor _markerName != "") then {
 					switch (_state) do {
 						case STATUS_FRIENDLY: {
-							_objectiveName setMarkerColor "ColorWEST";
-							_objectiveName setMarkerAlpha 1;
+							_markerName setMarkerColor "ColorWEST";
+							_markerName setMarkerAlpha 1;
 							_objective set [9, 1];
 						};
-						case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
-						case STATUS_CONTESTED: {
-							_objectiveName setMarkerColor "ColorUNKNOWN";
-							_objectiveName setMarkerAlpha 1;
+						case STATUS_ENEMY: {_markerName setMarkerColor "ColorEAST";};
+						case STATUS_CONTESTED: {_markerName setMarkerColor "ColorUNKNOWN";};
+						case STATUS_DESTROYED: {
+							_markerName setMarkerColor "ColorGrey";
+							_markerName setMarkerAlpha 1;
 							_objective set [9, 1];
 						};
-						case STATUS_DESTROYED: {deleteMarker _objectiveName;};
 					};
 				};
 

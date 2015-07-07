@@ -44,8 +44,9 @@ _opcom = [_this, 9, false, [false]] call BIS_fnc_param;
 		6 - params (destroyed)
 		7 - status
 		8 - bound objects
-		9 - marker opacity */
-_objArray = [_objName, _position, _radius, _function, _paramsCapture, _paramsLost, _paramsDestroy, 0, _obj, 0];
+		9 - marker opacity
+		10 - marker type */
+_objArray = [_objName, _position, _radius, _function, _paramsCapture, _paramsLost, _paramsDestroy, 0, _obj, 0, _markerType];
 _objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
 if (!isNil "_objectives") then {
 	_objectives pushBack _objArray;
@@ -55,11 +56,13 @@ if (!isNil "_objectives") then {
 	};
 
 	private ["_marker"];
-	_marker = createMarker [_objName, _position];
+	_marker = createMarker ["ITD_mkr_obj_" + _objName, _position];
 	_marker setMarkerShape "ICON";
 	_marker setMarkerType _markerType;
 	_marker setMarkerColor "ColorEAST";
 	_marker setMarkerAlpha 0.0;
+
+	ITD_global_objectivesList pushBack [_objName, _radius];
 };
 
 nil;

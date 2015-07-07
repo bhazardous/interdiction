@@ -7,6 +7,9 @@ scriptName "clientInit";
 --------------------------------------------------------------------*/
 #define __filename "clientInit.sqf"
 
+// Init GUI.
+call compile preprocessFileLineNumbers "client\gui\guiInit.sqf";
+
 // Override faction unit.
 [] spawn {
 	0 fadeSound 0;
@@ -44,6 +47,9 @@ scriptName "clientInit";
 		["_this call ITD_fnc_interdictionMenu", "main"]];
 	// ITD_local_flexiMenu call CBA_fnc_flexiMenu_add;
 	ITD_local_flexiMenu call ALiVE_fnc_flexiMenu_add;
+
+	// Start tracking objectives.
+	execVM "client\objectives\objectiveTracker.sqf";
 
 	// Hints.
 	if (ITD_global_canJoin) then {

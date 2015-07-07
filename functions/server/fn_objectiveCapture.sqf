@@ -29,6 +29,11 @@ _success = true;
 // Objective is now contested.
 ["setState", [_objectiveName, STATUS_CONTESTED]] call ITD_fnc_objectiveManager;
 
+// If BLUFOR is capturing, send state to clients so they can handle GUI.
+if (_side) then {
+	[[_objectiveName], "ITD_fnc_objectiveTimer", true] call BIS_fnc_MP;
+};
+
 while {_loop < LOOPS} do {
 	// Friendly presence?
 	_friendlies = [ITD_global_side_blufor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;
@@ -49,6 +54,7 @@ while {_loop < LOOPS} do {
 			// Friendlies no longer present, capture failed.
 			_success = false;
 			_loop = LOOPS;
+			[[_objectiveName, true], "ITD_fnc_objectiveTimer", true] call BIS_fnc_MP;
 		};
 	} else {
 		// Enemy recapturing resistance held objective.
