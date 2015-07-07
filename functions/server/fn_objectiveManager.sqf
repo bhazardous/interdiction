@@ -157,6 +157,56 @@ switch (_action) do {
 					call compile format ["%1 call %2", _obj select 6, _obj select 3];
 				};
 
+				// Remove objective from arrays.
+				["softDeleteObjective", _params] call ITD_fnc_objectiveManager;
+
+				_ret = true;
+		};
+
+		case "softDeleteObjective": {
+				// REMINDER: This function doesn't delete the objective marker
+				// or the info from clients. It only deletes data from the server
+				// to make sure it doesn't loop on destroyed objectives!
+				private ["_objectives"];
+				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+
+				// Delete from the objective manager.
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						_objectives deleteAt _forEachIndex;
+					};
+				} forEach _objectives;
+
+				_ret = true;
+		};
+
+		case "deleteObjective": {
+				// REMINDER: This will delete ALL traces of an objective, on both
+				// server and clients.
+				private ["_objectives", "_markerName"];
+				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+
+				// Delete the marker.
+				_markerName = "ITD_mkr_obj_" + (_params select 0);
+				if (markerColor _markerName != "") then {
+					deleteMarker _markerName;
+				};
+
+				// Delete from the objective manager.
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						_objectives deleteAt _forEachIndex;
+					};
+				} forEach _objectives;
+
+				// And again for the clients.
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						ITD_global_objectivesList deleteAt _forEachIndex;
+						publicVariable "ITD_global_objectivesList";
+					};
+				} forEach ITD_global_objectivesList;
+
 				_ret = true;
 		};
 
