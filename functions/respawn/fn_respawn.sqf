@@ -63,6 +63,17 @@ if (alive _unit) then {
 		player hideObject false;
 		player enableSimulation true;
 		player switchMove "AidlPercMstpSrasWrfllOnon_G01";
+
+		// TEMPORARY: Give player AI with a low player count.
+		if (count ITD_global_playerList < 5) then {
+			if ({alive _x} count (units group player) <= 1) then {
+				for "_i" from 1 to 3 do {
+					private ["_ai"];
+					_ai = (group player) createUnit [ITD_global_blufor_unit, position player, [], 0, "NONE"];
+					sleep 0.1;
+				};
+			};
+		};
 	} else {
 		// Player has respawned, but isn't in the game yet.
 		player setCaptive true;

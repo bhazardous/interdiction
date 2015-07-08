@@ -60,7 +60,7 @@ switch (paramsArray select 3) do {
 		ITD_global_unit_override = "";
 		ITD_server_opfor_supply = ["O_Truck_03_ammo_F", "O_Truck_02_Ammo_F", "O_Truck_03_fuel_F",
 			"O_Truck_02_fuel_F", "O_Truck_03_repair_F", "O_Truck_02_box_F"];
-		ITD_server_blufor_unit = "B_G_Soldier_F";
+		ITD_global_blufor_unit = "B_G_Soldier_F";
 		ITD_server_opfor_unit = "O_Soldier_F";
 		ITD_server_spawn_land = ["B_G_Offroad_01_F","B_G_Van_01_transport_F"];
 		ITD_server_spawn_sea = ["B_Boat_Transport_01_F"];
@@ -80,7 +80,7 @@ switch (paramsArray select 3) do {
 		// Unit classnames.
 		ITD_global_unit_override = "rhs_g_Soldier_F";
 		ITD_server_opfor_supply = ["rhs_gaz66_ammo_msv", "RHS_Ural_Fuel_MSV_01", "rhs_gaz66_repair_msv"];
-		ITD_server_blufor_unit = "rhs_g_Soldier_F";
+		ITD_global_blufor_unit = "rhs_g_Soldier_F";
 		ITD_server_opfor_unit = "rhs_msv_rifleman";
 		ITD_server_spawn_land = ["RHS_Ural_MSV_01","RHS_Ural_Civ_01","RHS_Ural_Open_Civ_01","RHS_Ural_Civ_03","RHS_Ural_Open_Civ_03","RHS_Ural_Civ_02","RHS_Ural_Open_Civ_02"];
 		ITD_server_spawn_sea = ["B_Boat_Transport_01_F"];
@@ -90,6 +90,7 @@ switch (paramsArray select 3) do {
 };
 publicVariable "ITD_global_side_blufor";
 publicVariable "ITD_global_unit_override";
+publicVariable "ITD_global_blufor_unit";
 ITD_server_faction_enemy = [ITD_server_faction_opfor, ITD_server_faction_indfor];
 
 if (!_indepEastAllies) then {

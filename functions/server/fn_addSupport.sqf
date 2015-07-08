@@ -94,11 +94,11 @@ _group = createGroup ITD_global_side_blufor;
 [_group, 0] setWaypointPosition [_pos, 0];
 
 // Spawn driver and crew.
-_unit = _group createUnit [ITD_server_blufor_unit, _spawnPos, [], 0, "NONE"];
+_unit = _group createUnit [ITD_global_blufor_unit, _spawnPos, [], 0, "NONE"];
 _unit assignAsDriver _vehicle;
 {
 	private ["_unit"];
-	_unit = _group createUnit [ITD_server_blufor_unit, _spawnPos, [], 0, "NONE"];
+	_unit = _group createUnit [ITD_global_blufor_unit, _spawnPos, [], 0, "NONE"];
 	_unit assignAsTurret [_vehicle, _x];
 } forEach _turrets;
 (units _group) orderGetIn true;

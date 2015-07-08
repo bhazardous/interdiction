@@ -74,7 +74,7 @@ while {!ITD_global_campExists} do {
 			if (_spawnAI) then {
 				for "_i" from 1 to 3 do {
 					private ["_unit"];
-					_unit = (group _player) createUnit [ITD_server_blufor_unit, [0,0,0], [], 0, "NONE"];
+					_unit = (group _player) createUnit [ITD_global_blufor_unit, [0,0,0], [], 0, "NONE"];
 					_unit moveInCargo _vehicle;
 					sleep 0.1;
 				};
