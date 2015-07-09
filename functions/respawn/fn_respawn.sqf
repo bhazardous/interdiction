@@ -109,6 +109,10 @@ if (alive _unit) then {
 	2 fadeMusic 0;
 	2 fadeRadio 0;
 	["respawning"] call BIS_fnc_blackOut;
+
+	if (ITD_global_campExists) then {
+		_this call BIS_fnc_respawnMenuPosition;
+	};
 };
 
 nil;

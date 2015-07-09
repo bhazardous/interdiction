@@ -14,11 +14,14 @@ scriptName "fn_captureFOB";
 	nil
 */
 
+// TODO: Use objective name instead of unique ID, remove ID's completely
+
 private ["_captured", "_id", "_position", "_varName", "_spawnId"];
 _captured = _this select 0;
 _id = _this select 1;
 _position = [_this, 2, [], [[]]] call BIS_fnc_param;
 
+if (count _position == 2) then {_position pushBack 0};
 _varName = format ["ITD_server_fobSpawn%1", _id];
 _spawnId = missionNamespace getVariable _varName;
 

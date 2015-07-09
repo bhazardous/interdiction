@@ -136,7 +136,6 @@ if (ITD_global_buildingEnabled) then {
 			// Map marker for HQ.
 			_campMarker = createMarker [format ["ITD_mkr_resistanceCamp%1", count ITD_global_camps + 1], _pos];
 			_campMarker setMarkerType "b_hq";
-			_campMarker setMarkerText "Camp";
 
 			// Add camp position to array.
 			ITD_global_camps pushBack _pos;
@@ -151,7 +150,7 @@ if (ITD_global_buildingEnabled) then {
 			};
 
 			// Add respawn point.
-			[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
+			[missionNamespace, _campMarker] call BIS_fnc_addRespawnPosition;
 
 			// Add OPFOR detection trigger to camp position.
 			private ["_objectiveParams", "_id"];
