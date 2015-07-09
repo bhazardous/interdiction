@@ -23,30 +23,39 @@ waitUntil {!isNil "ITD_local_unitReady"};
 ["INTERDICTION: RESPAWN: %1 %2", time, alive _unit] call BIS_fnc_logFormat;
 
 // This block only runs the first time a player joins.
-if (isNil "ITD_local_firstSpawn" && ITD_global_persistence) exitWith {
-	// Wait and see if ALiVE has player data to restore.
+if (isNil "ITD_local_firstSpawn") exitWith {
 	ITD_local_firstSpawn = true;
-	sleep 5;
 
-	if (!isNil {player getVariable "ALiVE_sys_player_playerLoaded"}) then {
-		// Data was restored, no respawn required.
-		["respawning"] call BIS_fnc_blackIn;
-		2 fadeSound 1;
-		2 fadeMusic 1;
-		2 fadeRadio 1;
-		player setCaptive false;
-		player hideObject false;
-		player enableSimulation true;
-		player switchMove "AidlPercMstpSrasWrfllOnon_G01";
+	if (ITD_global_persistence) then {
+		// Wait and see if ALiVE has player data to restore.
+		sleep 5;
+
+		if (!isNil {player getVariable "ALiVE_sys_player_playerLoaded"}) then {
+			// Data was restored, no respawn required.
+			["respawning"] call BIS_fnc_blackIn;
+			2 fadeSound 1;
+			2 fadeMusic 1;
+			2 fadeRadio 1;
+			player setCaptive false;
+			player hideObject false;
+			player enableSimulation true;
+			player switchMove "AidlPercMstpSrasWrfllOnon_G01";
+		} else {
+			// No data from DB, spawn normally.
+			_this call ITD_fnc_respawn;
+		};
 	} else {
-		// No data from DB, spawn normally.
 		_this call ITD_fnc_respawn;
 	};
 };
 
 if (alive _unit) then {
 	// Unit just respawned.
-	[_unit] call ITD_fnc_setGear;
+	if (!ITD_local_firstSpawn) then {
+		[_unit, [missionNamespace, "playerInventory"]] call BIS_fnc_loadInventory;
+	} else {
+		ITD_local_firstSpawn = false;
+	};
 
 	if (ITD_global_campExists) then {
 		sleep 2;
@@ -91,7 +100,7 @@ if (alive _unit) then {
 	};
 } else {
 	// Unit just died.
-	[_unit] call ITD_fnc_storeGear;
+	[_unit, [missionNamespace, "playerInventory"]] call BIS_fnc_saveInventory;
 	[[_unit, "remove"], "ITD_fnc_updatePlayerList", false] call BIS_fnc_MP;
 
 	[_unit] spawn {
