@@ -17,6 +17,7 @@ scriptName "fn_spawnQueue";
 
 if (isNil "ITD_server_spawnQueue") then {
 	ITD_server_spawnQueue = [];
+	ITD_server_spawnVehicles = [];
 };
 
 // Spawn waves begin when all players are dead, and are no longer required
@@ -33,6 +34,10 @@ while {!ITD_global_campExists} do {
 		private ["_capacity", "_maxPlayers", "_vehicle"];
 		_capacity = 0;
 		_maxPlayers = 0;
+
+		// Delete any old vehicles on a new spawn wave.
+		{deleteVehicle _x} forEach ITD_server_spawnVehicles;
+		ITD_server_spawnVehicles = [];
 
 		while {count ITD_server_spawnQueue > 0} do {
 			private ["_player", "_newVehicleRequired", "_spawnAI"];
@@ -61,6 +66,7 @@ while {!ITD_global_campExists} do {
 				private ["_vehicleInfo"];
 				_vehicleInfo = [] call ITD_fnc_selectSpawnVehicle;
 				_vehicle = (_vehicleInfo select 0) createVehicle ITD_server_startPosition;
+				ITD_server_spawnVehicles pushBack _vehicle;
 				_capacity = _vehicleInfo select 1;
 
 				// New vehicle, place player in driver.
@@ -69,6 +75,11 @@ while {!ITD_global_campExists} do {
 				// Old vehicle, player in cargo.
 				[[_vehicle], "ITD_fnc_joinResponse", _player] call BIS_fnc_MP;
 			};
+
+			// Remove any old AI in player group.
+			{
+				if (!isPlayer _x) then {deleteVehicle _x;};
+			} forEach units group _player;
 
 			// Spawn AI if low player count.
 			if (_spawnAI) then {
