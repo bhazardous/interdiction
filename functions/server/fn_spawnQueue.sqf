@@ -89,7 +89,7 @@ while {!ITD_global_campExists} do {
 			sleep SLEEP_TIME;
 
 			// Add player to global player list.
-			[_player] call ITD_fnc_updatePlayerList;
+			[_player, "add"] call ITD_fnc_updatePlayerList;
 
 			// If the queue is empty, do a final wait for slow loaders.
 			if (count ITD_server_spawnQueue == 0) then {

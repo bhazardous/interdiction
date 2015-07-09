@@ -52,7 +52,7 @@ if (alive _unit) then {
 		sleep 2;
 		_this call BIS_fnc_respawnMenuPosition;
 		["respawning"] call BIS_fnc_blackIn;
-		[[_unit], "ITD_fnc_updatePlayerList", false] call BIS_fnc_MP;
+		[[_unit, "add"], "ITD_fnc_updatePlayerList", false] call BIS_fnc_MP;
 
 		2 fadeSound 1;
 		2 fadeMusic 1;
@@ -92,7 +92,7 @@ if (alive _unit) then {
 } else {
 	// Unit just died.
 	[_unit] call ITD_fnc_storeGear;
-	[[_unit, false], "ITD_fnc_updatePlayerList", false] call BIS_fnc_MP;
+	[[_unit, "remove"], "ITD_fnc_updatePlayerList", false] call BIS_fnc_MP;
 
 	[_unit] spawn {
 		private ["_unit"];
