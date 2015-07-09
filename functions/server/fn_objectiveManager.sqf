@@ -93,8 +93,13 @@ switch (_action) do {
 
 							if (_x select 7 != STATUS_FRIENDLY) then {
 								// Find the distance to the closest player.
-								private ["_distance", "_opacity"];
-								_distance = (_x select 1) distance ([_x select 1, ITD_global_playerList] call ITD_fnc_closestObject);
+								private ["_closest", "_distance", "_opacity"];
+								_closest = [_x select 1, ITD_global_playerList] call ITD_fnc_closestObject;
+								if (!isNull _closest) then {
+									_distance = (_x select 1) distance _closest;
+								} else {
+									_distance = 9999;
+								};
 								if (_distance <= 100) then {
 									_opacity = 1.0;
 								} else {

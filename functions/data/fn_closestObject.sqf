@@ -16,6 +16,7 @@ scriptName "fn_closestObject";
 private ["_position", "_objects", "_closest", "_distance"];
 _position = [_this, 0, [0,0,0], [[]], [2,3]] call BIS_fnc_param;
 _objects = [_this, 1, [], [[]]] call BIS_fnc_param;
+_closest = objNull;
 _distance = 999999;
 
 {
