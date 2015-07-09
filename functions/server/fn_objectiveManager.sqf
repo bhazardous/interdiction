@@ -46,6 +46,7 @@ switch (_action) do {
 				private ["_quit", "_objectives"];
 				_quit = false;
 				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+				waitUntil {!isNil "ITD_server_objectivesLoaded"};
 				publicVariable "ITD_global_objectivesList";
 
 				while {!_quit} do {
