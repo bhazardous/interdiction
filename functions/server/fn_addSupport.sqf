@@ -82,7 +82,7 @@ _vehicle lock 3;
 
 // Get closest recruitment tent.
 private ["_id", "_spawnPos"];
-_id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closest) - 1;
+_id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closestMarker) - 1;
 if (count (DB_CAMPS_RECRUIT) == 0) exitWith {
 	["ITD_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
 };
@@ -94,11 +94,11 @@ _group = createGroup ITD_global_side_blufor;
 [_group, 0] setWaypointPosition [_pos, 0];
 
 // Spawn driver and crew.
-_unit = _group createUnit [ITD_server_blufor_unit, _spawnPos, [], 0, "NONE"];
+_unit = _group createUnit [ITD_global_blufor_unit, _spawnPos, [], 0, "NONE"];
 _unit assignAsDriver _vehicle;
 {
 	private ["_unit"];
-	_unit = _group createUnit [ITD_server_blufor_unit, _spawnPos, [], 0, "NONE"];
+	_unit = _group createUnit [ITD_global_blufor_unit, _spawnPos, [], 0, "NONE"];
 	_unit assignAsTurret [_vehicle, _x];
 } forEach _turrets;
 (units _group) orderGetIn true;

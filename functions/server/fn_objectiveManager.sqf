@@ -31,6 +31,9 @@ switch (_action) do {
 				ITD_server_objectiveMgr = [] call CBA_fnc_hashCreate;
 				[ITD_server_objectiveMgr, "objectives", []] call CBA_fnc_hashSet;
 				[ITD_server_objectiveMgr, "status", "idle"] call CBA_fnc_hashSet;
+
+				// Global objectives var.
+				ITD_global_objectivesList = [];
 				_ret = true;
 		};
 
@@ -43,6 +46,8 @@ switch (_action) do {
 				private ["_quit", "_objectives"];
 				_quit = false;
 				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+				waitUntil {!isNil "ITD_server_objectivesLoaded"};
+				publicVariable "ITD_global_objectivesList";
 
 				while {!_quit} do {
 					{
@@ -84,6 +89,30 @@ switch (_action) do {
 											[_x select 0, false] spawn ITD_fnc_objectiveCapture;
 										};
 									};
+								};
+							};
+
+							if (_x select 7 != STATUS_FRIENDLY) then {
+								// Find the distance to the closest player.
+								private ["_closest", "_distance", "_opacity"];
+								_closest = [_x select 1, ITD_global_playerList] call ITD_fnc_closestObject;
+								if (!isNull _closest) then {
+									_distance = (_x select 1) distance _closest;
+								} else {
+									_distance = 9999;
+								};
+								if (_distance <= 100) then {
+									_opacity = 1.0;
+								} else {
+									// 100m = 100% opacity, 1100m+ = invisible, rounded to 10%.
+									_distance = (round (_distance - 100) / 100) / 10;
+									_opacity = 0.0 max (1.0 - _distance);
+								};
+
+								// Only set opacity if it's changed to avoid network traffic.
+								if (_x select 9 != _opacity) then {
+									("ITD_mkr_obj_" + (_x select 0)) setMarkerAlpha _opacity;
+									_x set [9, _opacity];
 								};
 							};
 						};
@@ -134,6 +163,56 @@ switch (_action) do {
 					call compile format ["%1 call %2", _obj select 6, _obj select 3];
 				};
 
+				// Remove objective from arrays.
+				["softDeleteObjective", _params] call ITD_fnc_objectiveManager;
+
+				_ret = true;
+		};
+
+		case "softDeleteObjective": {
+				// REMINDER: This function doesn't delete the objective marker
+				// or the info from clients. It only deletes data from the server
+				// to make sure it doesn't loop on destroyed objectives!
+				private ["_objectives"];
+				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+
+				// Delete from the objective manager.
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						_objectives deleteAt _forEachIndex;
+					};
+				} forEach _objectives;
+
+				_ret = true;
+		};
+
+		case "deleteObjective": {
+				// REMINDER: This will delete ALL traces of an objective, on both
+				// server and clients.
+				private ["_objectives", "_markerName"];
+				_objectives = [ITD_server_objectiveMgr, "objectives"] call CBA_fnc_hashGet;
+
+				// Delete the marker.
+				_markerName = "ITD_mkr_obj_" + (_params select 0);
+				if (markerColor _markerName != "") then {
+					deleteMarker _markerName;
+				};
+
+				// Delete from the objective manager.
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						_objectives deleteAt _forEachIndex;
+					};
+				} forEach _objectives;
+
+				// And again for the clients.
+				{
+					if (_x select 0 == _params select 0) exitWith {
+						ITD_global_objectivesList deleteAt _forEachIndex;
+						publicVariable "ITD_global_objectivesList";
+					};
+				} forEach ITD_global_objectivesList;
+
 				_ret = true;
 		};
 
@@ -151,7 +230,7 @@ switch (_action) do {
 		};
 
 		case "setState": {
-				private ["_obj", "_objectiveName", "_state"];
+				private ["_obj", "_objectiveName", "_state", "_markerName"];
 
 				_objectiveName = _params select 0;
 				_state = _params select 1;
@@ -180,12 +259,21 @@ switch (_action) do {
 					};
 				};
 
-				if (getMarkerColor _objectiveName != "") then {
+				_markerName = "ITD_mkr_obj_" + _objectiveName;
+				if (getMarkerColor _markerName != "") then {
 					switch (_state) do {
-						case STATUS_FRIENDLY: { _objectiveName setMarkerColor "ColorWEST";};
-						case STATUS_ENEMY: {_objectiveName setMarkerColor "ColorEAST";};
-						case STATUS_CONTESTED: {_objectiveName setMarkerColor "ColorUNKNOWN";};
-						case STATUS_DESTROYED: {deleteMarker _objectiveName;};
+						case STATUS_FRIENDLY: {
+							_markerName setMarkerColor "ColorWEST";
+							_markerName setMarkerAlpha 1;
+							_objective set [9, 1];
+						};
+						case STATUS_ENEMY: {_markerName setMarkerColor "ColorEAST";};
+						case STATUS_CONTESTED: {_markerName setMarkerColor "ColorUNKNOWN";};
+						case STATUS_DESTROYED: {
+							_markerName setMarkerColor "ColorGrey";
+							_markerName setMarkerAlpha 1;
+							_objective set [9, 1];
+						};
 					};
 				};
 

@@ -93,10 +93,9 @@ _campId = 1;
 
 	_campMarker = createMarker [format ["ITD_mkr_resistanceCamp%1", _campId], _pos];
 	_campMarker setMarkerType "b_hq";
-	_campMarker setMarkerText "Camp";
 
 	ITD_global_camps pushBack _pos;
-	[missionNamespace, _pos] call BIS_fnc_addRespawnPosition;
+	[missionNamespace, _campMarker] call BIS_fnc_addRespawnPosition;
 
 	if (count _service == 3) then {
 		_building = ["service", _service select 0, _service select 1, false] call ITD_fnc_spawnComposition;

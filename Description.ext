@@ -5,6 +5,7 @@
 	Description:
 --------------------------------------------------------------------*/
 #include "CfgHints.hpp"
+#include "Dialogs.hpp"
 
 class Header
 {
@@ -39,12 +40,15 @@ class CfgFunctions
 			class service {};
 			class playAnimation {};
 			class support {};
+			class guiAction {};
+			class objectiveTimer {};
 		};
 		class data
 		{
 			class lookupBuilding {};
 			class nearby {};
-			class closest {};
+			class closestObject {};
+			class closestMarker {};
 			class setVariable {};
 			class getComposition {};
 			class moveComposition {};
@@ -89,6 +93,7 @@ class CfgFunctions
 			class getClosestObjective {};
 			class createInsurgentBuilding {};
 			class spawnQueue {};
+			class selectSpawn {};
 			class selectSpawnVehicle {};
 			class updatePlayerList {};
 		};

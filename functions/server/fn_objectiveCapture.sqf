@@ -19,12 +19,13 @@ scriptName "fn_objectiveCapture";
 #define STATUS_CONTESTED	2
 #define STATUS_DESTROYED	3
 
-private ["_objectiveName", "_objective", "_side", "_loop", "_success", "_friendlies", "_enemies"];
+private ["_objectiveName", "_objective", "_side", "_loop", "_success", "_friendlies", "_enemies", "_signal"];
 _objectiveName = _this select 0;
 _objective = ["getObjective", [_objectiveName]] call ITD_fnc_objectiveManager;
 _side = _this select 1;
 _loop = 0;
 _success = true;
+_signal = false;
 
 // Objective is now contested.
 ["setState", [_objectiveName, STATUS_CONTESTED]] call ITD_fnc_objectiveManager;
@@ -44,14 +45,39 @@ while {_loop < LOOPS} do {
 		if (_friendlies && _enemies) then {
 			// Friendlies and enemies present, reset loops to 0.
 			_loop = 0;
+			if (_signal) then {
+				[[_objectiveName, true], "ITD_fnc_objectiveTimer", true] call BIS_fnc_MP;
+				_signal = false;
+			};
+		} else {
+			// If this loop 0, signal that capturing has started.
+			if (_friendlies && _loop == 0) then {
+				if (!_signal) then {
+					[[_objectiveName], "ITD_fnc_objectiveTimer", true] call BIS_fnc_MP;
+					_signal = true;
+				};
+			};
 		};
 		if (!_friendlies) then {
 			// Friendlies no longer present, capture failed.
 			_success = false;
 			_loop = LOOPS;
+			if (_signal) then {
+				[[_objectiveName, true], "ITD_fnc_objectiveTimer", true] call BIS_fnc_MP;
+				_signal = false;
+			};
 		};
 	} else {
 		// Enemy recapturing resistance held objective.
+		if (_friendlies && _enemies) then {
+			// Friendlies and enemies present, reset loops to 0.
+			_loop = 0;
+		};
+		if (!_enemies) then {
+			// Enemy no longer present, capture failed.
+			_success = false;
+			_loop = LOOPS;
+		};
 	};
 
 	_loop = _loop + 1;

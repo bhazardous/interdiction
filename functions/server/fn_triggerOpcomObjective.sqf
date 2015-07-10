@@ -98,5 +98,6 @@ _trigger = createTrigger ["EmptyDetector", _objectiveParams select 1];
 _trigger setTriggerArea [_triggerRadius, _triggerRadius, 0, false];
 _trigger setTriggerStatements [_triggerCondition, _triggerActivation, ""];
 _trigger setTriggerActivation [_triggerSide, "PRESENT", false];
+_trigger setTriggerTimeout [20, 20, 20, true];
 
 true;

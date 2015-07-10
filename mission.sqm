@@ -301,7 +301,7 @@ class Mission
 						};
 						class Item9
 						{
-							value="0.25";
+							value="0.5";
 							parentCls="ALiVE_civ_placement";
 							typeName="readinessLevel";
 						};
@@ -428,7 +428,7 @@ class Mission
 						};
 						class Item9
 						{
-							value="0.25";
+							value="0.5";
 							parentCls="ALiVE_mil_placement";
 							typeName="readinessLevel";
 						};
@@ -799,7 +799,7 @@ class Mission
 						};
 						class Item9
 						{
-							value="0.25";
+							value="0.5";
 							parentCls="ALiVE_mil_placement";
 							typeName="readinessLevel";
 						};
@@ -1382,7 +1382,7 @@ class Mission
 						};
 						class Item7
 						{
-							value="0.2";
+							value="0.6";
 							parentCls="ALiVE_amb_civ_placement";
 							typeName="ambientVehicleAmount";
 						};
@@ -1413,7 +1413,7 @@ class Mission
 					position[]={347.42407,-0.17156282,229.94189};
 					class args
 					{
-						items=8;
+						items=9;
 						class Item0
 						{
 							value="false";

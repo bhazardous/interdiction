@@ -68,3 +68,6 @@ if (ITD_server_newGame) then {
 } else {
 	call compile preprocessFileLineNumbers "server\loadGame.sqf";
 };
+
+// Server events.
+addMissionEventHandler ["HandleDisconnect", {[_unit, "remove"] call ITD_fnc_updatePlayerList;}];
