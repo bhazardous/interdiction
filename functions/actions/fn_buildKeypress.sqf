@@ -9,7 +9,7 @@ scriptName "fn_buildKeypress";
 	#0 ARRAY - Output from CBA event
 
 	Returns:
-	nil
+	true
 */
 
 private ["_ctrl"];
@@ -25,4 +25,4 @@ if (_ctrl) then {
 	ITD_local_building = false;
 };
 
-nil;
+true;
