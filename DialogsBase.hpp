@@ -15,6 +15,7 @@
 #define ST_PICTURE			0x30
 #define ST_HUD_BACKGROUND	0x80
 #define ST_KEEP_ASPECT_RATIO	0x800
+#define ST_WITH_RECT		0xA0
 // - CT_PROGRESS
 #define ST_HORIZONTAL		0x00
 #define ST_VERTICAL			0x01
@@ -34,6 +35,18 @@ class IGUIBack
 	style = ST_HUD_BACKGROUND;
 	colorBackground[] = {0,0,0,1};
 	colorText[] = {0,0,0,0};
+	text = "";
+	font = "PuristaMedium";
+	sizeEx = 0;
+};
+
+class IGUIBorder
+{
+	idc = -1;
+	type = CT_STATIC;
+	style = ST_WITH_RECT;
+	colorBackground[] = {0,0,0,1};
+	colorText[] = {1,1,1,1};
 	text = "";
 	font = "PuristaMedium";
 	sizeEx = 0;

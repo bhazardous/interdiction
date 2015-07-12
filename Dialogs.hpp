@@ -60,6 +60,15 @@ class RscTitles
 				h = 1 * GUI_GRID_H;
 				colorBackground[] = {-1,-1,-1,0.75};
 			};
+			class LeftBorder : IGUIBorder
+			{
+				idc = 2203;
+				x = 0 * GUI_SCREEN_X;
+				y = 15 * GUI_SCREEN_Y;
+				w = 0.8 * GUI_GRID_W;
+				h = 1 * GUI_GRID_H;
+				colorText[] = {0.5,0.5,0.5,0.75};
+			};
 			class ProgressBackground : IGUIBack
 			{
 				idc = 2202;
