@@ -40,6 +40,7 @@ if (isNil "ITD_local_firstSpawn") exitWith {
 			player hideObject false;
 			player enableSimulation true;
 			player switchMove "AidlPercMstpSrasWrfllOnon_G01";
+			ITD_local_firstSpawn = false;
 		} else {
 			// No data from DB, spawn normally.
 			_this call ITD_fnc_respawn;
