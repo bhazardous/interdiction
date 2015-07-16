@@ -10,6 +10,16 @@
 #define CT_PROGRESS		8
 
 // STYLES
+// - ALIGNMENT
+#define ST_POS			0x0F
+#define ST_HPOS			0x03
+#define ST_VPOS			0x0C
+#define ST_LEFT			0x00
+#define ST_RIGHT		0x01
+#define ST_CENTER		0x02
+#define ST_DOWN			0x04
+#define ST_UP			0x08
+#define ST_VCENTER		0x0C
 // - CT_STATIC
 #define ST_SINGLE			0x00
 #define ST_PICTURE			0x30
@@ -105,4 +115,9 @@ class RscText
 	font = "PuristaMedium";
 	sizeEx = "(((1 / 1.2) / 20) * 0.9)";
 	linespacing = 1;
+};
+
+class RscTextCentre : RscText
+{
+	style = ST_CENTER;
 };

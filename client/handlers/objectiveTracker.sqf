@@ -6,10 +6,9 @@ scriptName "objectiveTracker";
 	Description: Keeps track of secondary states and handles local UI.
 --------------------------------------------------------------------*/
 #define __filename "objectiveTracker.sqf"
-#define SLEEP_TIME 0.5
 
 // Prepare scripts.
-_inRange = compile preprocessFileLineNumbers "client\objectives\objInRange.sqf";
+_inRange = compile preprocessFileLineNumbers "client\handlers\objectiveInRange.sqf";
 
 waitUntil {!isNil "ITD_global_objectivesList"};
 
@@ -20,6 +19,6 @@ while {true} do {
 			[_x select 0, _x select 1] call _inRange;
 		};
 
-		sleep SLEEP_TIME;
+		sleep 0.5;
 	} forEach ITD_global_objectivesList;
 };

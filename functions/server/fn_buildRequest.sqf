@@ -142,6 +142,10 @@ if (ITD_global_buildingEnabled) then {
 			publicVariable "ITD_global_camps";
 			DB_CAMPS pushBack [_pos, _rot, false, [], []];
 
+			// Make service point data public.
+			ITD_global_serviceData pushBack [];
+			publicVariable "ITD_global_serviceData";
+
 			// Delete the respawn markers if they still exist.
 			if (markerType "respawn_west" != "") then {
 				deleteMarker "respawn_west";
@@ -187,13 +191,17 @@ if (ITD_global_buildingEnabled) then {
 		};
 
 		case "service": {
-			// Add new building to service point array.
-			ITD_global_servicePoints pushBack _pos;
-			publicVariable "ITD_global_servicePoints";
-
 			// Add service point to camp data.
 			_data = DB_CAMPS_ID;
 			_data set [3, [_pos, _rot, [0,0,0]]];
+
+			// Update global service data.
+			ITD_global_serviceData set [_id, (DB_CAMPS_SERVICE_DATA)];
+			publicVariable "ITD_global_serviceData";
+
+			// Add new position to service point array.
+			ITD_global_servicePoints pushBack _pos;
+			publicVariable "ITD_global_servicePoints";
 		};
 
 		case "recruitment": {

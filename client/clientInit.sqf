@@ -49,7 +49,8 @@ call compile preprocessFileLineNumbers "client\gui\guiInit.sqf";
 	ITD_local_flexiMenu call ALiVE_fnc_flexiMenu_add;
 
 	// Start tracking objectives.
-	execVM "client\objectives\objectiveTracker.sqf";
+	execVM "client\handlers\objectiveTracker.sqf";
+	execVM "client\handlers\camps.sqf";
 
 	// Hints.
 	if (ITD_global_canJoin) then {

@@ -74,6 +74,7 @@ ITD_server_db_objectives = ["ITD_objectives"] call ALiVE_fnc_getData;
 // Rebuild camps.
 ITD_global_camps = [];
 ITD_global_servicePoints = [];
+ITD_global_serviceData = [];
 ITD_global_recruitmentTents = [];
 
 private ["_campId"];
@@ -101,6 +102,9 @@ _campId = 1;
 		_building = ["service", _service select 0, _service select 1, false] call ITD_fnc_spawnComposition;
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
 		ITD_global_servicePoints pushBack (_service select 0);
+		ITD_global_serviceData pushBack (_service select 2);
+	} else {
+		ITD_global_serviceData pushBack [];
 	};
 
 	if (count _recruit == 2) then {
@@ -143,6 +147,7 @@ waitUntil {!isNil "ITD_server_objectivesLoaded"};
 // Broadcast variables that need to be global.
 publicVariable "ITD_global_camps";
 publicVariable "ITD_global_servicePoints";
+publicVariable "ITD_global_serviceData";
 publicVariable "ITD_global_recruitmentTents";
 
 PUBLIC(ITD_global_crewAvailable,ITD_server_db_progress select 3);
