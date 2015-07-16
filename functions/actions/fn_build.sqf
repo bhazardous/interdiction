@@ -28,31 +28,27 @@ if (isNil "ITD_local_building") then {
 if (ITD_local_building) exitWith {};
 
 // Start building placement.
-private ["_pos", "_dir", "_building"];
-_pos = position player;
-_pos set [2, 0];
+private ["_pos", "_dir", "_building", "_valid"];
+_playerPos = position player;
+_playerPos set [2, 0];
 _dir = getDir player;
+_valid = false;
 
 // Don't continue if the position is invalid.
-_pos = _pos isFlatEmpty [0,0,1.0,7,0, false, player];
+_pos = _playerPos isFlatEmpty [0,0,1.0,7,0, false, player];
 if (count _pos == 0) exitWith {
 	[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
 };
 
 // Buildings that require a camp need to be within MAX_DISTANCE.
-private ["_valid"];
-_valid = false;
 if (_type in ["service","recruitment"]) then {
-	for "_i" from 1 to (count ITD_global_camps) do {
-		private ["_campPos"];
-		_campPos = markerPos (format ["ITD_mkr_resistanceCamp%1", _i]);
-		if (_campPos distance _pos < MAX_DISTANCE) exitWith {
-			_valid = true;
-		};
-	};
+	{
+		if (_x distance _playerPos < MAX_DISTANCE) exitWith {_valid = true};
+	} forEach ITD_global_camps;
 } else {
 	_valid = true;
 };
+
 if (!_valid) exitWith {
 	[["ResistanceMovement", "BuildCamp", "Distance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
 	nil;
