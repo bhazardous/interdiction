@@ -144,4 +144,33 @@ class RscTitles
 			};
 		};
 	};
+	class ITD_IconReinf
+	{
+		idd = -1;
+		duration = 99999;
+		onLoad = "uiNamespace setVariable ['ITD_local_ui_iconReinf', (_this select 0)];";
+		fadeIn = 0.25;
+		class controls {
+			class Icon : RscPictureAspect
+			{
+				idc = 1001;
+				text = "\A3\ui_f\data\map\markers\military\join_CA.paa";
+				x = 39.4 * GUI_SCREEN_X;
+				y = 15 * GUI_SCREEN_Y;
+				w = 0.6 * GUI_GRID_W;
+				h = 0.65 * GUI_GRID_H;
+			};
+		};
+		class controlsBackground
+		{
+			class Background : IGUIBack
+			{
+				idc = 2201;
+				x = 39.4 * GUI_SCREEN_X;
+				y = 15 * GUI_SCREEN_Y;
+				w = 0.6 * GUI_GRID_W;
+				h = 0.65 * GUI_GRID_H;
+			};
+		};
+	};
 };

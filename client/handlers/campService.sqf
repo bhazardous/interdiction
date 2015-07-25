@@ -26,7 +26,6 @@ _id = ([player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_c
 _pos = _this select 0;
 _radius = 25;
 
-hint "Entry";
 GUI_SHOW;
 
 // Display until out of range.
@@ -38,4 +37,3 @@ while {player distance _pos <= _radius} do {
 };
 
 GUI_HIDE;
-hint "Exit";

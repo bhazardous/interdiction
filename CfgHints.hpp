@@ -158,8 +158,13 @@ class CfgHints
 		class RecruitmentTent
 		{
 			displayName = "Recruitment Tent";
-			description = "The %3recruitment tent%4 is where resistance recruits are processed. After making contact with the resistance, new forces will come here to grab a weapon and receive orders.";
+			description = "The %3recruitment tent%4 is where resistance recruits are processed. After making contact with the resistance, new forces will come here to grab a weapon and receive orders.%1You can put in a request for reinforcements here, units will be sent to your position when available.";
 			image = "\a3\ui_f\data\gui\cfg\hints\commanding_ca.paa";
+			class AlreadyInQueue
+			{
+				displayName = "Reinforcements";
+				description = "You already have an active request for reinforcements.";
+			};
 		};
 		class BuildCamp
 		{

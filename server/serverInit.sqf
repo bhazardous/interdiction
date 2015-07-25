@@ -43,6 +43,7 @@ if (ITD_global_persistence) then {
 ITD_server_killThreshold = 15;			// Number of OPFOR killed for civilians to join resistance movement.
 ITD_server_crewThreshold = 5;			// Reach the kill threshold x times to unlock support crew.
 ITD_server_campThreshold = 10;			// Unlocks extra camps.
+ITD_server_reinforceQueue = [];			// Player queue for requested reinforcements.
 
 PUBLIC(ITD_global_buildingEnabled,true);// Global toggle for building.
 PUBLIC(ITD_global_playerList,[ITD_unit_invisibleMan]);

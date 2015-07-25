@@ -181,6 +181,36 @@ switch (_element) do {
 				};
 		};
 
+		// ITD_IconReinf
+		// Actions: show, hide, setColour
+		case "iconReinf": {
+				switch (_action) do {
+					case "show": {
+						if (!ITD_local_ui_iconReinf) then {
+							ITD_local_ui_iconReinf = true;
+							["show"] call ITD_local_ui_iconReinf_fn;
+						};
+					};
+
+					case "hide": {
+						if (ITD_local_ui_iconReinf) then {
+							ITD_local_ui_iconReinf = false;
+							["hide"] call ITD_local_ui_iconReinf_fn;
+						};
+					};
+
+					case "setColour": {
+						if (ITD_local_ui_iconReinf) then {
+							["setColour", _params] call ITD_local_ui_iconReinf_fn
+						};
+					};
+
+					default {
+						["%1 isn't a valid action for gui 'iconReinf'", _action] call BIS_fnc_error;
+					};
+				};
+		};
+
 		default {
 				["%1 isn't a valid gui element", _element] call BIS_fnc_error;
 		};

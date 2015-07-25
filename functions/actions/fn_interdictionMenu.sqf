@@ -363,6 +363,16 @@ if (_menuName == "recruitment") then {
 			["recruitment", "Recruitment", _menuRsc],
 			[
 					[
+							"Request Reinforcements",
+							{[-3] call ITD_fnc_reinforcements;},
+							"",
+							"",
+							"",
+							-1,
+							(true),
+							(true)
+					],
+					[
 							"Support Vehicle",
 							"",
 							"",
@@ -424,7 +434,7 @@ if (_menuName == "debug") then {
 					],
 					[
 							"Spawn Resistance",
-							{[[1], "ITD_fnc_spawnResistance", false] call BIS_fnc_MP;},
+							{[[], "ITD_fnc_spawnResistance", false] call BIS_fnc_MP;},
 							"",
 							"",
 							"",

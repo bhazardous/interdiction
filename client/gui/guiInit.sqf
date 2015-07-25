@@ -15,3 +15,6 @@ ITD_local_ui_objStatus_fn = compile preprocessFileLineNumbers "client\gui\object
 ITD_local_ui_service = false;
 ITD_local_ui_service_full = false;
 ITD_local_ui_service_fn = compile preprocessFileLineNumbers "client\gui\service.sqf";
+
+ITD_local_ui_iconReinf = false;
+ITD_local_ui_iconReinf_fn = compile preprocessFileLineNumbers "client\gui\iconReinf.sqf";
