@@ -143,12 +143,14 @@ _bua = 0;
 ];
 
 // Scale down objectives / presence.
-ITD_module_alive_opfor_civ setVariable ["sizeFilter", "400"];
+// CIV - Filter low / small, roadblocks low.
+ITD_module_alive_opfor_civ setVariable ["sizeFilter", "250"];
 ITD_module_alive_opfor_civ setVariable ["priorityFilter", "10"];
 ITD_module_alive_opfor_civ setVariable ["roadblocks", "15"];
 
-ITD_module_alive_opfor_mil setVariable ["sizeFilter", "200"];
-ITD_module_alive_opfor_mil setVariable ["randomcamps", "2500"];
+// MIL - Filter none, no camps.
+ITD_module_alive_opfor_mil setVariable ["sizeFilter", "0"];
+ITD_module_alive_opfor_mil setVariable ["randomcamps", "0"];
 ITD_module_alive_indfor_mil setVariable ["randomcamps", "0"];
 
 // Safe spawn.
