@@ -101,7 +101,7 @@ switch (_anim) do {
 		waitUntil {ctrlCommitted _textCtrl};
 	};
 
-	case "text": {
+	case "setText": {
 		call _getControls;
 		_textCtrl ctrlSetText _params;
 	};

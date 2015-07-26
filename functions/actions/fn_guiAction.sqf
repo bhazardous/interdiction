@@ -4,6 +4,7 @@ scriptName "fn_guiAction";
 
 	Description:
 	Handles dialogs and resources.
+	Usage - ["uiName", "action", params] call ITD_fnc_guiAction;
 
 	Parameter(s):
 	#0 STRING - GUI element name
@@ -11,7 +12,7 @@ scriptName "fn_guiAction";
 	#2 ANY - Params if required
 
 	Returns:
-	BOOL - TRUE when done
+	nil
 */
 
 private ["_element", "_action", "_params"];
@@ -20,6 +21,8 @@ _action = [_this, 1, "", [""]] call BIS_fnc_param;
 _params = [_this, 2, []] call BIS_fnc_param;
 
 switch (_element) do {
+		// ITD_ObjectiveStatus
+		// Actions: show, showFull, hide, extend, shrink, setIcon, setSide, setText, setProgress, animateProgress
 		case "objectiveStatus": {
 				switch (_action) do {
 					case "show": {
@@ -98,6 +101,119 @@ switch (_element) do {
 							["animateProgress", _params] call ITD_local_ui_objStatus_fn;
 						};
 					};
+
+					default {
+						["%1 isn't a valid action for gui 'objectiveStatus'", _action] call BIS_fnc_error;
+					};
 				};
 		};
+
+		// ITD_Service
+		// Actions: show, showFull, hide, extend, shrink, setFuel, setParts, setMilParts
+		case "service": {
+				switch (_action) do {
+					case "show": {
+						if (!ITD_local_ui_service) then {
+							ITD_local_ui_service = true;
+							ITD_local_ui_service_full = false;
+							["show"] call ITD_local_ui_service_fn;
+						};
+					};
+
+					case "showFull": {
+						if (!ITD_local_ui_service) then {
+							ITD_local_ui_service = true;
+							ITD_local_ui_service_full = true;
+							["showFull"] call ITD_local_ui_service_fn;
+						};
+					};
+
+					case "hide": {
+						if (ITD_local_ui_service) then {
+							ITD_local_ui_service = false;
+							if (ITD_local_ui_service_full) then {
+								ITD_local_ui_service_full = false;
+								["shrink"] call ITD_local_ui_service_fn;
+							};
+							["hide"] call ITD_local_ui_service_fn;
+						};
+					};
+
+					case "extend": {
+						if (ITD_local_ui_service) then {
+							if (!ITD_local_ui_service_full) then {
+								ITD_local_ui_service_full = true;
+								["extend"] call ITD_local_ui_service_fn;
+							};
+						};
+					};
+
+					case "shrink": {
+						if (ITD_local_ui_service) then {
+							if (ITD_local_ui_service_full) then {
+								ITD_local_ui_service_full = false;
+								["shrink"] call ITD_local_ui_service_fn;
+							};
+						};
+					};
+
+					case "setFuel": {
+						if (ITD_local_ui_service) then {
+							["setFuel", _params] call ITD_local_ui_service_fn;
+						};
+					};
+
+					case "setParts": {
+						if (ITD_local_ui_service) then {
+							["setParts", _params] call ITD_local_ui_service_fn;
+						};
+					};
+
+					case "setMilParts": {
+						if (ITD_local_ui_service) then {
+							["setMilParts", _params] call ITD_local_ui_service_fn;
+						};
+					};
+
+					default {
+						["%1 isn't a valid action for gui 'service'", _action] call BIS_fnc_error;
+					};
+				};
+		};
+
+		// ITD_IconReinf
+		// Actions: show, hide, setColour
+		case "iconReinf": {
+				switch (_action) do {
+					case "show": {
+						if (!ITD_local_ui_iconReinf) then {
+							ITD_local_ui_iconReinf = true;
+							["show"] call ITD_local_ui_iconReinf_fn;
+						};
+					};
+
+					case "hide": {
+						if (ITD_local_ui_iconReinf) then {
+							ITD_local_ui_iconReinf = false;
+							["hide"] call ITD_local_ui_iconReinf_fn;
+						};
+					};
+
+					case "setColour": {
+						if (ITD_local_ui_iconReinf) then {
+							["setColour", _params] call ITD_local_ui_iconReinf_fn
+						};
+					};
+
+					default {
+						["%1 isn't a valid action for gui 'iconReinf'", _action] call BIS_fnc_error;
+					};
+				};
+		};
+
+		default {
+				["%1 isn't a valid gui element", _element] call BIS_fnc_error;
+		};
 };
+
+nil;

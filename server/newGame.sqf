@@ -19,6 +19,7 @@ PUBLIC(ITD_global_tech1,false);			// Tech tier 1.
 PUBLIC(ITD_global_campExists,false);	// A resistance HQ exists.
 PUBLIC(ITD_global_camps,[]);			// List of camp positions.
 PUBLIC(ITD_global_servicePoints,[]);	// List of service point buildings.
+PUBLIC(ITD_global_serviceData,[]);		// Service point data.
 PUBLIC(ITD_global_recruitmentTents,[]);	// List of recruitment tents.
 
 [paramsArray select 2] call BIS_fnc_paramDaytime;

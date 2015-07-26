@@ -324,4 +324,8 @@ switch (_action) do {
 		};
 };
 
+// TODO: Only run this if something has changed.
+ITD_global_serviceData set [_id, (DB_CAMPS_SERVICE_DATA)];
+publicVariable "ITD_global_serviceData";
+
 nil;

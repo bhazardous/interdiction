@@ -1,15 +1,15 @@
-scriptName "objInRange";
+scriptName "objectiveInRange";
 /*--------------------------------------------------------------------
-	file: objInRange.sqf
+	file: objectiveInRange.sqf
 	====================
 	Author: Bhaz <>
 	Description: Takes control if a player is in range of an objective.
 --------------------------------------------------------------------*/
-#define __filename "objInRange.sqf"
-#define SLEEP_TIME 0.5
+#define __filename "objectiveInRange.sqf"
 
 #define GUI_NAME "objectiveStatus"
 #define GUI_SHOW [GUI_NAME, "show"] call ITD_fnc_guiAction
+#define GUI_HIDE [GUI_NAME, "hide"] call ITD_fnc_guiAction
 #define GUI_EXTEND [GUI_NAME, "extend"] call ITD_fnc_guiAction
 #define GUI_SHRINK [GUI_NAME, "shrink"] call ITD_fnc_guiAction
 #define GUI_SET_ICON(x) [GUI_NAME, "setIcon", x] call ITD_fnc_guiAction
@@ -54,11 +54,11 @@ while {(player distance (markerPos _markerName)) <= _radius} do {
 
 		_progress = missionNamespace getVariable [_progressVar, 0];
 		GUI_SET_PROGRESS(_progress);
-		sleep SLEEP_TIME;
+		sleep 0.5;
 		GUI_SHRINK;
 	};
-	sleep SLEEP_TIME;
+	sleep 0.5;
 };
 
 // Player left radius - kill the UI.
-["objectiveStatus", "hide"] call ITD_fnc_guiAction;
+GUI_HIDE;

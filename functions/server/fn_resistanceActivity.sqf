@@ -19,7 +19,7 @@ _reason = [_this, 0, "", [""]] call BIS_fnc_param;
 switch (_reason) do {
 	case "kills": {
 		// Hit kill threshold.
-		[1] call ITD_fnc_spawnResistance;
+		call ITD_fnc_spawnResistance;
 
 		// Tick counters for unlocks.
 		private ["_crewCounter", "_campCounter"];
