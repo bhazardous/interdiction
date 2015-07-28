@@ -35,7 +35,7 @@ switch (_reason) do {
 			ITD_global_crewAvailable = ITD_global_crewAvailable + 1;
 			publicVariable "ITD_global_crewAvailable";
 			_crewCounter = _crewCounter - ITD_server_crewThreshold;
-			[["ResistanceMovement","CombatSupport","SupportCrew"]] call ITD_fnc_broadcastHint;
+			[[["ITD_Guide","CombatSupport","Info_Crew"], -1, true], "ITD_fnc_advHint"] call BIS_fnc_MP;
 
 			SET_DB_PROGRESS_CREW_AVAILABLE(ITD_global_crewAvailable);
 		};
@@ -52,7 +52,7 @@ switch (_reason) do {
 		if (!ITD_global_tech1) then {
 			ITD_global_tech1 = true;
 			publicVariable "ITD_global_tech1";
-			[["ResistanceMovement", "BuildCamp", "UnlockTechOne"]] call ITD_fnc_broadcastHint;
+			[[["ITD_Hints","Info_Unlock"], -1, true], "ITD_fnc_advHint"] call BIS_fnc_MP;
 
 			SET_DB_PROGRESS_TECH1(true);
 		};

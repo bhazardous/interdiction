@@ -37,7 +37,7 @@ _valid = false;
 // Don't continue if the position is invalid.
 _pos = _playerPos isFlatEmpty [0,0,1.0,7,0, false, player];
 if (count _pos == 0) exitWith {
-	[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	[["ITD_Camp","Error_Position"], 5] call ITD_fnc_advHint;
 };
 
 // Buildings that require a camp need to be within MAX_DISTANCE.
@@ -50,7 +50,7 @@ if (_type in ["service","recruitment"]) then {
 };
 
 if (!_valid) exitWith {
-	[["ResistanceMovement", "BuildCamp", "Distance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	[["ITD_Camp","Error_Distance"], 5] call ITD_fnc_advHint;
 	nil;
 };
 
@@ -61,7 +61,7 @@ if (_type == "hq") then {
 	};
 };
 if (!_valid) exitWith {
-	[["ResistanceMovement","BuildCamp","HQDistance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	[["ITD_Camp","Error_DistanceHQ"], 5] call ITD_fnc_advHint;
 	nil;
 };
 
@@ -71,7 +71,7 @@ ITD_local_building = true;
 ITD_local_building_object = _building;
 
 // Building tutorial hint.
-[["ResistanceMovement","BuildCamp","BuildInstructions"],10,"",30,"",true,true,true] call BIS_fnc_advHint;
+[["ITD_Hints","Info_Building"], -1, true] call ITD_fnc_advHint;
 
 // Placement loop.
 [_type, _building] spawn {
@@ -143,7 +143,7 @@ ITD_local_building_object = _building;
 				// Position returned from isFlatEmpty can be slightly different, so don't use it.
 				_checkPos = _pos isFlatEmpty [0,0,1.0,7,0, false, player];
 				if (count _checkPos == 0) exitWith {
-					[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+					[["ITD_Camp","Error_Position"], 5] call ITD_fnc_advHint;
 				};
 
 				// Send the build request to the server.

@@ -34,6 +34,7 @@ class CfgFunctions
 	{
 		class actions
 		{
+			class advHint {};
 			class interdictionMenu {};
 			class build {};
 			class buildKeypress {};
@@ -88,7 +89,6 @@ class CfgFunctions
 			class checkBuildings {};
 			class spawnConvoy {};
 			class addSupport {};
-			class broadcastHint {};
 			class serviceRequest {};
 			class captureFOB {};
 			class getClosestObjective {};

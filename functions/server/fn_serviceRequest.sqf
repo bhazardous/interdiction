@@ -34,7 +34,7 @@ if (_action == "check") exitWith {
 	[["ITD_local_fuelUsed", _fuel], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 	[["ITD_local_militaryUsed", _military], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 
-	[["ResistanceMovement","ServicePoint","SPStock"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+	[[["ITD_Service","Info_Stock"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 };
 
 if (_action == "assess") exitWith {
@@ -65,12 +65,12 @@ if (_action == "assess") exitWith {
 	[["ITD_local_partsUsed", _partsRequired], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 	if (_milRequired > 0) then {
 		[["ITD_local_militaryUsed", _milRequired], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
-		[["ResistanceMovement","ServicePoint","CheckDamageMil"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+		[[["ITD_Service","Info_AssessDamageMil"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	} else {
 		if (_partsRequired > 0) then {
-			[["ResistanceMovement","ServicePoint","CheckDamage"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+			[[["ITD_Service","Info_AssessDamage"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 		} else {
-			[["ResistanceMovement","ServicePoint","NoRepair"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+			[[["ITD_Service","Info_AssessDamageNone"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 		};
 	};
 };
@@ -79,17 +79,17 @@ if (_action == "assess") exitWith {
 _pos = DB_CAMPS_SERVICE_POSITION;
 if (_player distance _pos > 10) exitWith {
 	// Player not close enough to service point.
-	[["ResistanceMovement","ServicePoint","SPDistPlayer"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+	[[["ITD_Service","Error_DistancePlayer"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
 };
 if (_vehicle distance _pos > 10) exitWith {
 	// Vehicle not close enough to service point.
-	[["ResistanceMovement","ServicePoint","SPDistVehicle"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+	[[["ITD_Service","Error_DistanceVehicle"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
 };
 if (_player distance _vehicle > 6) exitWith {
 	// Player not close enough to vehicle.
-	[["ResistanceMovement","ServicePoint","SPDistVehicleP"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+	[[["ITD_Service","Error_DistanceClose"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
 };
 
@@ -159,9 +159,9 @@ switch (_action) do {
 						if (_milUsed > 0) then {
 							[["ITD_local_militaryUsed", _milUsed], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 
-							[["ResistanceMovement","ServicePoint","MilRepairPartial"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+							[[["ITD_Service","Info_RepairPartialMil"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 						} else {
-							[["ResistanceMovement","ServicePoint","MilRepairNone"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+							[[["ITD_Service","Info_RepairPartsMil"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 						};
 					};
 				};
@@ -190,12 +190,12 @@ switch (_action) do {
 						};
 
 						if (_milRequired > 0) then {
-							[["ResistanceMovement","ServicePoint","MilPartRepairPartial"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+							[[["ITD_Service","Info_RepairPartialBoth"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 						} else {
 							if (_partsUsed > 0) then {
-								[["ResistanceMovement","ServicePoint","RepairPartial"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+								[[["ITD_Service","Info_RepairPartial"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 							} else {
-								[["ResistanceMovement","ServicePoint","RepairNone"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+								[[["ITD_Service","Info_RepairParts"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 							};
 						};
 					};
@@ -206,9 +206,9 @@ switch (_action) do {
 				if (_bailOut) exitWith {};
 
 				if (_milRequired > 0) then {
-					[["ResistanceMovement","ServicePoint","MilRepairFull"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+					[[["ITD_Service","Info_RepairCompleteMil"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 				} else {
-					[["ResistanceMovement","ServicePoint","RepairFull"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+					[[["ITD_Service","Info_RepairComplete"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 				};
 		};
 
@@ -231,14 +231,14 @@ switch (_action) do {
 					// Full refuel.
 					_data set [0, (_data select 0) - _fuelRequired];
 					_vehicle setFuel 1;
-					[["ResistanceMovement","ServicePoint","RefuelFull"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+					[[["ITD_Service","Info_RefuelFull"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 				} else {
 					// Partial refuel.
 					private ["_refuel"];
 					_refuel = _fuel + ((_data select 0) * 0.05);
 					_data set [0, 0];
 					_vehicle setFuel _refuel;
-					[["ResistanceMovement","ServicePoint","RefuelPartial"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+					[[["ITD_Service","Info_RefuelPartial"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 				};
 		};
 
@@ -288,18 +288,18 @@ switch (_action) do {
 				if (_militaryValue == 0) then {
 					if (_siphon > 0) then {
 						[["ITD_local_fuelUsed", _siphon], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
-						[["ResistanceMovement","ServicePoint","StripSiphon"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+						[[["ITD_Service","Info_StripSiphon"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 					} else {
-						[["ResistanceMovement","ServicePoint","Stripped"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+						[[["ITD_Service","Info_Strip"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 					};
 				} else {
 					if (_siphon > 0) then {
 						[["ITD_local_militaryUsed", _militaryValue], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
 						[["ITD_local_fuelUsed", _siphon], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
-						[["ResistanceMovement","ServicePoint","StripMilSiphon"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+						[[["ITD_Service","Info_StripMilSiphon"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 					} else {
 						[["ITD_local_militaryUsed", _militaryValue], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
-						[["ResistanceMovement","ServicePoint","StrippedMil"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+						[[["ITD_Service","Info_StripMil"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 					};
 				};
 		};
@@ -317,9 +317,9 @@ switch (_action) do {
 					_data set [0, (_data select 0) + _siphon];
 					_vehicle setFuel 0;
 					[["ITD_local_fuelUsed", _siphon], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
-					[["ResistanceMovement","ServicePoint","Siphoned"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+					[[["ITD_Service","Info_Siphon"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 				} else {
-					[["ResistanceMovement","ServicePoint","SiphonNone"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+					[[["ITD_Service","Info_SiphonNone"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 				};
 		};
 };

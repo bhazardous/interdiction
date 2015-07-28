@@ -28,7 +28,7 @@ if (_index == -3) then {
 } else {
 	// Response received from server.
 	if (_index == -1) exitWith {
-		[["ResistanceMovement","RecruitmentTent","AlreadyInQueue"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+		[["ITD_Recruitment","Error_Queue"], 5] call ITD_fnc_advHint;
 	};
 
 	if (_index == -2) exitWith {

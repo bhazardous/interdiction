@@ -32,7 +32,7 @@ if (isNull _player) exitWith {
 };
 
 if (ITD_global_crewAvailable <= 0) exitWith {
-	[["ResistanceMovement","CombatSupport","SupportErrNoCrew"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
+	[[["ITD_CombatSupport","Error_NoCrew", 5]], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
 };
 
@@ -57,7 +57,7 @@ switch (_type) do {
 
 				// If number of turrets = 0, this can't possibly be a combat vehicle.
 				if (count _turrets == 0) then {
-					[["ResistanceMovement","CombatSupport","SupportErrNonCombat"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
+					[[["ITD_CombatSupport","Error_NonCombat"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 					_type = "abort";
 				};
 		};
@@ -110,13 +110,13 @@ waitUntil {count (crew _vehicle) == _crewSize ||
 	{!alive _vehicle}};
 if ({alive _x} count units _group < _crewSize) exitWith {
 	// Unit died.
-	[["ResistanceMovement","CombatSupport","SupportErrDead"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
+	[[["ITD_CombatSupport","Error_Dead"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	_vehicle lock 0;
 	nil;
 };
 if (!alive _vehicle) exitWith {
 	// Vehicle destroyed.
-	[["ResistanceMovement","CombatSupport","SupportErrVDead"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
+	[[["ITD_CombatSupport","Error_Destroyed"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	_vehicle lock 0;
 	nil;
 };
@@ -176,7 +176,7 @@ switch (_type) do {
 };
 
 if (_success) then {
-	[["ResistanceMovement","CombatSupport","SupportAvailable"]] call ITD_fnc_broadcastHint;
+	[[["ITD_Guide","CombatSupport","Info_Available"], 10], "ITD_fnc_advHint"] call BIS_fnc_MP;
 };
 
 nil;

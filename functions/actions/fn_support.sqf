@@ -24,12 +24,12 @@ if (isNull _vehicle) exitWith {
 
 if (!([_vehicle, ITD_global_recruitmentTents, VEHICLE_DISTANCE] call ITD_fnc_nearby)) exitWith {
 	// Vehicle not close enough to tent.
-	[["ResistanceMovement","CombatSupport","SupportErrDistance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	[["ITD_CombatSupport","Error_Distance"], 5] call ITD_fnc_advHint;
 };
 
 if (count crew _vehicle > 0) then {
 	// Vehicle not empty.
-	[["ResistanceMovement","CombatSupport","SupportErrCrew"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+	[["ITD_CombatSupport","Error_NotEmpty"], 5] call ITD_fnc_advHint;
 };
 
 // Send the request to the server.

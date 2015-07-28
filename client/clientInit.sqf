@@ -55,10 +55,10 @@ call compile preprocessFileLineNumbers "client\gui\guiInit.sqf";
 	// Hints.
 	if (ITD_global_canJoin) then {
 		sleep 15;
-		[["ResistanceMovement", "Interdiction"], 15, "", 35, "", true, true, true] call BIS_fnc_advHint;
+		[["ITD_Guide","Interdiction"], -1, true] call ITD_fnc_advHint;
 		sleep 60;
 		if (!ITD_global_campExists) then {
-			[["ResistanceMovement","BuildCamp","CampHint"],15,"",35,"",true,true,true] call BIS_fnc_advHint;
+			[["ITD_Guide","ResistanceCamp","Info_Camp"], -1, true] call ITD_fnc_advHint;
 		};
 	};
 };

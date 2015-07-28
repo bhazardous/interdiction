@@ -54,15 +54,15 @@ if (!isNil "_version") then {
 	if (_version > 1) then {
 		// Not backwards compatible.
 		while {true} do {
-			[["ResistanceMovement","MissionPersistence","VersionError"], true, true, false] call ITD_fnc_broadcastHint;
-			sleep 30;
+			[[["ITD_Persistence","Error_Version"]], "ITD_fnc_advHint"] call BIS_fnc_MP;
+			sleep 40;
 		};
 	};
 } else {
 	// Corrupt / missing data, or ALiVE data from another mission. (sharing pbo name etc.)
 	while {true} do {
-		[["ResistanceMovement","MissionPersistence","LoadError"], true, true, false] call ITD_fnc_broadcastHint;
-		sleep 30;
+		[[["ITD_Persistence","Error_Load"]], "ITD_fnc_advHint"] call BIS_fnc_MP;
+		sleep 40;
 	};
 };
 
@@ -163,4 +163,4 @@ if (count ITD_server_db_camps > 0) then {
 // Start the objective manager.
 ["manage"] spawn ITD_fnc_objectiveManager;
 
-[["ResistanceMovement","MissionPersistence","LoadedSave"]] call ITD_fnc_broadcastHint;
+[[["ITD_Persistence","Info_Resumed"]], "ITD_fnc_advHint"] call BIS_fnc_MP;

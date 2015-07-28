@@ -46,7 +46,7 @@ if (_type in ["service","recruitment"]) then {
 	_valid = true;
 };
 if (!_valid) exitWith {
-	[["ResistanceMovement","BuildCamp","Distance"], true, true, false, _player, true] call ITD_fnc_broadcastHint;
+	[[["ITD_Camp","Error_Distance"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 };
 
 // Get closest camp ID.
@@ -65,7 +65,7 @@ if (_type in ["service","recruitment"]) then {
 	};
 };
 if (!_valid) exitWith {
-	[["ResistanceMovement","BuildCamp","Duplicate"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+	[[["ITD_Camp","Error_Duplicate"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
 };
 
@@ -96,7 +96,7 @@ if (ITD_global_buildingEnabled) then {
 		if (_data select 1 >= _cost) then {
 			_data set [1, (_data select 1) - _cost];
 		} else {
-			[["ResistanceMovement","BuildCamp","FortParts"],true,true,false,_player,true] call ITD_fnc_broadcastHint;
+			[[["ITD_Service","Error_FortParts"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 			_valid = false;
 		};
 	};
@@ -131,7 +131,7 @@ if (ITD_global_buildingEnabled) then {
 			publicVariable "ITD_global_lastCampGrid";
 			publicVariable "ITD_global_campBuiltBy";
 			["objCamp", "Succeeded"] call BIS_fnc_taskSetState;
-			[["ResistanceMovement", "BuildCamp", "CampBuilt"], true, true, false] call ITD_fnc_broadcastHint;
+			[[["ITD_Camp","Info_Built"]], "ITD_fnc_advHint"] call BIS_fnc_MP;
 
 			// Map marker for HQ.
 			_campMarker = createMarker [format ["ITD_mkr_resistanceCamp%1", count ITD_global_camps + 1], _pos];
@@ -172,7 +172,7 @@ if (ITD_global_buildingEnabled) then {
 
 				[] spawn {
 					sleep 60;
-					[["ResistanceMovement", "Interdiction", "FieldManual"]] call ITD_fnc_broadcastHint;
+					[[["ITD_Hints","Info_FieldManual"], -1, true], "ITD_fnc_advHint"] call BIS_fnc_MP;
 				};
 			};
 

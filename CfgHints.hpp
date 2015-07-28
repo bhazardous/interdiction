@@ -2,29 +2,22 @@
 	file: CfgHints.hpp
 	==================
 	Author: Bhaz
-	Description: Hints and in-game guide
+	Description: Hints, popups, errors and in-game guide.
 --------------------------------------------------------------------*/
 
 class CfgHints
 {
-	class ResistanceMovement
+	class ITD_Guide
 	{
-		displayName = "Resistance Movement";
 		class Interdiction
 		{
 			displayName = "--- Interdiction";
 			description = "%3Interdiction%4 is a military term for the act of %3delaying%4, %3disrupting%4, or %3destroying%4 enemy forces or supplies en route to the battle area.%1- Wikipedia";
-			tip = "You have arrived at %11 to stop enemy forces pushing closer to your homeland. Disrupt the enemy, take their resources and inspire the local populace to rise up and join the fight.";
+			tip = "You have arrived at %11 to stop enemy forces pushing closer to your homeland. Disrupt the enemy, exploit their resources and inspire the local populace to rise up and join the fight.";
 			arguments[] = {
 				"worldName"
 			};
 			image = "\a3\ui_f\data\gui\cfg\hints\BasicStances_ca.paa";
-			class FieldManual
-			{
-				displayName = "Field Manual";
-				description = "A complete mission guide is available for new players.%1It's accessible by clicking on the %3[Field Manual]%4 option from the %3[Esc.]%4 menu.";
-				image = "\a3\ui_f\data\gui\cfg\hints\miss_icon_ca.paa";
-			};
 		};
 		class AmmoCache
 		{
@@ -39,56 +32,26 @@ class CfgHints
 		class CombatSupport
 		{
 			displayName = "Combat Support";
-			description = "Later on in the mission, captured vehicles can be brought back to camp and turned into support assets; This can be done at the %3recruitment tent%4.%1You will need to find a skilled crew to man the vehicle, keep recruiting new resistance members.%1Once a vehicle is manned, it can then be called as combat support or transport using the %3ALiVE Combat Support%4 menu.";
+			description = "As your forces grow, captured vehicles can be brought back to camp and turned into support assets; This can be done at the %3recruitment tent%4.%1You will need to find a skilled crew to man the vehicle, keep recruiting new resistance members.%1Once a vehicle is manned, it can then be called as combat support or transport using the %3ALiVE Combat Support%4 menu.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
-			class SupportCrew
+			class Info_Crew
 			{
 				displayName = "Combat Support";
-				description = "You now have %3support crew%4 available, drive a vehicle back to a %3recruitment tent%4, then use the %3[Alt + V]%4 menu to add support crew to the vehicle.";
+				description = "You now have %3support crew%4 available, drive a vehicle back to a %3recruitment tent%4, then use the %3[Ctrl + V]%4 menu to add support crew to the vehicle.";
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
 			};
-			class SupportAvailable
+			class Info_Available
 			{
 				displayName = "Combat Support";
 				description = "Support is now available to the resistance, you can call it by opening the %3ALiVE menu%4 and selecting %3Player Combat Support%4.";
 				image = "\a3\ui_f\data\gui\cfg\hints\vehiclecommanding_ca.paa";
 			};
-			class SupportErrDistance
-			{
-				displayName = "Combat Support";
-				description = "The vehicle needs to be closer to the recruitment tent. (<40 metres)";
-			};
-			class SupportErrCrew
-			{
-				displayName = "Vehicle not empty";
-				description = "The vehicle needs to be empty before you can add it to support.";
-			};
-			class SupportErrDead
-			{
-				displayName = "Crew Casualties";
-				description = "The support crew suffered casualities.";
-			};
-			class SupportErrVDead
-			{
-				displayName = "Vehicle Destroyed";
-				description = "The support vehicle was destroyed.";
-			};
-			class SupportErrNoCrew
-			{
-				displayName = "No Crew Available";
-				description = "The resistance has no support crews available to man the vehicle.";
-			};
-			class SupportErrNonCombat
-			{
-				displayName = "Combat Support";
-				description = "Cannot create combat support using a non-combat vehicle.";
-			};
 		};
 		class Equipment
 		{
 			displayName = "Equipment";
-			description = "The resistance has no weapon supplies or access to military vehicles, any OPFOR assets left intact are extremely valuable.";
-			tip = "Any kind of supply truck (ammo, fuel, repair) should be treated like the holy grail, the ability to maintain your own equipment is a massive advantage.";
+			description = "The resistance has no advanced weapon supplies or access to military vehicles, any OPFOR assets left intact are extremely valuable.";
+			tip = "Utility trucks are extremely valuable, giving you the resources to maintain your own equipment.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Rifles_ca.paa";
 		};
 		class Fortifications
@@ -104,36 +67,12 @@ class CfgHints
 			tip = "The enemy will respond to threats, constantly attacking the same location will cause it to be reinforced.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Annoucning_ca.paa";
 		};
-		class MissionPersistence
+		class Persistence
 		{
 			displayName = "Persistence";
-			description = "This mission is compatible with %3ALiVE persistence%4, the camps you've constructed and resources collected will be saved along with your progress.%1Persistence will only function on a dedicated server, regardless of your settings.";
-			tip = "If your %3War Room%4 server profile and server side settings are incorrect, the mission will most likely fail to start.%1Please test your persistence settings with a simple mission if you're not sure.";
+			description = "This mission is compatible with %3ALiVE persistence%4, the camps you've constructed and resources gathered will be saved along with your progress.%1Persistence will only function on a dedicated server, regardless of your settings.";
+			tip = "If your %3War Room%4 server profile or server side settings are incorrect, the mission will most likely fail to start.%1Please test your persistence settings with a simple mission if you're not sure.";
 			image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
-			class LoadedSave
-			{
-				displayName = "Mission Resumed";
-				description = "Your save has been loaded using %3ALiVE persistence%4.%1If there are any mission specific errors or bugs with your save, please report them on the Interdiction thread.";
-				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
-			};
-			class LoadError
-			{
-				displayName = "Error Loading";
-				description = "There were problems with loading this mission from the %3War Room DB%4.%1If this is a new game, make sure you aren't sharing a mission .pbo name from one of your previous ops.";
-				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
-			};
-			class VersionError
-			{
-				displayName = "Error Loading";
-				description = "The Interdiction save loaded from the %3War Room DB%4 was created with a newer version of Interdiction, please update the mission .pbo server-side.";
-				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
-			};
-			class ServerSetup
-			{
-				displayName = "Database Connection";
-				description = "Your server failed to authenticate with the %3War Room DB%4.%1Please ensure your server is correctly setup.%1Recommend testing your server's DB connection with a smaller mission.";
-				image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
-			};
 		};
 		class RadarStations
 		{
@@ -151,7 +90,7 @@ class CfgHints
 		class Recruitment
 		{
 			displayName = "Recruitment";
-			description = "Civilians that live in the area are oppressed by the powerful OPFOR regime. To recruit members into the resistance, the populace needs to be convinced that victory is achievable.%1In general, carrying out successful resistance operations will spread the word, and new recruits will begin making contact with HQ.";
+			description = "Civilians that live in the area are oppressed by the powerful OPFOR regime. To recruit members into the resistance, the populace needs convincing that victory is achievable.%1In general, carrying out successful resistance operations will spread the word, and new recruits will begin making contact with HQ.";
 			tip = "Resistance activity in large urban areas (capital cities, larger towns) will have a much greater effect.";
 			image = "\a3\ui_f\data\gui\cfg\hints\commanding_ca.paa";
 		};
@@ -160,87 +99,23 @@ class CfgHints
 			displayName = "Recruitment Tent";
 			description = "The %3recruitment tent%4 is where resistance recruits are processed. After making contact with the resistance, new forces will come here to grab a weapon and receive orders.%1You can put in a request for reinforcements here, units will be sent to your position when available.";
 			image = "\a3\ui_f\data\gui\cfg\hints\commanding_ca.paa";
-			class AlreadyInQueue
-			{
-				displayName = "Reinforcements";
-				description = "You already have an active request for reinforcements.";
-			};
 		};
-		class BuildCamp
+		class ResistanceCamp
 		{
 			displayName = "Resistance Camp";
 			description = "A camp allows the resistance to stay organized; without it, new recruits won't be able to make contact.%1The camp comes with an empty ammo crate to store spare equipment.";
-			tip = "Unless you've gathered alot of strength, it's wise to be subtle. The enemy force is much larger than yours; if they discover your camp the resistance will be easily overpowered.";
+			tip = "Until you've gathered a larger force, it's wise to be subtle. The enemy force is initially much larger than yours, if they discover your camp the resistance will be easily overpowered.";
 			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
-			class CampHint
+			class Info_Camp
 			{
 				displayName = "Resistance Camp";
 				description = "The resistance needs a camp to survive and stay organized, set up a camp with the mission's menu %3[Ctrl + V]%4.";
 				tip = "The enemy can discover your camp, try to keep it out of sight and away from OPFOR locations.";
 				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
 			};
-			class InvalidPosition
-			{
-				displayName = "Invalid Position";
-				description = "Resistance camps cannot be built in water or on steep terrain.";
-			};
-			class CampBuilt
-			{
-				displayName = "Resistance Camp";
-				description = "A camp has been established at %3%11%4 by %3%12%4.%1%2You can respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
-				tip = "The camp has been marked on your map.";
-				arguments[] = {
-					"ITD_global_lastCampGrid",
-					"ITD_global_campBuiltBy"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
-			};
-			class MultipleCamp
-			{
-				displayName = "Resistance Camp";
-				description = "Another resistance camp has been established at %3%11%4 by %3%12%4.";
-				tip = "The new camp has been marked on your map.";
-				arguments[] = {
-					"ITD_global_lastCampGrid",
-					"ITD_global_campBuiltBy"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
-			};
-			class BuildInstructions
-			{
-				displayName = "Building";
-				description = "Use %3[C]%4 to place the building, or %3[Ctrl + C]%4 to cancel. You can also cancel by running away.";
-				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
-			};
-			class UnlockTechOne
-			{
-				displayName = "Resistance Camp";
-				description = "Recent resistance activity has attracted attention from the locals, who want to join the fight. A new %3build option%4 has been unlocked to process these new recruits.%1You can also construct a %3service point%4 to strip vehicles down for parts, and use those parts to repair other vehicles.";
-				tip = "You can only build near an existing resistance HQ.";
-				image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
-			};
-			class Distance
-			{
-				displayName = "Invalid Position";
-				description = "This building needs to be placed within a resistance camp.";
-			};
-			class HQDistance
-			{
-				displayName = "Invalid Position";
-				description = "Resistance camps need to be at least 1.5km apart.";
-			};
-			class Duplicate
-			{
-				displayName = "Invalid Position";
-				description = "This building has already been constructed at this camp.";
-			};
-			class FortParts
-			{
-				displayName = "Fortification";
-				description = "Not enough spare parts available to construct this fortification.";
-			};
 		};
-		class ResistanceHQ {
+		class ResistanceHQ
+		{
 			displayName = "Resistance HQ";
 			description = "The %3resistance HQ%4 is the primary camp building. It establishes a resistance camp in the area, allowing you to construct other buildings around it.%1The HQ also acts as a %3respawn point%4 for players.%1%1Once the resistance grows, you will be able to construct multiple camps, these camps need to be at least 1.5km apart.";
 			image = "\a3\ui_f\data\gui\cfg\hints\unittype_ca.paa";
@@ -250,215 +125,364 @@ class CfgHints
 			displayName = "Service Point";
 			description = "The %3service point%4 is a resistance camp building used to maintain vehicles.%1You can bring any unwanted vehicles you have captured to this point to siphon fuel and strip them down for spare parts. You can then %3repair%4 and %3refuel%4 more important resistance assets.%1Aircraft and armoured vehicles can be stripped for more parts, but take more resources to maintain. Vehicles with weaponry can be stripped for military parts, which may be required to repair more valuable vehicles.%1Spare parts can also be used to construct %3fortifications%4.";
 			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
-			class CheckDamage
-			{
-				displayName = "Vehicle Repair";
-				description = "%11 requires %12 spare parts for a complete repair.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+	};
+
+	class ITD_Hints
+	{
+		class Info_FieldManual
+		{
+			displayName = "Field Manual";
+			description = "A complete mission guide is available for new players.%1It's accessible by clicking on the %3[Field Manual]%4 option from the %3[Esc.]%4 menu.";
+			image = "\a3\ui_f\data\gui\cfg\hints\miss_icon_ca.paa";
+		};
+		class Info_Building
+		{
+			displayName = "Building";
+			description = "Use %3[C]%4 to place the building, or %3[Ctrl + C]%4 to cancel. You can also cancel by running away.";
+			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
+		};
+		class Info_Unlock
+		{
+			displayName = "Resistance Camp";
+			description = "Recent resistance activity has attracted attention from the locals, who want to join the fight. A new %3build option%4 has been unlocked to process these new recruits.%1You can also construct a %3service point%4 to strip vehicles down for parts, and use those parts to repair other vehicles.";
+			tip = "You can only build near an existing resistance HQ.";
+			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
+		};
+	}
+
+	class ITD_CombatSupport
+	{
+		class Error_Distance
+		{
+			displayName = "Combat Support";
+			description = "The vehicle needs to within 40m of the recruitment tent.";
+		};
+		class Error_NotEmpty
+		{
+			displayName = "Vehicle not empty";
+			description = "The vehicle you want to assign as support needs to be empty.";
+		};
+		class Error_Dead
+		{
+			displayName = "Crew Casualties";
+			description = "The support crew suffered casualities en route to their vehicle.";
+		};
+		class Error_Destroyed
+		{
+			displayName = "Vehicle Destroyed";
+			description = "The assigned support vehicle was destroyed.";
+		};
+		class Error_NoCrew
+		{
+			displayName = "Crew Unavailable";
+			description = "The resistance has no support crews available to man the vehicle.";
+		};
+		class Error_NonCombat
+		{
+			displayName = "Unarmed Vehicle";
+			description = "You cannot create combat support using a non-combat vehicle.";
+		};
+	};
+
+	class ITD_Persistence
+	{
+		class Info_Resumed
+		{
+			displayName = "Mission Resumed";
+			description = "Your progress has been restored from the %3ALiVE War Room%4.%1If there are any mission specific errors or bugs with your save, please report them in the Interdiction thread.";
+			image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+		};
+		class Error_Load
+		{
+			displayName = "Error Loading";
+			description = "There were problems with loading this mission from the %3War Room DB%4.%1If this is a new game, make sure you aren't sharing a mission .pbo name from one of your previous ALiVE ops.";
+			image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+		};
+		class Error_Version
+		{
+			displayName = "Error Loading";
+			description = "The Interdiction save loaded from the %3War Room DB%4 was created with a newer version of Interdiction, please update the mission .pbo on the dedicated server.";
+			image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+		};
+		class Error_Setup
+		{
+			displayName = "Database Connection";
+			description = "Your server failed to authenticate with the %3War Room DB%4.%1Please ensure your server is correctly setup.%1It's recommended to test your server's DB connection with a smaller mission.";
+			image = "\a3\ui_f\data\gui\cfg\hints\tactical_view_ca.paa";
+		};
+	};
+
+	class ITD_Recruitment
+	{
+		class Error_Queue
+		{
+			displayName = "Reinforcements";
+			description = "You already have an active request for reinforcements.";
+		};
+	};
+
+	class ITD_Camp
+	{
+		class Info_Built
+		{
+			displayName = "Resistance Camp";
+			description = "A camp has been established at %3%11%4 by %3%12%4.%1%2You can respawn at this camp.%1%2If the enemy discovers your camp, they may decide to attack.";
+			tip = "The camp has been marked on your map.";
+			arguments[] = {
+				"ITD_global_lastCampGrid",
+				"ITD_global_campBuiltBy"
 			};
-			class CheckDamageMil
-			{
-				displayName = "Vehicle Repair";
-				description = "%11 requires %12 military parts and %13 spare parts for a complete repair.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_militaryUsed",
-					"ITD_local_partsUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
+		};
+		class Info_BuiltM
+		{
+			displayName = "Resistance Camp";
+			description = "Another resistance camp has been established at %3%11%4 by %3%12%4.";
+			tip = "The new camp has been marked on your map.";
+			arguments[] = {
+				"ITD_global_lastCampGrid",
+				"ITD_global_campBuiltBy"
 			};
-			class NoRepair
-			{
-				displayName = "Vehicle Repair";
-				description = "%11 doesn't require any repairs.";
-				arguments[] = {
-					"ITD_local_serviceType"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\Gear_ca.paa";
+		};
+		class Error_Position
+		{
+			displayName = "Invalid Position";
+			description = "Resistance camps cannot be built in water or on steep terrain.";
+		};
+		class Error_Distance
+		{
+			displayName = "Invalid Position";
+			description = "This building needs to be placed within a resistance camp.";
+		};
+		class Error_DistanceHQ
+		{
+			displayName = "Invalid Position";
+			description = "Resistance camps need to be at least 1.5km apart.";
+		};
+		class Error_Duplicate
+		{
+			displayName = "Invalid Position";
+			description = "This building has already been constructed at this camp.";
+		};
+	};
+
+	class ITD_Service
+	{
+		class Info_Stock
+		{
+			displayName = "Service Point";
+			description = "%3Fuel%4: %11%1%3Spare parts%4: %12%1%3Military parts%4: %13";
+			arguments[] = {
+				"ITD_local_fuelUsed",
+				"ITD_local_partsUsed",
+				"ITD_local_militaryUsed"
 			};
-			class RepairFull
-			{
-				displayName = "Vehicle Repaired";
-				description = "%11 has been repaired using %12 spare parts.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_AssessDamage
+		{
+			displayName = "Vehicle Repair";
+			description = "%11 requires %12 spare parts for a complete repair.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed"
 			};
-			class MilRepairFull
-			{
-				displayName = "Vehicle Repaired";
-				description = "%11 has been repaired using %12 spare parts and %13 military parts.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed",
-					"ITD_local_militaryUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_AssessDamageMil
+		{
+			displayName = "Vehicle Repair";
+			description = "%11 requires %12 military parts and %13 spare parts for a complete repair.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_militaryUsed",
+				"ITD_local_partsUsed"
 			};
-			class RepairPartial
-			{
-				displayName = "Vehicle Repaired";
-				description = "%11 has been partially repaired using %12 spare parts. The service point has no more parts remaining.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_AssessDamageNone
+		{
+			displayName = "Vehicle Repair";
+			description = "%11 doesn't require any repairs.";
+			arguments[] = {
+				"ITD_local_serviceType"
 			};
-			class MilRepairPartial
-			{
-				displayName = "Vehicle Repaired";
-				description = "%11 has been partially repaired using %12 military parts, you need more military parts before continuing repairs.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_militaryUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairComplete
+		{
+			displayName = "Vehicle Repaired";
+			description = "%11 has been repaired using %12 spare parts.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed"
 			};
-			class RepairNone
-			{
-				displayName = "Vehicle Repair";
-				description = "Repairs on %11 cannot be started without spare parts.";
-				arguments[] = {
-					"ITD_local_serviceType"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairCompleteMil
+		{
+			displayName = "Vehicle Repaired";
+			description = "%11 has been repaired using %12 spare parts and %13 military parts.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed",
+				"ITD_local_militaryUsed"
 			};
-			class MilRepairNone
-			{
-				displayName = "Vehicle Repair";
-				description = "Repairs on %11 cannot be started without military parts.";
-				arguments[] = {
-					"ITD_local_serviceType"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairPartial
+		{
+			displayName = "Vehicle Repaired";
+			description = "%11 has been partially repaired using %12 spare parts. The service point has no more parts remaining.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed"
 			};
-			class MilPartRepairPartial
-			{
-				displayName = "Vehicle Repaired";
-				description = "%11 has been partially repaired using %12 military parts and %13 parts, you need more parts to continue repairs.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_militaryUsed",
-					"ITD_local_partsUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairPartialMil
+		{
+			displayName = "Vehicle Repaired";
+			description = "%11 has been partially repaired using %12 military parts, you need more military parts before continuing repairs.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_militaryUsed"
 			};
-			class RefuelFull
-			{
-				displayName = "Vehicle Refuelled";
-				description = "%11 has been refuelled using %12 fuel.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_fuelUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairPartialBoth
+		{
+			displayName = "Vehicle Repaired";
+			description = "%11 has been partially repaired using %12 military parts and %13 parts, you need more parts to continue repairs.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_militaryUsed",
+				"ITD_local_partsUsed"
 			};
-			class RefuelPartial
-			{
-				displayName = "Vehicle Refuelled";
-				description = "%11 has been partially refuelled using %12 fuel. The service point is out of fuel.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_fuelUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairParts
+		{
+			displayName = "Vehicle Repair";
+			description = "Repairs on %11 cannot be started without spare parts.";
+			arguments[] = {
+				"ITD_local_serviceType"
 			};
-			class Siphoned
-			{
-				displayName = "Fuel Siphoned";
-				description = "%11 fuel has been siphoned from %12.";
-				arguments[] = {
-					"ITD_local_fuelUsed",
-					"ITD_local_serviceType"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RepairPartsMil
+		{
+			displayName = "Vehicle Repair";
+			description = "Repairs on %11 cannot be started without military parts.";
+			arguments[] = {
+				"ITD_local_serviceType"
 			};
-			class SiphonNone
-			{
-				displayName = "Fuel Siphoned";
-				description = "No fuel was siphoned from %11, the tank is alread empty.";
-				arguments[] = {
-					"ITD_local_serviceType"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RefuelFull
+		{
+			displayName = "Vehicle Refuelled";
+			description = "%11 has been refuelled using %12 fuel.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_fuelUsed"
 			};
-			class Stripped
-			{
-				displayName = "Vehicle Stripped";
-				description = "%11 was stripped down for %12 parts.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_RefuelPartial
+		{
+			displayName = "Vehicle Refuelled";
+			description = "%11 has been partially refuelled using %12 fuel. The service point is out of fuel.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_fuelUsed"
 			};
-			class StripSiphon
-			{
-				displayName = "Vehicle Stripped";
-				description = "%11 was stripped down for %12 parts and %13 fuel.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed",
-					"ITD_local_fuelUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_Siphon
+		{
+			displayName = "Fuel Siphoned";
+			description = "%11 fuel has been siphoned from %12.";
+			arguments[] = {
+				"ITD_local_fuelUsed",
+				"ITD_local_serviceType"
 			};
-			class StrippedMil
-			{
-				displayName = "Vehicle Stripped";
-				description = "%11 was stripped down for %12 parts and %13 military parts.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed",
-					"ITD_local_militaryUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_SiphonNone
+		{
+			displayName = "Fuel Siphoned";
+			description = "No fuel was siphoned from %11, the tank is already empty.";
+			arguments[] = {
+				"ITD_local_serviceType"
 			};
-			class StripMilSiphon
-			{
-				displayName = "Vehicle Stripped";
-				description = "%11 was stripped down for %12 parts, %14 military parts and %13 fuel.";
-				arguments[] = {
-					"ITD_local_serviceType",
-					"ITD_local_partsUsed",
-					"ITD_local_fuelUsed",
-					"ITD_local_militaryUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_Strip
+		{
+			displayName = "Vehicle Stripped";
+			description = "%11 was stripped down for %12 parts.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed"
 			};
-			class SPDistPlayer
-			{
-				displayName = "Service Point";
-				description = "You are not close enough to the service point.";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_StripSiphon
+		{
+			displayName = "Vehicle Stripped";
+			description = "%11 was stripped down for %12 parts and %13 fuel.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed",
+				"ITD_local_fuelUsed"
 			};
-			class SPDistVehicle
-			{
-				displayName = "Service Point";
-				description = "The vehicle is not close enough to the service point.";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_StripMil
+		{
+			displayName = "Vehicle Stripped";
+			description = "%11 was stripped down for %12 parts and %13 military parts.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed",
+				"ITD_local_militaryUsed"
 			};
-			class SPDistVehicleP
-			{
-				displayName = "Service Point";
-				description = "You are not close enough to the vehicle.";
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Info_StripMilSiphon
+		{
+			displayName = "Vehicle Stripped";
+			description = "%11 was stripped down for %12 parts, %14 military parts and %13 fuel.";
+			arguments[] = {
+				"ITD_local_serviceType",
+				"ITD_local_partsUsed",
+				"ITD_local_fuelUsed",
+				"ITD_local_militaryUsed"
 			};
-			class SPStock
-			{
-				displayName = "Service Point";
-				description = "%3Fuel%4: %11%1%3Spare parts%4: %12%1%3Military parts%4: %13";
-				arguments[] = {
-					"ITD_local_fuelUsed",
-					"ITD_local_partsUsed",
-					"ITD_local_militaryUsed"
-				};
-				image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
-			};
+			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
+		};
+		class Error_DistancePlayer
+		{
+			displayName = "Service Point";
+			description = "You are not close enough to the service point.";
+		};
+		class Error_DistanceVehicle
+		{
+			displayName = "Service Point";
+			description = "The vehicle is not close enough to the service point.";
+		};
+		class Error_DistanceClose
+		{
+			displayName = "Service Point";
+			description = "You are not close enough to the vehicle.";
+		};
+		class Error_FortParts
+		{
+			displayName = "Fortification";
+			description = "Not enough spare parts available to construct this fortification.";
 		};
 	};
 };
