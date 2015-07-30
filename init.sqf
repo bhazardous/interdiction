@@ -8,11 +8,5 @@ scriptName "init";
 #define __filename "init.sqf"
 
 ITD_global_debugEnabled = true;
-
-if (isServer) then {
-	execVM "server\serverInit.sqf";
-};
-
-if (hasInterface) then {
-	execVM "client\clientInit.sqf";
-};
+if (isServer) then {execVM "server\serverInit.sqf"};
+if (hasInterface) then {execVM "client\clientInit.sqf"};

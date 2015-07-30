@@ -47,6 +47,7 @@ class CfgFunctions
 		};
 		class data
 		{
+			class closestPosition {};
 			class lookupBuilding {};
 			class nearby {};
 			class closestObject {};

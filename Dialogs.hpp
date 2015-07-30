@@ -11,8 +11,9 @@ class RscTitles
 	class ITD_ObjectiveStatus
 	{
 		idd = -1;
-		duration = 999;
-		onLoad = "uiNamespace setVariable ['ITD_local_ui_objStatus', (_this select 0)];";
+		duration = 99999;
+		onLoad = "uiNamespace setVariable ['ITD_local_ui_objStatus', (_this select 0)]";
+		onUnload = "uiNamespace setVariable ['ITD_local_ui_objStatus', displayNull]";
 		fadeIn = 0.25;
 		class controls
 		{
@@ -22,10 +23,8 @@ class RscTitles
 				text = "SECURE";
 				x = 0.8 * GUI_SCREEN_X;
 				y = 15 * GUI_SCREEN_Y;
-				// w = 3.15 * GUI_GRID_W;
-				w = 0;
-				// h = 0.475 * GUI_GRID_H;
-				h = 0;
+				w = 0; // 3.15 * GUI_GRID_W
+				h = 0; // 0.475 * GUI_GRID_H
 				colorBackground[] = {-1,-1,-1,0.75};
 			};
 			class Progress : StyledProgress
@@ -33,10 +32,8 @@ class RscTitles
 				idc = 1002;
 				x = 0.8 * GUI_SCREEN_X;
 				y = 15.475 * GUI_SCREEN_Y;
-				// w = 3.15 * GUI_GRID_W;
-				w = 0;
-				// h = 0.5 * GUI_GRID_H;
-				h = 0;
+				w = 0; // 3.15 * GUI_GRID_W
+				h = 0; // 0.5 * GUI_GRID_H
 				colorBackground[] = {0.2,0.2,0.2,0.4};
 			};
 			class Icon : RscPictureAspect
@@ -65,10 +62,8 @@ class RscTitles
 				idc = 2202;
 				x = 0.8 * GUI_SCREEN_X;
 				y = 15.475 * GUI_SCREEN_Y;
-				// w = 3.15 * GUI_GRID_W;
-				w = 0;
-				// h = 0.5 * GUI_GRID_H;
-				h = 0;
+				w = 0; // 3.15 * GUI_GRID_W
+				h = 0; // 0.5 * GUI_GRID_H
 				colorBackground[] = {0.2,0.2,0.2,0.4};
 			};
 		};
@@ -76,8 +71,9 @@ class RscTitles
 	class ITD_Service
 	{
 		idd = -1;
-		duration = 999;
-		onLoad = "uiNamespace setVariable ['ITD_local_ui_service', (_this select 0)];";
+		duration = 99999;
+		onLoad = "uiNamespace setVariable ['ITD_local_ui_service', (_this select 0)]";
+		onUnload = "uiNamespace setVariable ['ITD_local_ui_service', displayNull]";
 		fadeIn = 0.25;
 		class controls
 		{
@@ -87,10 +83,8 @@ class RscTitles
 				text = "";
 				x = 0.8 * GUI_SCREEN_X;
 				y = 14.15 * GUI_SCREEN_Y;
-				// w = 0.8 * GUI_GRID_W;
-				w = 0;
-				// h = 0.25 * GUI_GRID_H;
-				h = 0;
+				w = 0; // 0.8 * GUI_GRID_W
+				h = 0; // 0.25 * GUI_GRID_H
 				sizeEx = "(((1 / 1.2) / 20) * 0.7)";
 				colorBackground[] = {-1,-1,-1,0.75};
 			};
@@ -100,10 +94,8 @@ class RscTitles
 				text = "";
 				x = 1.59 * GUI_SCREEN_X;
 				y = 14.15 * GUI_SCREEN_Y;
-				// w = 0.8 * GUI_GRID_W;
-				w = 0;
-				// h = 0.25 * GUI_GRID_H;
-				h = 0;
+				w = 0; // 0.8 * GUI_GRID_W
+				h = 0; // 0.25 * GUI_GRID_H
 				sizeEx = "(((1 / 1.2) / 20) * 0.7)";
 				colorBackground[] = {-1,-1,-1,0.75};
 			};
@@ -113,10 +105,8 @@ class RscTitles
 				text = "";
 				x = 2.38 * GUI_SCREEN_X;
 				y = 14.15 * GUI_SCREEN_Y;
-				// w = 0.8 * GUI_GRID_W;
-				w = 0;
-				// h = 0.25 * GUI_GRID_H;
-				h = 0;
+				w = 0; // 0.8 * GUI_GRID_W
+				h = 0; // 0.25 * GUI_GRID_H;
 				sizeEx = "(((1 / 1.2) / 20) * 0.7)";
 				colorBackground[] = {-1,-1,-1,0.75};
 			};
@@ -148,7 +138,8 @@ class RscTitles
 	{
 		idd = -1;
 		duration = 99999;
-		onLoad = "uiNamespace setVariable ['ITD_local_ui_iconReinf', (_this select 0)];";
+		onLoad = "uiNamespace setVariable ['ITD_local_ui_iconReinf', (_this select 0)]";
+		onUnload = "uiNamespace setVariable ['ITD_local_ui_iconReinf', displayNull]";
 		fadeIn = 0.25;
 		class controls {
 			class Icon : RscPictureAspect

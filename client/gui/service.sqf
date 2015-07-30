@@ -1,30 +1,47 @@
-scriptName "service";
-/*--------------------------------------------------------------------
-	file: service.sqf
-	===========================
-	Author: Bhaz <>
-	Description: Display actions for ITD_Service
---------------------------------------------------------------------*/
-#define __filename "service.sqf"
+scriptName "objectiveStatus";
+/*
+	Author: Bhaz
+
+	Description:
+	Low level GUI control for ITD_Service. Function only available on player clients.
+	Use ITD_fnc_guiAction rather than calling this directly.
+
+	Parameter(s):
+	#0 STRING - Action
+	#1 ANY (Optional) - Parameters (default: Nothing)
+
+	Example:
+	["show"] call ITD_local_ui_service_fn;
+	["service", "show"] call ITD_fnc_guiAction;
+
+	Returns:
+	Nothing
+*/
+
 #include "gui_macros.hpp"
 
-disableSerialization;
-_anim = _this select 0;
-_params = [_this, 1, []] call BIS_fnc_param;
+params ["_action", "_params"];
+private ["_fuelCtrl", "_partsCtrl", "_milPartsCtrl", "_iconCtrl", "_iconBackCtrl"];
 
-// UI controls.
-private ["_display", "_fuelCtrl", "_partsCtrl", "_milPartsCtrl", "_iconCtrl", "_iconBackCtrl"];
 _getControls = {
-	_display = uiNamespace getVariable "ITD_local_ui_service";
-	_fuelCtrl = _display displayCtrl 1001;
-	_partsCtrl = _display displayCtrl 1002;
-	_milPartsCtrl = _display displayCtrl 1003;
-	_iconCtrl = _display displayCtrl 1004;
+	disableSerialization;
 
-	_iconBackCtrl = _display displayCtrl 2201;
+	private ["_display"];
+	_display = uiNamespace getVariable "ITD_local_ui_service";
+	if (!isNull _display) exitWith {
+		_fuelCtrl = _display displayCtrl 1001;
+		_partsCtrl = _display displayCtrl 1002;
+		_milPartsCtrl = _display displayCtrl 1003;
+		_iconCtrl = _display displayCtrl 1004;
+		_iconBackCtrl = _display displayCtrl 2201;
+		true
+	};
+
+	["ITD_Service - failed to get controls: %1", _action] call BIS_fnc_error;
+	false
 };
 
-switch (_anim) do {
+switch (_action) do {
 	case "show": {
 		("ITD_Service" call BIS_fnc_rscLayer) cutRsc ["ITD_Service", "PLAIN"];
 	};
@@ -40,22 +57,19 @@ switch (_anim) do {
 	};
 
 	case "extend": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
+
+		private ["_fuelPos", "_partsPos", "_milPartsPos"];
 		_fuelPos = ctrlPosition _fuelCtrl;
 		_partsPos = ctrlPosition _partsCtrl;
 		_milPartsPos = ctrlPosition _milPartsCtrl;
 
 		// Snap to defaults.
-		_fuelPos set [3, 0.35 * GUI_GRID_H];
-		_partsPos set [3, 0.35 * GUI_GRID_H];
-		_milPartsPos set [3, 0.35 * GUI_GRID_H];
-
+		{_x set [3, 0.35 * GUI_GRID_H]} forEach [_fuelPos, _partsPos, _milPartsPos];
 		_fuelCtrl ctrlSetPosition _fuelPos;
 		_partsCtrl ctrlSetPosition _partsPos;
 		_milPartsCtrl ctrlSetPosition _milPartsPos;
-		_fuelCtrl ctrlCommit 0;
-		_partsCtrl ctrlCommit 0;
-		_milPartsCtrl ctrlCommit 0;
+		{_x ctrlCommit 0} forEach [_fuelCtrl, _partsCtrl, _milPartsCtrl];
 
 		// Set new positions.
 		{_x set [2, 0.8 * GUI_GRID_W]} forEach [_fuelPos, _partsPos, _milPartsPos];
@@ -64,16 +78,16 @@ switch (_anim) do {
 		_milPartsCtrl ctrlSetPosition _milPartsPos;
 
 		// Animate.
-		_fuelCtrl ctrlCommit 0.3;
-		waitUntil {ctrlCommitted _fuelCtrl}; sleep 0.1;
-		_partsCtrl ctrlCommit 0.3;
-		waitUntil {ctrlCommitted _partsCtrl}; sleep 0.1;
-		_milPartsCtrl ctrlCommit 0.3;
-		waitUntil {ctrlCommitted _milPartsCtrl}; sleep 0.1;
+		{
+			_x ctrlCommit 0.2;
+			waitUntil {ctrlCommitted _x};
+		} forEach [_fuelCtrl, _partsCtrl, _milPartsCtrl];
 	};
 
 	case "shrink": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
+
+		private ["_fuelPos", "_partsPos", "_milPartsPos"];
 		_fuelPos = ctrlPosition _fuelCtrl;
 		_partsPos = ctrlPosition _partsCtrl;
 		_milPartsPos = ctrlPosition _milPartsCtrl;
@@ -85,44 +99,39 @@ switch (_anim) do {
 		_milPartsCtrl ctrlSetPosition _milPartsPos;
 
 		// Animate.
-		_milPartsCtrl ctrlSetText "";
-		_milPartsCtrl ctrlCommit 0.1;
-		waitUntil {ctrlCommitted _milPartsCtrl};
-		_partsCtrl ctrlSetText "";
-		_partsCtrl ctrlCommit 0.1;
-		waitUntil {ctrlCommitted _partsCtrl};
-		_fuelCtrl ctrlSetText "";
-		_fuelCtrl ctrlCommit 0.1;
-		waitUntil {ctrlCommitted _fuelCtrl};
+		{
+			_x ctrlSetText "";
+			_x ctrlCommit 0.1;
+			waitUntil {ctrlCommitted _x};
+		} forEach [_milPartsCtrl, _partsCtrl, _fuelCtrl];
 	};
 
 	case "setFuel": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
 		_fuelCtrl ctrlSetText _params;
 	};
 
 	case "setParts": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
 		_partsCtrl ctrlSetText _params;
 	};
 
 	case "setMilParts": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
 		_milPartsCtrl ctrlSetText _params;
 	};
 
 	case "fadeOut": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
 		_iconCtrl ctrlSetTextColor [0, 0, 0, 0];
 
-		// Animate.
+		private ["_time"];
 		_time = time;
-		while {time < (_time + 0.25)} do {
-			_alpha = 0.75 + (0 - 0.75) * ((time - _time) / 0.25);
-			_iconBackCtrl ctrlSetBackgroundColor [-1, -1, -1, _alpha];
-			sleep 0.01;
+		waitUntil {
+			_iconBackCtrl ctrlSetBackgroundColor [-1,-1,-1, 0.75 - 0.75 * ((time - _time) / 0.25)];
+			time > (_time + 0.25)
 		};
-
-		_iconBackCtrl ctrlSetBackgroundColor [-1, -1, -1, 0];
 	};
+
+	default {["ITD_Service - invalid action: %1", _action] call BIS_fnc_error};
 };
