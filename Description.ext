@@ -35,70 +35,70 @@ class CfgFunctions
 		class actions
 		{
 			class advHint {};
-			class interdictionMenu {};
 			class build {};
 			class buildKeypress {};
-			class service {};
-			class playAnimation {};
-			class support {};
 			class guiAction {};
+			class interdictionMenu {};
 			class objectiveTimer {};
+			class playAnimation {};
 			class reinforcements {};
+			class service {};
+			class support {};
 		};
 		class data
 		{
+			class closestMarker {}; // TODO: Possibly obsolete?
+			class closestObject {}; // ^
 			class closestPosition {};
-			class lookupBuilding {};
-			class nearby {};
-			class closestObject {};
-			class closestMarker {};
-			class setVariable {};
 			class getComposition {};
-			class moveComposition {};
-			class spawnComposition {};
-			class simulateComposition {};
-			class rotateRelative {};
 			class getRealTurrets {};
 			class insideMarkers {};
+			class lookupBuilding {};
+			class moveComposition {};
+			class nearby {};
+			class rotateRelative {};
+			class setVariable {};
+			class simulateComposition {};
+			class spawnComposition {};
 		};
 		class respawn
 		{
 			class joinResponse {};
-			class spectate {};
 			class respawn {};
-			class storeGear {};
 			class setGear {};
+			class spectate {};
+			class storeGear {};
 		};
 		class server
 		{
-			class buildRequest {};
-			class preInitServer {};
-			class addOpcomObjective {};
-			class triggerOpcomObjective {};
-			class killedEvent {};
-			class resistanceActivity {};
-			class spawnResistance {};
-			class joinRequest {};
 			class addObjective {};
+			class addOpcomObjective {};
+			class addSupport {};
+			class buildRequest {};
+			class captureFOB {};
+			class captureMapIntel {};
+			class captureSectorIntel {};
+			class checkBuildings {};
 			class checkPresence {};
+			class createInsurgentBuilding {};
+			class getClosestObjective {};
+			class joinRequest {};
+			class killedEvent {};
 			class objectiveCapture {};
 			class objectiveManager {};
-			class captureMapIntel {};
-			class setMapIntel {};
-			class captureSectorIntel {};
-			class setSectorIntel {};
-			class checkBuildings {};
-			class spawnConvoy {};
-			class addSupport {};
-			class serviceRequest {};
-			class captureFOB {};
-			class getClosestObjective {};
-			class createInsurgentBuilding {};
-			class spawnQueue {};
+			class preInitServer {};
+			class reinforceRequest {};
+			class resistanceActivity {};
 			class selectSpawn {};
 			class selectSpawnVehicle {};
+			class serviceRequest {};
+			class setMapIntel {};
+			class setSectorIntel {};
+			class spawnConvoy {};
+			class spawnQueue {};
+			class spawnResistance {};
+			class triggerOpcomObjective {};
 			class updatePlayerList {};
-			class reinforceRequest {};
 		};
 	};
 };
