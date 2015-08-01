@@ -8,20 +8,14 @@ scriptName "fn_service";
 	Parameter(s):
 	#0 STRING - Action
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_action", "_vehicle"];
-_action = _this select 0;
-_vehicle = ITD_local_serviceTarget;
+if (!params [["_action", "", [""]]]) exitWith {["Invalid action"] call BIS_fnc_error};
+if (isNull ITD_local_serviceTarget) exitWith {["Vehicle is null"] call BIS_fnc_error};
 
-if (isNull _vehicle) exitWith {
-	["Vehicle is null"] call BIS_fnc_error;
-	nil;
-};
-
-// Send request to server.
-[[player, _action, _vehicle], "ITD_fnc_serviceRequest", false] call BIS_fnc_MP;
-
-nil;
+[[player, _action, ITD_local_serviceTarget], "ITD_fnc_serviceRequest", false] call BIS_fnc_MP;

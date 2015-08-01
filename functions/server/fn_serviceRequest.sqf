@@ -77,12 +77,12 @@ if (_action == "assess") exitWith {
 
 // Player and vehicle in position.
 _pos = DB_CAMPS_SERVICE_POSITION;
-if (_player distance _pos > 10) exitWith {
+if (_player distance _pos > 25) exitWith {
 	// Player not close enough to service point.
 	[[["ITD_Service","Error_DistancePlayer"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
 };
-if (_vehicle distance _pos > 10) exitWith {
+if (_vehicle distance _pos > 25) exitWith {
 	// Vehicle not close enough to service point.
 	[[["ITD_Service","Error_DistanceVehicle"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	nil;
