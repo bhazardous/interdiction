@@ -47,8 +47,7 @@ class CfgFunctions
 		};
 		class data
 		{
-			class closestMarker {}; // TODO: Possibly obsolete?
-			class closestObject {}; // ^
+			class closestObject {};
 			class closestPosition {};
 			class getComposition {};
 			class getRealTurrets {};

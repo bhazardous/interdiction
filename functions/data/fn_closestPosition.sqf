@@ -13,17 +13,17 @@ scriptName "fn_closestPosition";
 	_index = [player, _positionsArray] call ITD_fnc_closestPosition;
 
 	Returns:
-	Number - Array index of closest position
+	Number - Array index of closest position, -1 for nothing
 */
 
 if (!params [["_object", objNull, [objNull]], ["_positions", [], [[]]]]) exitWith {
 	["Invalid parameters"] call BIS_fnc_error;
 };
 if (isNull _object) exitWith {["Null object given"] call BIS_fnc_error};
-if (count _positions == 0) exitWith {["Positions array empty"] call BIS_fnc_error};
 
 private ["_closest", "_index"];
 _closest = 9999999;
+_index = -1;
 
 {
 	if (_object distance _x < _closest) then {

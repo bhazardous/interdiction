@@ -52,8 +52,7 @@ if (!_valid) exitWith {
 // Get closest camp ID.
 private ["_id"];
 if (count ITD_global_camps > 0) then {
-	_id = [_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closestMarker;
-	_id = _id - 1;
+	_id = [_player, ITD_global_camps] call ITD_fnc_closestPosition;
 };
 
 // One building per camp.

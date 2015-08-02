@@ -22,7 +22,7 @@ private ["_player", "_action", "_id", "_pos", "_vehicle", "_data"];
 _player = _this select 0;
 _action = _this select 1;
 _vehicle = _this select 2;
-_id = ([_player, "ITD_mkr_resistanceCamp", count ITD_global_camps] call ITD_fnc_closestMarker) - 1;
+_id = [_player, ITD_global_camps] call ITD_fnc_closestPosition;
 
 if (_action == "check") exitWith {
 	private ["_data", "_fuel", "_parts", "_military"];
