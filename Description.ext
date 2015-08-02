@@ -52,7 +52,6 @@ class CfgFunctions
 			class getComposition {};
 			class getRealTurrets {};
 			class insideMarkers {};
-			class lookupBuilding {};
 			class moveComposition {};
 			class nearby {};
 			class rotateRelative {};
