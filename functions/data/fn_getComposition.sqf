@@ -8,18 +8,18 @@ scriptName "fn_getComposition";
 	Parameter(s):
 	#0 STRING - Composition name
 
+	Example:
+	_comp = ["hq"] call ITD_fnc_getComposition;
+
 	Returns:
-	ARRAY - Composition
+	Array - Raw composition data
 */
 
-private ["_name", "_comp"];
-_name = [_this, 0, "", [""]] call BIS_fnc_param;
-
-if (_name == "") exitWith {
-	["No composition name given"] call BIS_fnc_error;
-	[];
+if (!params [["_name", "", [""]]]) exitWith {
+	["Invalid composition name: %1", _name] call BIS_fnc_error;
 };
 
+private ["_comp"];
 _comp = switch (_name) do {
 	case "hq": {
 		[
@@ -110,7 +110,10 @@ _comp = switch (_name) do {
 		]
 	};
 
-	default {[]};
+	default {
+		["Composition not found: %1", _name] call BIS_fnc_error;
+		[]
+	};
 };
 
-_comp;
+_comp

@@ -3,21 +3,24 @@ scriptName "fn_getRealTurrets";
 	Author: Bhaz
 
 	Description:
-	Gets turret paths that aren't FFV.
+	Returns turret paths, ignoring FFV turrets.
 
 	Parameter(s):
 	#0 OBJECT - Vehicle
 
+	Example:
+	_turrets = [_truck] call ITD_fnc_getRealTurrets;
+
 	Returns:
-	ARRAY - turret paths
+	Array - turret paths
 */
 
-private ["_vehicle", "_turrets", "_turrentPaths", "_realTurrets"];
-_vehicle = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
+params [["_vehicle", objNull, [objNull]]];
+private ["_turrets", "_turrentPaths", "_realTurrets"];
 
 if (isNull _vehicle) exitWith {
-	["Vehicle null"] call BIS_fnc_error;
-	[];
+	["Invalid vehicle"] call BIS_fnc_error;
+	[]
 };
 
 _turrets = [_vehicle, configFile] call BIS_fnc_getTurrets;
@@ -28,7 +31,6 @@ for "_i" from 0 to (count _turrets - 1) do {
 	private ["_turret", "_ffv"];
 	_ffv = false;
 
-	// Look for FFV turret.
 	_turret = (_turrets select _i >> "isPersonTurret");
 	if (isNumber _turret) then {
 		if (getNumber _turret == 1) then {
@@ -41,4 +43,4 @@ for "_i" from 0 to (count _turrets - 1) do {
 	};
 };
 
-_realTurrets;
+_realTurrets
