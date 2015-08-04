@@ -7,48 +7,44 @@ scriptName "fn_moveComposition";
 
 	Parameter(s):
 	#0 STRING - Composition name
-	#1 ARRAY - Objects returned from ITD_fnc_spawnComposition
-	#2 ARRAY - New position
-	#3 NUMBER - New direction
+	#1 ARRAY - Composition objects
+	#2 POSITION - New position
+	#3 NUMBER - Direction
+
+	Example:
+	n/a
 
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_compName", "_composition", "_objects", "_pos", "_dir"];
-_compName = [_this, 0, "", [""]] call BIS_fnc_param;
-_objects = [_this, 1, [], [[]]] call BIS_fnc_param;
-_pos = [_this, 2, [0,0,0], [[]], [2,3]] call BIS_fnc_param;
-_dir = [_this, 3, 0, [0]] call BIS_fnc_param;
-
-// Get composition.
-_composition = [_compName] call ITD_fnc_getComposition;
-
-if (count _composition != count _objects) exitWith {
-	["Objects don't match composition %1", _compName] call BIS_fnc_error;
-	nil;
+if (!params [
+		["_name", "", [""]],
+		["_objects", [], [[]]],
+		["_pos", [], [[]], [2,3]],
+		["_dir", 0, [0]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
 };
 
-private ["_i"];
-_i = 0;
+private ["_composition"];
+_composition = [_name] call ITD_fnc_getComposition;
+
+if (count _composition != count _objects) exitWith {
+	["Objects don't match composition: %1", _name] call BIS_fnc_error;
+};
 
 {
-	private ["_objPos", "_objDir", "_object"];
+	private ["_obj", "_objPos", "_objDir"];
+	_obj = _objects select _forEachIndex;
 	_objPos = _x select 1;
 	_objDir = _x select 2;
-	_object = _objects select _i;
 
-	// Set position / direction.
 	_objPos = [_objPos, _dir] call ITD_fnc_rotateRelative;
 	_objPos set [0, (_objPos select 0) + (_pos select 0)];
 	_objPos set [1, (_objPos select 1) + (_pos select 1)];
 	_objPos set [2, 0];
 
-	_object setPos _objPos;
-	_object setDir ((_dir + _objDir) % 360);
-	_object setVectorUp (surfaceNormal _objPos);
-
-	_i = _i + 1;
+	_obj setPos _objPos;
+	_obj setDir ((_dir + _objDir) % 360);
+	_obj setVectorUp (surfaceNormal _objPos);
 } forEach _composition;
-
-nil;

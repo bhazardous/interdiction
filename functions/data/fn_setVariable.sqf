@@ -5,22 +5,22 @@ scriptName "fn_setVariable";
 	Description:
 	Used to remotely set a local variable.
 
+	RemoteExec: Server
+
 	Parameter(s):
 	#0 STRING - Variable
 	#1 ANY - Value
 
+	Example:
+	[["derp", 5], "ITD_fnc_setVariable", _player] call BIS_fnc_MP;
+
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_variable", "_value"];
-_variable = [_this, 0, "", [""]] call BIS_fnc_param;
-_value = _this select 1;
-
-if (_variable != "") then {
-	call compile format ["missionNamespace setVariable ['%1', '%2']", _variable, _value];
-} else {
-	["No variable name"] call BIS_fnc_error;
+if (!params [["_variable", "", [""]], "_value"]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
 };
 
-nil;
+if (_variable == "") exitWith {["Empty variable name"] call BIS_fnc_error};
+missionNamespace setVariable [_variable, _value];
