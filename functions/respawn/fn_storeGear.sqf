@@ -9,12 +9,13 @@ scriptName "fn_storeGear";
 	#0 OBJECT - Unit
 
 	Returns:
-	nil
+	Nothing
 */
 
-_unit = _this select 0;
+// Check: Not in use.
 
-// Weapons and ammo.
+params ["_unit"];
+
 ITD_local_playerWeapons = weapons _unit;
 ITD_local_playerAmmo = magazinesAmmoFull _unit;
 ITD_local_playerWeaponItems = primaryWeaponItems _unit;
@@ -33,7 +34,6 @@ ITD_local_playerMuzzles = [];
     } forEach _muzzles;
 } forEach ITD_local_playerWeapons;
 
-// Uniform / gear.
 ITD_local_playerItems = assignedItems _unit;
 ITD_local_playerUniform = uniform _unit;
 ITD_local_playerUniformItems = uniformItems _unit;
@@ -43,5 +43,3 @@ ITD_local_playerBackpack = backpack _unit;
 ITD_local_playerBackpackItems = backpackItems _unit;
 ITD_local_playerHeadgear = headgear _unit;
 ITD_local_playerGoggles = goggles _unit;
-
-nil;

@@ -8,15 +8,18 @@ scriptName "fn_setGear";
 	Parameter(s):
 	#0 OBJECT - Unit
 
+    Example:
+    n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
+// Check: Not currently being used.
+
 if (isNil "ITD_local_playerWeapons") exitWith {nil;};
+params ["_unit"];
 
-_unit = _this select 0;
-
-// Remove everything.
 removeAllWeapons _unit;
 removeAllItems _unit;
 removeAllAssignedItems _unit;
@@ -26,18 +29,16 @@ removeGoggles _unit;
 removeUniform _unit;
 removeVest _unit;
 
-// Vest / uniform.
 _unit addUniform ITD_local_playerUniform;
 _unit addVest ITD_local_playerVest;
 
 // Largest backpack in the game.
-// (Temporary, otherwise ammo like AA rounds are too large for vest and won't add.)
+// Temporary, otherwise ammo like AA rounds are too large for vest and won't add.
 _unit addBackpack "B_Carryall_ocamo";
 clearAllItemsFromBackpack _unit;
 
 // Add magazines that were loaded first.
 private ["_playerAmmo"];
-
 _playerAmmo = ITD_local_playerAmmo;
 {
     // If magazine is loaded.
@@ -53,17 +54,14 @@ _playerAmmo = ITD_local_playerAmmo;
     };
 } forEach _playerAmmo;
 
-// Add weapons.
 {_unit addWeapon _x} forEach ITD_local_playerWeapons;
 
-// Weapon attachments.
 removeAllPrimaryWeaponItems _unit;
 removeAllHandgunItems _unit;
 {_unit addPrimaryWeaponItem _x} forEach ITD_local_playerWeaponItems;
 {_unit addSecondaryWeaponItem _x} forEach ITD_local_playerSecWeaponItems;
 {_unit addHandgunItem _x} forEach ITD_local_playerHandgunItems;
 
-// Backpack.
 removeBackpack _unit;
 _unit addBackpack ITD_local_playerBackpack;
 clearAllItemsFromBackpack _unit;
@@ -76,7 +74,6 @@ _otherMags = [];
     if (_x select 4 == "Backpack") then {
         _backpackMags pushBack [_x select 0, _x select 1];
     } else {
-        // TODO: impossible to add partial mags directly to vest / uniform?
         _otherMags pushBack [_x select 0, _x select 1];
     };
 
@@ -100,5 +97,3 @@ _otherMags = [];
 {_unit addItem _x; _unit assignItem _x;} forEach ITD_local_playerItems;
 _unit addHeadgear ITD_local_playerHeadgear;
 _unit addGoggles ITD_local_playerGoggles;
-
-nil;

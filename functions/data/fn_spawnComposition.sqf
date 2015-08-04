@@ -11,6 +11,9 @@ scriptName "fn_spawnComposition";
 	#2 NUMBER - Anchor direction
 	#3 BOOL (Optional) - Create local only (default: true)
 
+	Example:
+	n/a
+
 	Returns:
 	Array - Objects that were created
 */
@@ -50,13 +53,12 @@ if (count _composition == 0) exitWith {[]};
 	_object setPos _objPos;
 	_object setDir ((_dir + _objDir) % 360);
 	_object setVectorUp (surfaceNormal _objPos);
+	_objects pushBack _object;
 
 	// TODO: Make sure ghost buildings can't damage other objects.
 	if (!_fort) then {
 		_object allowDamage false;
 	};
-
-	_objects pushBack _object;
 } forEach _composition;
 
 _objects
