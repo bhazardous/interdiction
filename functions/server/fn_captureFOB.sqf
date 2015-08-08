@@ -10,36 +10,32 @@ scriptName "fn_captureFOB";
 	#1 NUMBER - FOB objective ID
 	#2 ARRAY - If captured, add this respawn position
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
 // TODO: Use objective name instead of unique ID, remove ID's completely
 
-private ["_captured", "_id", "_position", "_varName", "_spawnId"];
-_captured = _this select 0;
-_id = _this select 1;
-_position = [_this, 2, [], [[]]] call BIS_fnc_param;
+if (!params [["_captured", false, [true]], ["_id", 0, [0]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+};
 
-if (count _position == 2) then {_position pushBack 0};
+private ["_position", "_varName", "_spawnId"];
+_position = param [2, [], [[]]];
 _varName = format ["ITD_server_fobSpawn%1", _id];
 _spawnId = missionNamespace getVariable _varName;
 
-if (typeName _captured == "STRING") then {
-	// FOB destroyed.
+if (count _position == 2) then {_position pushBack 0};
+if (typeName _captured == "STRING") then {_captured = false};
+
+if (_captured) then {
+	_spawnId = [missionNamespace, _position] call BIS_fnc_addRespawnPosition;
+	missionNamespace setVariable [_varName, _spawnId];
+} else {
 	if (!isNil _varName) then {
 		[missionNamespace, _spawnId] call BIS_fnc_removeRespawnPosition;
 	};
-} else {
-	if (_captured) then {
-		// FOB captured.
-		_spawnId = [missionNamespace, _position] call BIS_fnc_addRespawnPosition;
-		missionNamespace setVariable [_varName, _spawnId];
-	} else {
-		if (!isNil _varName) then {
-			[missionNamespace, _spawnId] call BIS_fnc_removeRespawnPosition;
-		};
-	};
 };
-
-nil;

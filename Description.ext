@@ -84,7 +84,6 @@ class CfgFunctions
 			class killedEvent {};
 			class objectiveCapture {};
 			class objectiveManager {};
-			class preInitServer {};
 			class reinforceRequest {};
 			class resistanceActivity {};
 			class selectSpawn {};

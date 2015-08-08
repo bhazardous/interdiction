@@ -1,18 +1,13 @@
-scriptName "fn_preInitServer";
-/*
+scriptName "serverPreInit";
+/*--------------------------------------------------------------------
+	file: serverPreInit.sqf
+	=======================
 	Author: Bhaz
+	Description: Init markers and set up ALiVE modules.
+--------------------------------------------------------------------*/
+#define __filename "serverPreInit.sqf"
 
-	Description:
-	Required to init markers and set up ALiVE modules before they start up.
-
-	Parameter(s):
-	None
-
-	Returns:
-	nil
-*/
-
-if (!isServer) exitWith {nil;};
+if (!isServer) exitWith {};
 
 if (isDedicated) then {
 	if (paramsArray select 6 == 1) then {
@@ -149,8 +144,8 @@ ITD_module_alive_blufor_opcom setVariable ["reinforcements", "0", true];
 };
 
 // Workaround for OPCOM complaining there are no profiles.
+// Give OPCOM a single lone unit.
 if (ITD_global_unit_override != "") then {
-	// Give OPCOM a single lone unit.
 	private ["_group", "_unit"];
 	_group = createGroup ITD_global_side_blufor;
 	_unit = _group createUnit [ITD_global_unit_override, markerPos "ITD_mkr_taor", [], 0, "NONE"];
@@ -160,5 +155,3 @@ if (ITD_global_unit_override != "") then {
 if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
 	tf_no_auto_long_range_radio = false;
 };
-
-nil;

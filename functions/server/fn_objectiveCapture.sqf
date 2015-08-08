@@ -9,9 +9,13 @@ scriptName "fn_objectiveCapture";
 	#0 STRING - Objective name from objective manager.
 	#1 BOOL - True if resistance is capturing, false if enemy is recapturing.
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
+
 #define SLEEP_TIME 2
 #define LOOPS 10
 #define STATUS_ENEMY		0
@@ -19,22 +23,20 @@ scriptName "fn_objectiveCapture";
 #define STATUS_CONTESTED	2
 #define STATUS_DESTROYED	3
 
-private ["_objectiveName", "_objective", "_side", "_loop", "_success", "_friendlies", "_enemies", "_signal"];
-_objectiveName = _this select 0;
+if (!params [["_objectiveName", "", [""]], ["_side", true, [true]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+};
+
+private ["_objective", "_loop", "_success", "_friendlies", "_enemies", "_signal"];
 _objective = ["getObjective", [_objectiveName]] call ITD_fnc_objectiveManager;
-_side = _this select 1;
 _loop = 0;
 _success = true;
 _signal = false;
 
-// Objective is now contested.
 ["setState", [_objectiveName, STATUS_CONTESTED]] call ITD_fnc_objectiveManager;
 
 while {_loop < LOOPS} do {
-	// Friendly presence?
 	_friendlies = [ITD_global_side_blufor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;
-
-	// Enemy presence?
 	_enemies = [ITD_server_side_opfor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;
 	if (!_enemies) then {
 		_enemies = [ITD_server_side_indfor, _objective select 1, _objective select 2] call ITD_fnc_checkPresence;
@@ -93,7 +95,6 @@ if (_success) then {
 		["setState", [_objectiveName, STATUS_ENEMY]] call ITD_fnc_objectiveManager;
 	};
 
-	// Call function attached to objective.
 	["triggerObjective", [_objectiveName, _side]] call ITD_fnc_objectiveManager;
 } else {
 	if (_side) then {
@@ -104,5 +105,3 @@ if (_success) then {
 		["setState", [_objectiveName, STATUS_FRIENDLY]] call ITD_fnc_objectiveManager;
 	};
 };
-
-nil;

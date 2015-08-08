@@ -10,21 +10,23 @@ scriptName "fn_createInsurgentBuilding";
 	#1 NUMBER - Building ID
 	#2 ARRAY - OPCOM objective hash
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_type", "_building", "_objective", "_center", "_id", "_size", "_agents", "_cqb", "_params"];
-_type = [_this, 0, "factory", [""]] call BIS_fnc_param;
-_building = [_this, 1, 0, [0]] call BIS_fnc_param;
-_objective = [_this, 2, [], [[]]] call BIS_fnc_param;
+// Check: Not in use.
 
-if (_building == 0) exitWith {
-	["No building ID given"] call BIS_fnc_error;
+if (!params [["_type", "", [""]], ["_building", 0, [0]], ["_objective", [], [[]]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
 };
-if (count _objective == 0) then {
-	["No OPCOM objective provided"] call BIS_fnc_error;
-};
+
+private ["_center", "_id", "_size", "_agents", "_cqb", "_params"];
+
+if (_building <= 0) exitWith {["No building ID given"] call BIS_fnc_error};
+if (count _objective == 0) exitWith {["No OPCOM objective provided"] call BIS_fnc_error};
 
 _center = [_objective, "center"] call ALiVE_fnc_hashGet;
 _id = [_objective, "objectiveID"] call ALiVE_fnc_hashGet;
@@ -39,5 +41,3 @@ switch (_type) do {
 	case "hq": {_params spawn ALiVE_fnc_INS_recruit};
 	case "depot": {_params spawn ALiVE_fnc_INS_depot};
 };
-
-nil;

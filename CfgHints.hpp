@@ -270,17 +270,6 @@ class CfgHints
 
 	class ITD_Service
 	{
-		class Info_Stock
-		{
-			displayName = "Service Point";
-			description = "%3Fuel%4: %11%1%3Spare parts%4: %12%1%3Military parts%4: %13";
-			arguments[] = {
-				"ITD_local_fuelUsed",
-				"ITD_local_partsUsed",
-				"ITD_local_militaryUsed"
-			};
-			image = "\a3\ui_f\data\gui\cfg\hints\vehiclerepair_ca.paa";
-		};
 		class Info_AssessDamage
 		{
 			displayName = "Vehicle Repair";

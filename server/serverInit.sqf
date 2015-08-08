@@ -8,14 +8,13 @@ scriptName "serverInit";
 #define __filename "serverInit.sqf"
 #define PUBLIC(var,value) var = value; publicVariable #var
 
-// If using persistence, determine if this is a new game or loading from DB.
 ITD_server_newGame = true;
 if (ITD_global_persistence) then {
 	// Verify the DB is working properly.
 
 	// ALiVE_sys_data_disabled is hugely unreliable since it defaults to false, then
 	// potentially gets toggled a few seconds later.
-	// We're going to wait until the last possible moment, then wait a few more seconds
+	// Wait until the last possible moment, then wait a few more seconds
 	// to make sure the script has completed.
 	waitUntil {!isNil "ALiVE_dataDictionary"};
 	waitUntil {!isNil "ALiVE_sys_data_disabled"};
@@ -39,8 +38,7 @@ if (ITD_global_persistence) then {
 	};
 };
 
-// General mission variables.
-ITD_server_killThreshold = 15;			// Number of OPFOR killed for civilians to join resistance movement.
+ITD_server_killThreshold = 15;			// Number of OPFOR killed to toggle recruitment.
 ITD_server_crewThreshold = 5;			// Reach the kill threshold x times to unlock support crew.
 ITD_server_campThreshold = 10;			// Unlocks extra camps.
 ITD_server_reinforceQueue = [];			// Player queue for requested reinforcements.
@@ -48,10 +46,9 @@ ITD_server_reinforceQueue = [];			// Player queue for requested reinforcements.
 PUBLIC(ITD_global_buildingEnabled,true);// Global toggle for building.
 PUBLIC(ITD_global_playerList,[ITD_unit_invisibleMan]);
 
-// (TEMPORARY) Random convoy spawner.
+// TODO: (TEMPORARY) Random convoy spawner.
 [] spawn {
 	scriptName "serverInit_convoy";
-	// Every 10-30 mins.
 	while {true} do {
 		private ["_sleepTime"];
 		_sleepTime = 10 + floor (random (20));
@@ -61,7 +58,6 @@ PUBLIC(ITD_global_playerList,[ITD_unit_invisibleMan]);
 	};
 };
 
-// Disable grid sectors.
 [false, true] call ITD_fnc_setSectorIntel;
 
 if (ITD_server_newGame) then {
@@ -70,5 +66,4 @@ if (ITD_server_newGame) then {
 	call compile preprocessFileLineNumbers "server\loadGame.sqf";
 };
 
-// Server events.
 addMissionEventHandler ["HandleDisconnect", {[_unit, "remove"] call ITD_fnc_updatePlayerList;}];

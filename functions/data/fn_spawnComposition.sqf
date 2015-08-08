@@ -21,10 +21,10 @@ scriptName "fn_spawnComposition";
 if (!params [
 	["_name", "", [""]],
 	["_pos", [], [[]], [2,3]],
-	["_dir", 0, [0]],
-	["_local", true, [true]]] exitWith {["Invalid params"] call BIS_fnc_error; []}
+	["_dir", 0, [0]]]) exitWith {["Invalid params"] call BIS_fnc_error; []};
 
-private ["_objects", "_fort", "_composition"];
+private ["_local", "_objects", "_fort", "_composition"];
+_local = param [3, true, [true]];
 _objects = [];
 _fort = ([_name, "fort_"] call CBA_fnc_find != -1);
 _composition = [_name] call ITD_fnc_getComposition;

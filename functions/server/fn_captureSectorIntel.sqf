@@ -8,12 +8,14 @@ scriptName "fn_captureSectorIntel";
 	Parameter(s):
 	#0 BOOL - True for captured, false for lost
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_captured"];
-_captured = _this select 0;
+if (!params [["_captured", false, [true]]]) exitWith {["Invalid params"] call BIS_fnc_error};
 
 if (isNil "ITD_server_sectorIntel") then {
 	ITD_server_sectorIntel = false;
@@ -35,5 +37,3 @@ if (_captured) then {
 		[ITD_server_sectorIntel] call ITD_fnc_setSectorIntel;
 	};
 };
-
-nil;

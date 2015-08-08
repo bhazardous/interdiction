@@ -50,7 +50,6 @@ _menu = switch (_menuName) do {
 
 		_nearService = [player, ITD_global_servicePoints, 10] call ITD_fnc_nearby;
 		_canService = _target isKindOf "AllVehicles" && {[player, _target, 6] call ITD_fnc_nearby};
-		_checkService = [player, ITD_global_servicePoints, 5] call ITD_fnc_nearby;
 
 		if (_canService) then {
 			private ["_config"];
@@ -58,12 +57,6 @@ _menu = switch (_menuName) do {
 			ITD_local_serviceTarget = _target;
 			ITD_local_serviceType = getText _config;
 			ITD_local_serviceName = format ["Service %1", ITD_local_serviceType];
-		} else {
-			if (_checkService) then {
-				_canService = true;
-				ITD_local_serviceTarget = player;
-				ITD_local_serviceName = "Service";
-			};
 		};
 
 		_nearRecruit = [player, ITD_global_recruitmentTents, 10] call ITD_fnc_nearby;
@@ -325,16 +318,6 @@ _menu = switch (_menuName) do {
 								-1,
 								(_hasFuel),
 								(_isVehicle)
-						],
-						[
-								"Check Stock",
-								{["check"] call ITD_fnc_service;},
-								"",
-								"See how many resources are available at this service point.",
-								"",
-								-1,
-								(true),
-								(true)
 						]
 				]
 		]

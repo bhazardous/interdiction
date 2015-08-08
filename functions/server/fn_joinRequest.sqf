@@ -5,13 +5,19 @@ scriptName "fn_joinRequest";
 	Description:
 	Request sent to server when a player joins.
 
+	RemoteExec: Client
+
 	Parameter(s):
 	#0 OBJECT - Player
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
-ITD_server_spawnQueue pushBack (_this select 0);
+if (!params [["_player", objNull, [objNull]]]) exitWith {["Invalid params"] call BIS_fnc_error};
+if (isNull _player) exitWith {["Null player"] call BIS_fnc_error};
 
-nil;
+ITD_server_spawnQueue pushBack (_player);

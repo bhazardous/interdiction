@@ -9,10 +9,8 @@ scriptName "playerStart";
 #define DEBUG_BLUFOR false
 #define DEBUG_OPFOR false
 
-// Start the spawner.
 [] spawn ITD_fnc_spawnQueue;
 
-// Switch to debug unit if in the editor.
 if (DEBUG_OPFOR) then {
 	if (hasInterface) then {
 		selectPlayer ITD_unit_testPlayer;

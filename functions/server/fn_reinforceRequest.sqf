@@ -5,27 +5,27 @@ scriptName "fn_reinforceRequest";
 	Description:
 	Request received by clients for reinforcements.
 
+	RemoteExec: Client
+
 	Parameter(s):
 	#0 OBJECT - Player
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_player"];
-_player = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
-
+if (!params [["_player", objNull, [objNull]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+};
 if (isNull _player) exitWith {};
 
 if (!(_player in ITD_server_reinforceQueue)) then {
 	private ["_index"];
 	_index = ITD_server_reinforceQueue pushBack _player;
-
-	// Signal success.
 	[[_index], "ITD_fnc_reinforcements", _player] call BIS_fnc_MP;
 } else {
-	// Signal error: already in queue.
 	[[-1], "ITD_fnc_reinforcements", _player] call BIS_fnc_MP;
 };
-
-nil;

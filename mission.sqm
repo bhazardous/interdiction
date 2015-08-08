@@ -158,7 +158,7 @@ class Mission
 					lock="UNLOCKED";
 					skill=0.60000002;
 					text="ITD_module_alive_required";
-					init="[] call ITD_fnc_preInitServer; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf""";
+					init="[] call compile preprocessFileLineNumbers ""server\serverPreInit.sqf""; [] call compile preprocessFileLineNumbers ""client\clientPreInit.sqf""";
 				};
 			};
 		};

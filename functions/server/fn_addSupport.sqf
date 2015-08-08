@@ -3,40 +3,42 @@ scriptName "fn_addSupport";
 	Author: Bhaz
 
 	Description:
-	Spawns a crew, and adds a vehicle to the ALiVE support module.
+	Spawns a crew, and adds the vehicle to the ALiVE support module.
+
+	RemoteExec: Client
 
 	Parameter(s):
 	#0 OBJECT - Vehicle to add
 	#1 STRING - Type of support
 	#2 OBJECT - Player sending the request
 
-	Returns:
-	nil
-*/
-#include "persistentData.hpp"
+	Example:
+	n/a
 
+	Returns:
+	Nothing
+*/
+
+#include "persistentData.hpp"
 #define FLIGHT_HEIGHT 100
 #define CALLSIGN "RESISTANCE TRANSPORT"
 #define CALLSIGN_C "COMBAT SUPPORT"
 
-private ["_vehicle", "_type", "_player", "_success", "_callsign", "_turrets"];
-_vehicle = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
-_type = [_this, 1, "", [""]] call BIS_fnc_param;
-_player = [_this, 2, objNull, [objNull]] call BIS_fnc_param;
+if (!params [
+	["_vehicle", objNull, [objNull]],
+	["_type", "", [""]],
+	["_player", objNull, [objNull]]]) exitWith ["Invalid params"] call BIS_fnc_error;
+
+private ["_success", "_callsign", "_turrets"];
 _success = false;
 _turrets = [_vehicle] call ITD_fnc_getRealTurrets;
 
-if (isNull _player) exitWith {
-	["Request sent from objNull?"] call BIS_fnc_error;
-	nil;
-};
+if (isNull _player) exitWith {["Request sent from objNull?"] call BIS_fnc_error};
 
 if (ITD_global_crewAvailable <= 0) exitWith {
 	[[["ITD_CombatSupport","Error_NoCrew", 5]], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
-	nil;
 };
 
-// Decrement crew.
 ITD_global_crewAvailable = ITD_global_crewAvailable - 1;
 publicVariable "ITD_global_crewAvailable";
 SET_DB_PROGRESS_CREW_AVAILABLE(ITD_global_crewAvailable);
@@ -55,7 +57,6 @@ switch (_type) do {
 					_type = "cas";
 				};
 
-				// If number of turrets = 0, this can't possibly be a combat vehicle.
 				if (count _turrets == 0) then {
 					[[["ITD_CombatSupport","Error_NonCombat"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 					_type = "abort";
@@ -63,37 +64,29 @@ switch (_type) do {
 		};
 };
 
-if (_type == "abort") exitWith {
-	nil;
-};
+if (_type == "abort") exitWith {};
 
 private ["_pos", "_dir", "_class"];
 _pos = getPosATL _vehicle;
 _dir = direction _vehicle;
 _class = typeOf _vehicle;
 
-// Vehicle dead or invalid.
 if (isNull _vehicle || !alive _vehicle) exitWith {
 	["Vehicle dead or doesn't exist"] call BIS_fnc_error;
 };
 
-// Lock vehicle to players.
-_vehicle lock 3;
-
-// Get closest recruitment tent.
 private ["_id", "_spawnPos"];
+_vehicle lock 3;
 _id = [_player, ITD_global_camps] call ITD_fnc_closestPosition;
 if (count (DB_CAMPS_RECRUIT) == 0) exitWith {
-	["ITD_fnc_addSupport called at a camp without a recruitment tent."] call BIS_fnc_error;
+	["ITD_fnc_addSupport called at a camp without a recruitment tent"] call BIS_fnc_error;
 };
 _spawnPos = DB_CAMPS_RECRUIT_POSITION;
 
-// Prepare group.
-private ["_turrets", "_group", "_unit"];
+private ["_group", "_unit"];
 _group = createGroup ITD_global_side_blufor;
 [_group, 0] setWaypointPosition [_pos, 0];
 
-// Spawn driver and crew.
 _unit = _group createUnit [ITD_global_blufor_unit, _spawnPos, [], 0, "NONE"];
 _unit assignAsDriver _vehicle;
 {
@@ -109,31 +102,23 @@ waitUntil {count (crew _vehicle) == _crewSize ||
 	{{alive _x} count units _group < _crewSize} ||
 	{!alive _vehicle}};
 if ({alive _x} count units _group < _crewSize) exitWith {
-	// Unit died.
 	[[["ITD_CombatSupport","Error_Dead"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	_vehicle lock 0;
-	nil;
 };
 if (!alive _vehicle) exitWith {
-	// Vehicle destroyed.
 	[[["ITD_CombatSupport","Error_Destroyed"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 	_vehicle lock 0;
-	nil;
 };
 
-// Type specific code.
 switch (_type) do {
 		case "transport": {
-				// ALiVE's transport data.
-				private ["_tasks"];
+				private ["_tasks", "_variable", "_transportArray"];
 				if (_vehicle isKindOf "Helicopter") then {
 					_tasks = ["Pickup", "Land", "land (Eng off)", "Move", "Circle", "Insertion"];
 				} else {
 					_tasks = ["Move"];
 				};
 
-				// Patch in ALiVE support data.
-				private ["_variable", "_transportArray"];
 				_vehicle setVariable ["ALiVE_combatSupport", true];
 				_vehicle setVariable ["NEO_transportAvailableTasks", _tasks, true];
 				SUP_TRANSPORTARRAYS pushBack [_pos, _dir, _class, _callsign, _tasks, "", FLIGHT_HEIGHT];
@@ -147,10 +132,8 @@ switch (_type) do {
 				_transportArray pushBack [_vehicle, _group, _callsign];
 				NEO_radioLogic setVariable [_variable, _transportArray, true];
 
-				// Exec the ALiVE fsm file.
 				[_vehicle, _group, _callsign, _pos, _dir, FLIGHT_HEIGHT, _class, CS_RESPAWN] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\transport.fsm";
 
-				// Unlock.
 				_vehicle lock 0;
 				_success = true;
 		};
@@ -159,24 +142,20 @@ switch (_type) do {
 				private ["_airport", "_variable", "_casArray"];
 				_airport = [_pos] call ALiVE_fnc_getNearestAirportID;
 
-				// ALiVE support data.
 				_vehicle setVariable ["ALiVE_combatSupport", true];
 				_variable = format ["NEO_radioCasArray_%1", ITD_global_side_blufor];
 				_casArray = NEO_radioLogic getVariable _variable;
 				_casArray pushBack [_vehicle, _group, _callsign];
 				NEO_radioLogic setVariable [_variable, _casArray, true];
 
-				// Exec ALiVE fsm.
 				[_vehicle, _group, _callsign, _pos, _airport, _dir, FLIGHT_HEIGHT, _class, CS_RESPAWN] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\cas.fsm";
+
+				_success = true;
 		};
 
-		default {
-				["Invalid support type - %1", _type] call BIS_fnc_error;
-		};
+		default {["Invalid support type: %1", _type] call BIS_fnc_error};
 };
 
 if (_success) then {
 	[[["ITD_Guide","CombatSupport","Info_Available"], 10], "ITD_fnc_advHint"] call BIS_fnc_MP;
 };
-
-nil;

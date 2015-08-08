@@ -8,13 +8,16 @@ scriptName "fn_selectSpawnVehicle";
 	Parameter(s):
 	None
 
+	Example:
+	n/a
+
 	Returns:
-	ARRAY - [vehicle classname, capacity]
+	Array - [vehicle classname, capacity]
 */
 
-private ["_class", "_index", "_capacity", "_ret"];
-
+private ["_class", "_index", "_capacity"];
 waitUntil {!isNil "ITD_server_spawn_type"};
+
 if (ITD_server_spawn_type == 1) then {
 	_class = ITD_server_spawn_sea;
 } else {
@@ -24,6 +27,5 @@ if (ITD_server_spawn_type == 1) then {
 _index = floor (random (count _class));
 _class = _class select _index;
 _capacity = ITD_server_spawn_capacity select ITD_server_spawn_type select _index;
-_ret = [_class, _capacity];
 
-_ret;
+[_class, _capacity]

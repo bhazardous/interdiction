@@ -9,21 +9,24 @@ scriptName "fn_checkBuildings";
 	#0 ARRAY - List of buildings [object ids, position]
 	#1 POSITION - Objective position (used to optimize object search)
 
+	Example:
+	n/a
+
 	Returns:
-	bool - all buildings destroyed (true), buildings alive (false)
+	Bool - all buildings destroyed (true), buildings alive (false)
 */
 
-private ["_buildings", "_position", "_ret"];
-_buildings = [_this, 0, [], [[]]] call BIS_fnc_param;
-_position = _this select 1;
+if (!params [["_buildings", [], [[]]], ["_position", [], [[]], [2,3]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+};
+
+private ["_ret"];
 _ret = true;
 
 {
 	private ["_building"];
 	_building = _position nearestObject _x;
-	if (getDammage _building < 1) then {
-		_ret = false;
-	};
+	if (getDammage _building < 1) exitWith {_ret = false};
 } forEach _buildings;
 
-_ret;
+_ret
