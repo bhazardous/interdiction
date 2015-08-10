@@ -3,24 +3,27 @@ scriptName "fn_insideMarkers";
 	Author: Bhaz
 
 	Description:
-	Checks if position is inside any of the given markers.
+	Checks if position is inside any of the given markers. Markers need to be rectangle / ellipse.
 
 	Parameter(s):
 	#0 POSITION - Position to check
 	#1 ARRAY - List of markers to search
 
+	Example:
+	_inside = [[10,20,30], _markers] call ITD_fnc_insideMarkers;
+
 	Returns:
-	BOOL - true if inside
+	Bool - Position is inside
 */
 
-private ["_position", "_markers", "_ret"];
-_position = [_this, 0, [0,0,0], [[]], [2,3]] call BIS_fnc_param;
-_markers = [_this, 1, [], [[]]] call BIS_fnc_param;
-_ret = false;
+if (!params [["_position", [], [[]], [2,3]], ["_markers", [], [[]]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+};
 
+private ["_ret"];
+_ret = false;
 {
-	_ret = [_x, _position] call BIS_fnc_inTrigger;
-	if (_ret) exitWith {};
+	if ([_x, _position] call BIS_fnc_inTrigger) exitWith {_ret = true};
 } forEach _markers;
 
-_ret;
+_ret

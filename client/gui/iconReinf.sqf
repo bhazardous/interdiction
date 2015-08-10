@@ -1,26 +1,42 @@
 scriptName "iconReinf";
-/*--------------------------------------------------------------------
-	file: iconReinf.sqf
-	===================
-	Author: Bhaz <>
+/*
+	Author: Bhaz
+
 	Description:
---------------------------------------------------------------------*/
-#define __filename "iconReinf.sqf"
+	Low level GUI control for ITD_IconReinf. Function only available on player clients.
+	Use ITD_fnc_guiAction rather than calling this directly.
 
-disableSerialization;
-_anim = _this select 0;
-_params = [_this, 1, []] call BIS_fnc_param;
+	Parameter(s):
+	#0 STRING - Action
+	#1 ANY (Optional) - Parameters (default: Nothing)
 
-// UI controls.
-private ["_display", "_iconCtrl", "_backCtrl"];
+	Example:
+	["show"] call ITD_local_ui_iconReinf_fn;
+	["iconReinf", "show"] call ITD_fnc_guiAction;
+
+	Returns:
+	Nothing
+*/
+
+params ["_action", "_params"];
+private ["_iconCtrl", "_backCtrl"];
+
 _getControls = {
-	_display = uiNamespace getVariable "ITD_local_ui_iconReinf";
-	_iconCtrl = _display displayCtrl 1001;
+	disableSerialization;
 
-	_backCtrl = _display displayCtrl 2201;
+	private ["_display"];
+	_display = uiNamespace getVariable "ITD_local_ui_iconReinf";
+	if (!isNull _display) exitWith {
+		_iconCtrl = _display displayCtrl 1001;
+		_backCtrl = _display displayCtrl 2201;
+		true
+	};
+
+	["ITD_IconReinf - failed to get controls: %1", _action] call BIS_fnc_error;
+	false
 };
 
-switch (_anim) do {
+switch (_action) do {
 	case "show": {
 		("ITD_IconReinf" call BIS_fnc_rscLayer) cutRsc ["ITD_IconReinf", "PLAIN"];
 	};
@@ -31,22 +47,21 @@ switch (_anim) do {
 	};
 
 	case "fadeOut": {
-		call _getControls;
-		_iconCtrl ctrlSetTextColor [0, 0, 0, 0];
+		if (!call _getControls) exitWith {};
 
-		// Animate.
+		private ["_time"];
+		_iconCtrl ctrlSetTextColor [0,0,0,0];
 		_time = time;
-		while {time < (_time + 0.25)} do {
-			_alpha = 0.75 + (0 - 0.75) * ((time - _time) / 0.25);
-			_backCtrl ctrlSetBackgroundColor [-1, -1, -1, _alpha];
-			sleep 0.01;
+		waitUntil {
+			_backCtrl ctrlSetBackgroundColor [-1,-1,-1, 0.75 - 0.75 * ((time - _time) / 0.25)];
+			time > (_time + 0.25)
 		};
-
-		_backCtrl ctrlSetBackgroundColor [-1, -1, -1, 0];
 	};
 
 	case "setColour": {
-		call _getControls;
+		if (!call _getControls) exitWith {};
 		_iconCtrl ctrlSetTextColor _params;
 	};
+
+	default {["ITD_IconReinf - invalid action: %1", _action] call BIS_fnc_error};
 };

@@ -9,13 +9,18 @@ scriptName "fn_updatePlayerList";
 	#0 OBJECT - Player to add / remove.
 	#1 BOOL - Add / remove
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_player", "_add", "_modified"];
-_player = [_this, 0, [objNull], [objNull]] call BIS_fnc_param;
-_action = [_this, 1, "", [""]] call BIS_fnc_param;
+if (!params [["_player", objNull, [objNull]], ["_action", "", [""]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+};
+
+private ["_modified"];
 _modified = false;
 
 switch (_action) do {
@@ -33,7 +38,6 @@ switch (_action) do {
 	};
 
 	case "remove": {
-		// Remove.
 		if (_player in ITD_global_playerList) then {
 			if (count ITD_global_playerList == 1) then {
 				ITD_global_playerList = [ITD_unit_invisibleMan];
@@ -45,8 +49,4 @@ switch (_action) do {
 	};
 };
 
-if (_modified) then {
-	publicVariable "ITD_global_playerList";
-};
-
-nil;
+if (_modified) then {publicVariable "ITD_global_playerList"};

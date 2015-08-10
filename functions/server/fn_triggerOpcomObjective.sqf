@@ -18,24 +18,23 @@ scriptName "fn_triggerOpcomObjective";
 		#4 NUMBER - Objective priority (for use by ALiVE)
 	#3 NUMBER - Camp ID
 
+	Example:
+	n/a
+
 	Returns:
-	BOOL - true if trigger was created
+	Bool - true if trigger was created
 */
 
-private ["_factionList", "_triggerRadius", "_objectiveParams"];
-_factionList = [_this, 0,  [], [[]]] call BIS_fnc_param;
-_triggerRadius = [_this, 1, 400, [0]] call BIS_fnc_param;
-_objectiveParams = [_this, 2, [], [[]], [5]] call BIS_fnc_param;
-_campId = [_this, 3, -1, [0]] call BIS_fnc_param;
+if (!params [
+	["_factionList", [], [[]]],
+	["_triggerRadius", 400, [0]],
+	["_objectiveParams", [], [[]], [5]],
+	["_campId", -1, [0]]]) exitWith {["Invalid params"] call BIS_fnc_error; false};
 
 if (count _factionList == 0) exitWith {
-	["No factions or sides given"] call BIS_fnc_error;
-	false;
+	["No factions or sides given"] call BIS_fnc_error; false
 };
-
-if (_campId < 0) exitWith {
-	["Invalid camp ID"] call BIS_fnc_error;
-};
+if (_campId < 0) exitWith {["Invalid camp ID"] call BIS_fnc_error; false};
 
 private ["_opcomList"];
 _opcomList = [];
@@ -47,19 +46,16 @@ _opcomList = [];
 	_opcomFactions = [_opcomInstance, "factions", ""] call ALiVE_fnc_hashGet;
 	_relevant = false;
 
-	// Side in _factionList?
 	if (_opcomSide in _factionList) then {
 		_relevant = true;
 	};
 
-	// One of this OPCOMs factions in _factionList?
 	{
 		if (_x in _opcomFactions) then {
 			_relevant = true;
 		};
 	} forEach _factionList;
 
-	// Take the OPCOM ID if its needed.
 	if (_relevant) then {
 		_opcomList pushBack ([_opcomInstance, "opcomID", ""] call ALiVE_fnc_hashGet);
 	};
@@ -67,10 +63,10 @@ _opcomList = [];
 
 if (count _opcomList == 0) exitWith {
 	["No OPCOMs found matching side / factions given"] call BIS_fnc_log;
-	false;
+	false
 };
 
-// Convert faction to side.
+// Convert faction to side string.
 private ["_triggerSide"];
 _triggerSide = _factionList select 0;
 if (!(_triggerSide in ["WEST", "EAST", "GUER"])) then {
@@ -83,7 +79,7 @@ if (!(_triggerSide in ["WEST", "EAST", "GUER"])) then {
 };
 if (_triggerSide == "ERROR") exitWith {
 	["Faction not found in config"] call BIS_fnc_error;
-	false;
+	false
 };
 
 // Create the trigger.
@@ -100,4 +96,4 @@ _trigger setTriggerStatements [_triggerCondition, _triggerActivation, ""];
 _trigger setTriggerActivation [_triggerSide, "PRESENT", false];
 _trigger setTriggerTimeout [20, 20, 20, true];
 
-true;
+true

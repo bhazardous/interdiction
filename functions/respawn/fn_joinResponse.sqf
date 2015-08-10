@@ -5,16 +5,20 @@ scriptName "fn_joinResponse";
 	Description:
 	Response sent from server containing a starting vehicle.
 
+	RemoteExec: Server
+
 	Parameter(s):
 	#0 OBJECT - Vehicle
-	#1 BOOL - Is driver or cargo
+	#1 BOOL - Place in driver
+
+	Example:
+	n/a
 
 	Returns:
-	nil
+	Nothing
 */
 
-_vehicle = _this select 0;
-_driver = [_this, 1, false, [false]] call BIS_fnc_param;
+params ["_vehicle", ["_driver", false, [true]]];
 
 player setCaptive false;
 player enableSimulation true;
@@ -32,5 +36,3 @@ if (_driver) then {
 2 fadeRadio 1;
 
 ["respawning"] call BIS_fnc_blackIn;
-
-nil;

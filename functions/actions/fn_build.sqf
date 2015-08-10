@@ -8,154 +8,116 @@ scriptName "fn_build";
 	Parameter(s):
 	#0 STRING - Type of building
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
+
 #define RUN_DISTANCE 8			// Distance players can move before cancelling build.
-#define MAX_DISTANCE 100		// Max distance a building can be from HQ.
-#define MIN_CAMP_DISTANCE 1500	// Distance between resistance HQs.
+#define MAX_DISTANCE 100		// Max distance from HQ.
+#define MIN_HQ_DISTANCE 1500	// Min distance between HQs.
 
-private ["_type"];
-_type = [_this, 0, "", [""]] call BIS_fnc_param;
-if (_type == "") then {
-	["No building type"] call BIS_fnc_error;
+if (!params [["_type", "", [""]]]) exitWith {
+	["Invalid building type: %1", _type] call BIS_fnc_error;
 };
-
-if (isNil "ITD_local_building") then {
-	ITD_local_building = false;
-	ITD_local_building_snap = true;
-};
+if (_type == "") exitWith {["Empty building type"] call BIS_fnc_error};
 if (ITD_local_building) exitWith {};
 
-// Start building placement.
-private ["_pos", "_dir", "_building", "_valid"];
+private ["_playerPos", "_pos", "_dir", "_valid", "_building"];
 _playerPos = position player;
 _playerPos set [2, 0];
 _dir = getDir player;
 _valid = false;
-
-// Don't continue if the position is invalid.
 _pos = _playerPos isFlatEmpty [0,0,1.0,7,0, false, player];
-if (count _pos == 0) exitWith {
-	[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
-};
+if (count _pos == 0) exitWith {[["ITD_Camp","Error_Position"], 5] call ITD_fnc_advHint};
 
-// Buildings that require a camp need to be within MAX_DISTANCE.
-if (_type in ["service","recruitment"]) then {
-	{
-		if (_x distance _playerPos < MAX_DISTANCE) exitWith {_valid = true};
-	} forEach ITD_global_camps;
-} else {
-	_valid = true;
-};
-
-if (!_valid) exitWith {
-	[["ResistanceMovement", "BuildCamp", "Distance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
-	nil;
-};
-
-// Camp HQ requires min distance between camps.
-if (_type == "hq") then {
-	if ([_pos, ITD_global_camps, MIN_CAMP_DISTANCE] call ITD_fnc_nearby) then {
-		_valid = false;
+switch (_type) do {
+	case "hq": {
+		if (!([_pos, ITD_global_camps, MIN_HQ_DISTANCE] call ITD_fnc_nearby)) then {
+			_valid = true;
+		} else {
+			[["ITD_Camp","Error_DistanceHQ"], 5] call ITD_fnc_advHint;
+		};
 	};
+
+	case "recruitment";
+	case "service": {
+		if ([_playerPos, ITD_global_camps, MAX_DISTANCE] call ITD_fnc_nearby) then {
+			_valid = true;
+		} else {
+			[["ITD_Camp","Error_Distance"], 5] call ITD_fnc_advHint;
+		};
+	};
+
+	default {_valid = true};
 };
-if (!_valid) exitWith {
-	[["ResistanceMovement","BuildCamp","HQDistance"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
-	nil;
-};
+if (!_valid) exitWith {};
 
 _building = [_type, _pos, _dir] call ITD_fnc_spawnComposition;
-if (count _building == 0) exitWith {nil;};
+if (count _building == 0) exitWith {};
 ITD_local_building = true;
 ITD_local_building_object = _building;
+[["ITD_Hints","Info_Building"], -1, true] call ITD_fnc_advHint;
 
-// Building tutorial hint.
-[["ResistanceMovement","BuildCamp","BuildInstructions"],10,"",30,"",true,true,true] call BIS_fnc_advHint;
+[_type, _building, _playerPos] spawn {
+	params ["_type", "_building", "_startPos", "_pos", "_dir"];
 
-// Placement loop.
-[_type, _building] spawn {
-	private ["_type", "_building", "_startPos"];
-	_type = _this select 0;
-	_building = _this select 1;
-	_startPos = getPos player;
-
-	// C to place or Ctrl+C to abort. Shift+C terrain snap.
+	// C to place or Ctrl+C to abort.
 	[0x2E, [false, false, false], {_this call ITD_fnc_buildKeypress}, "keydown", "ITD_buildPlace"] call CBA_fnc_addKeyHandler;
 	[0x2E, [false, true, false], {_this call ITD_fnc_buildKeypress}, "keydown", "ITD_buildAbort"] call CBA_fnc_addKeyHandler;
 
-	// Position loop.
-	while {ITD_local_building} do {
-		private ["_pos", "_dir"];
-		_pos = getPos player;
-		_pos set [2, 0];
-		_dir = direction player;
-		[_type, _building, _pos, _dir] call ITD_fnc_moveComposition;
-		ITD_local_building_pos = _pos;
-		ITD_local_building_dir = _dir;
+	waitUntil {
+		ITD_local_building_pos = getPos player;
+		ITD_local_building_pos set [2, 0];
+		ITD_local_building_dir = getDir player;
 
-		/*if (ITD_local_building_snap) then {
-			_building setVectorUp (surfaceNormal _pos);
-		};*/
+		[_type, _building, ITD_local_building_pos, ITD_local_building_dir] call ITD_fnc_moveComposition;
 
 		if (player distance _startPos > RUN_DISTANCE) then {
 			ITD_local_building_action = "abort";
 			ITD_local_building = false;
 		};
 
-		sleep 0.04;
+		!ITD_local_building
 	};
 };
 
-// Wait for placement and confirm.
 [_type] spawn {
-	private ["_type"];
-	_type = _this select 0;
-
+	params ["_type"];
 	waitUntil {!ITD_local_building};
 
-	// Remove keybinds.
 	["ITD_buildPlace"] call CBA_fnc_removeKeyHandler;
 	["ITD_buildAbort"] call CBA_fnc_removeKeyHandler;
 
 	switch (ITD_local_building_action) do {
 		case "abort": {
-			// Aborted by distance or 'esc'.
 			if (count ITD_local_building_object > 0) then {
-				{deleteVehicle _x;} forEach ITD_local_building_object;
+				{deleteVehicle _x} forEach ITD_local_building_object;
 				ITD_local_building_object = [];
 			};
 		};
 
 		case "build": {
-			// Position confirmed, send request to server.
 			if (count ITD_local_building_object > 0) then {
-				private ["_pos", "_rot", "_checkPos"];
+				private ["_checkPos"];
 
-				// Delete the ghost object.
-				_pos = ITD_local_building_pos;
-				_rot = ITD_local_building_dir;
-				// _vec = vectorUp ITD_local_building_object;
 				{deleteVehicle _x;} forEach ITD_local_building_object;
 				ITD_local_building_object = [];
 
-				// Confirm the final position is OK.
-				// Position returned from isFlatEmpty can be slightly different, so don't use it.
-				_checkPos = _pos isFlatEmpty [0,0,1.0,7,0, false, player];
+				// Position returned from isFlatEmpty is slightly off, don't use it.
+				_checkPos = ITD_local_building_pos isFlatEmpty [0,0,1.0,7,0, false, player];
 				if (count _checkPos == 0) exitWith {
-					[["ResistanceMovement", "BuildCamp", "InvalidPosition"], 5, "", 5, "", true, true] call BIS_fnc_advHint;
+					[["ITD_Camp","Error_Position"], 5] call ITD_fnc_advHint;
 				};
 
-				// Send the build request to the server.
-				[[player, _type, _pos, _rot], "ITD_fnc_buildRequest", false] call BIS_fnc_MP;
+				[[player, _type, ITD_local_building_pos, ITD_local_building_dir], "ITD_fnc_buildRequest", false] call BIS_fnc_MP;
 			};
 		};
 
 		default {
-			// Invalid case.
 			["Building action invalid - %1", ITD_local_building_action] call BIS_fnc_error;
 		};
 	};
 };
-
-nil;

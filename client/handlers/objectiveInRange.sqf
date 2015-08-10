@@ -1,64 +1,51 @@
 scriptName "objectiveInRange";
-/*--------------------------------------------------------------------
-	file: objectiveInRange.sqf
-	====================
-	Author: Bhaz <>
-	Description: Takes control if a player is in range of an objective.
---------------------------------------------------------------------*/
-#define __filename "objectiveInRange.sqf"
+/*
+	Author: Bhaz
 
-#define GUI_NAME "objectiveStatus"
-#define GUI_SHOW [GUI_NAME, "show"] call ITD_fnc_guiAction
-#define GUI_HIDE [GUI_NAME, "hide"] call ITD_fnc_guiAction
-#define GUI_EXTEND [GUI_NAME, "extend"] call ITD_fnc_guiAction
-#define GUI_SHRINK [GUI_NAME, "shrink"] call ITD_fnc_guiAction
-#define GUI_SET_ICON(x) [GUI_NAME, "setIcon", x] call ITD_fnc_guiAction
-#define GUI_SET_PROGRESS(x) [GUI_NAME, "setProgress", x] call ITD_fnc_guiAction
-#define GUI_SET_SIDE(x) ["objectiveStatus", "setSide", x] call ITD_fnc_guiAction
+	Description:
+	Client GUI control for secondary objectives.
 
-private ["_objName", "_radius", "_markerName", "_contestScript", "_progressVar", "_progress", "_side"];
-_objName = _this select 0;
-_radius = _this select 1;
+	Parameter(s):
+	#0 STRING - Internal objective name
+	#1 NUMBER - Capture radius
+
+	Example:
+	n/a
+
+	Returns:
+	Nothing
+*/
+
+params ["_objName", "_radius"];
+private ["_markerName", "_handle", "_progressVar", "_side"];
+
 _markerName = "ITD_mkr_obj_" + _objName;
-_contestScript = "ITD_local_obj_" + _objName + "_scr";
+_handle = "ITD_local_obj_" + _objName + "_scr";
 _progressVar = "ITD_local_obj_" + _objName + "_progress";
-
-if (isNil _contestScript) then {missionNamespace setVariable [_contestScript, scriptNull]};
-
-// Set up the UI.
-GUI_SHOW;
-GUI_SET_ICON(markerType _markerName);
 _side = "";
+if (isNil _handle) then {missionNamespace setVariable [_handle, scriptNull]};
 
-// Display until out of range.
-while {(player distance (markerPos _markerName)) <= _radius} do {
-	// Has side changed?
+["objectiveStatus", "show"] call ITD_fnc_guiAction;
+["objectiveStatus", "setIcon", markerType _markerName] call ITD_fnc_guiAction;
+
+while {player distance (markerPos _markerName) <= _radius} do {
 	if (markerColor _markerName != _side) then {
 		_side = markerColor _markerName;
-		GUI_SET_SIDE(_side);
+		["objectiveStatus", "setSide", _side] call ITD_fnc_guiAction;
 	};
 
-	// Is the objective being secured by friendlies?
-	if (!scriptDone (missionNamespace getVariable _contestScript)) then {
-		GUI_EXTEND;
+	if (!scriptDone (missionNamespace getVariable _handle)) then {
+		["objectiveStatus", "extend"] call ITD_fnc_guiAction;
 
-		while {!scriptDone (missionNamespace getVariable _contestScript)
-			&& {(player distance (markerPos _markerName)) <= _radius}} do {
-			_progress = missionNamespace getVariable [_progressVar, 0];
-			GUI_SET_PROGRESS(_progress);
-			sleep 0.01;
+		waitUntil {
+			["objectiveStatus", "setProgress", missionNamespace getVariable _progressVar] call ITD_fnc_guiAction;
+			scriptDone (missionNamespace getVariable _handle) ||
+			player distance (markerPos _markerName) > _radius
 		};
 
-		// Shrink immediately if player left radius.
-		if ((player distance (markerPos _markerName)) <= _radius) exitWith {GUI_SHRINK};
-
-		_progress = missionNamespace getVariable [_progressVar, 0];
-		GUI_SET_PROGRESS(_progress);
-		sleep 0.5;
-		GUI_SHRINK;
+		["objectiveStatus", "shrink"] call ITD_fnc_guiAction;
 	};
 	sleep 0.5;
 };
 
-// Player left radius - kill the UI.
-GUI_HIDE;
+["objectiveStatus", "hide"] call ITD_fnc_guiAction;

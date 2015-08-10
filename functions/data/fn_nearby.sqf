@@ -9,101 +9,78 @@ scriptName "fn_nearby";
 
 	Parameter(s):
 	#0 OBJECT, STRING, POSITION - Position to test
-	#1 OBJECT, STRING, POSITION, (ARRAY) - Position/s to test against
+	#1 OBJECT, STRING, POSITION, ARRAY - Position/s to test against
 	#2 NUMBER - Distance
 
+	Example:
+	n/a
+
 	Returns:
-	BOOL - true if within distance
+	Boolean - true if within distance
 */
 
-private ["_obj", "_test", "_distance", "_ret", "_objPos"];
-_obj = [_this, 0, objNull, [objNull, "", []]] call BIS_fnc_param;
-_test = [_this, 1, objNull, [objNull, "", []]] call BIS_fnc_param;
-_distance = [_this, 2, -1, [0]] call BIS_fnc_param;
-_ret = false;
+if (!params [
+		["_obj", objNull, [objNull, "", []]],
+		["_test", objNull, [objNull, "", []]],
+		["_distance", -1, [0]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
+	false
+};
 
-// Get position from _obj.
+private ["_ret", "_objPos"];
+_ret = false;
+_objPos = nil;
+
 switch (typeName _obj) do {
 	case "OBJECT": {
-		if (!isNull _obj) then {
-			_objPos = position _obj;
-		} else {
-			_objPos = nil;
-		};
+		if (!isNull _obj) then {_objPos = position _obj};
 	};
-
 	case "STRING": {
-		if (getMarkerColor _obj != "") then {
-			_objPos = markerPos _obj;
-		} else {
-			_objPos = nil;
-		};
+		if (getMarkerColor _obj != "") then {_objPos = markerPos _obj};
 	};
-
 	case "ARRAY": {
-		if (typeName (_obj select 0) in ["NUMBER","SCALAR"]) then {
-			_objPos = _obj;
-		} else {
-			_objPos = nil;
-		};
+		if (typeName (_obj select 0) in ["NUMBER","SCALAR"]) then {_objPos = _obj};
 	};
 };
 
 if (isNil "_objPos") exitWith {
 	["Invalid object, marker or position - %1", _obj] call BIS_fnc_error;
-	false;
+	_ret
 };
-
-// Is _distance valid?
 if (_distance < 0) exitWith {
 	["Distance not provided or negative distance"] call BIS_fnc_error;
-	false;
+	_ret
 };
 
 switch (typeName _test) do {
 	case "OBJECT": {
 		if (!isNull _test) then {
-			if (_objPos distance _test <= _distance) then {
-				_ret = true;
-			};
+			if (_objPos distance _test <= _distance) then {_ret = true};
 		} else {
-			["Object passed is null - %1", _test] call BIS_fnc_error;
+			["Object passed is null: %1", _test] call BIS_fnc_error;
 		};
 	};
 
 	case "STRING": {
 		if (getMarkerColor _test != "") then {
-			private ["_markerPos"];
-			_markerPos = markerPos _test;
-			if (_objPos distance _markerPos <= _distance) then {
-				_ret = true;
-			};
+			if (_objPos distance (markerPos _test) <= _distance) then {_ret = true};
 		} else {
-			["Marker doesn't exist - %1", _test] call BIS_fnc_error;
+			["Marker doesn't exist: %1", _test] call BIS_fnc_error;
 		};
 	};
 
 	case "ARRAY": {
-		// Empty array - return false without error.
 		if (count _test == 0) exitWith {};
-
 		if (typeName (_test select 0) in ["NUMBER","SCALAR"]) then {
 			// Testing a position.
-			if (_objPos distance _test <= _distance) then {
-				_ret = true;
-			};
+			if (_objPos distance _test <= _distance) then {_ret = true};
 		} else {
-			// Not a position, assume its an array of objects / markers / positions.
-			// Test against all.
+			// Not a position, assume an array of objects / markers / positions.
 			{
-				if ([_obj, _x, _distance] call ITD_fnc_nearby) then {
-					_ret = true;
-				};
-
-				if (_ret) exitWith {};
+				if ([_obj, _x, _distance] call ITD_fnc_nearby) exitWith {_ret = true};
 			} forEach _test;
 		};
 	};
 };
 
-_ret;
+_ret

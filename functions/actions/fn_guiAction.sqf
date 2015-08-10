@@ -4,25 +4,24 @@ scriptName "fn_guiAction";
 
 	Description:
 	Handles dialogs and resources.
-	Usage - ["uiName", "action", params] call ITD_fnc_guiAction;
 
 	Parameter(s):
-	#0 STRING - GUI element name
+	#0 STRING - GUI name
 	#1 STRING - Action
-	#2 ANY - Params if required
+	#2 ANY (Optional) - Parameters (default: Nothing)
+
+	Example:
+	["objectiveStatus", "show"] call ITD_fnc_guiAction;
 
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_element", "_action", "_params"];
-_element = [_this, 0, "", [""]] call BIS_fnc_param;
-_action = [_this, 1, "", [""]] call BIS_fnc_param;
-_params = [_this, 2, []] call BIS_fnc_param;
+params [["_gui", "", [""]], ["_action", "", [""]], "_params"];
 
-switch (_element) do {
+switch (_gui) do {
 		// ITD_ObjectiveStatus
-		// Actions: show, showFull, hide, extend, shrink, setIcon, setSide, setText, setProgress, animateProgress
+		// Actions: show, showFull, hide, extend, shrink, setIcon, setSide, setText, setProgress
 		case "objectiveStatus": {
 				switch (_action) do {
 					case "show": {
@@ -96,14 +95,8 @@ switch (_element) do {
 						};
 					};
 
-					case "animateProgress": {
-						if (ITD_local_ui_objStatus) then {
-							["animateProgress", _params] call ITD_local_ui_objStatus_fn;
-						};
-					};
-
 					default {
-						["%1 isn't a valid action for gui 'objectiveStatus'", _action] call BIS_fnc_error;
+						["%1 isn't a valid action for 'objectiveStatus'", _action] call BIS_fnc_error;
 					};
 				};
 		};
@@ -176,7 +169,7 @@ switch (_element) do {
 					};
 
 					default {
-						["%1 isn't a valid action for gui 'service'", _action] call BIS_fnc_error;
+						["%1 isn't a valid action for 'service'", _action] call BIS_fnc_error;
 					};
 				};
 		};
@@ -206,14 +199,10 @@ switch (_element) do {
 					};
 
 					default {
-						["%1 isn't a valid action for gui 'iconReinf'", _action] call BIS_fnc_error;
+						["%1 isn't a valid action for 'iconReinf'", _action] call BIS_fnc_error;
 					};
 				};
 		};
 
-		default {
-				["%1 isn't a valid gui element", _element] call BIS_fnc_error;
-		};
+		default {["%1 isn't a valid GUI", _gui] call BIS_fnc_error};
 };
-
-nil;

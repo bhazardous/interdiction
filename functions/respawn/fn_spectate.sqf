@@ -6,26 +6,26 @@ scriptName "fn_spectate";
 	Forced spectate while waiting to respawn / join. Runs clientside.
 
 	Parameter(s):
-	#1 BOOL - Waiting in a spawn queue
+	#0 BOOL (Optional) - Waiting in a spawn queue (default: false)
+
+	Example:
+	n/a
 
 	Returns:
-	nil
+	Nothing
 */
 
-private ["_inQueue"];
-_inQueue = [_this, 0, false, [false]] call BIS_fnc_param;
+if (!hasInterface) exitWith {};
 
-if (!hasInterface) exitWith {nil;};
+params [["_inQueue", false, [true]]];
 
 if (isNil "ITD_local_spectating") then {
 	ITD_local_spectating = false;
 };
 
-// Allow only one instance.
-if (ITD_local_spectating) exitWith {nil;};
+if (ITD_local_spectating) exitWith {};
 ITD_local_spectating = true;
 
-// Disable player.
 player setCaptive true;
 player hideObject true;
 player enableSimulation false;
@@ -43,13 +43,11 @@ if (!_inQueue) then {
 			if (ITD_global_campExists || ITD_global_canJoin) then {
 				ITD_local_stopSpectating = true;
 			};
-
 			sleep 1;
 		};
 	};
 };
 
-// Start spectating.
 if (_inQueue) then {
 	[ITD_global_playerList, "Preparing vehicle", 200, 300, 90, 1, [], 0,
 	[[], {ITD_local_stopSpectating}]] call ALiVE_fnc_establishingShotCustom;
@@ -57,6 +55,7 @@ if (_inQueue) then {
 	[ITD_global_playerList, "Tracking resistance", 200, 300, 90, 1, [], 0,
 	[[], {ITD_local_stopSpectating}]] call ALiVE_fnc_establishingShotCustom;
 };
+
 ITD_local_spectating = false;
 
 if (!_inQueue) then {
@@ -64,5 +63,3 @@ if (!_inQueue) then {
 	sleep 2;
 	[player] call ITD_fnc_respawn;
 };
-
-nil;

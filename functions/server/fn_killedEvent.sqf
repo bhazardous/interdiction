@@ -3,33 +3,31 @@ scriptName "fn_killedEvent";
 	Author: Bhaz
 
 	Description:
-	For server to handle killed units.
+	Server event for killed units, called by CBA.
 
 	Parameter(s):
 	#0 OBJECT - Killed unit of type "Man"
 	#1 OBJECT - Killer (either man or vehicle)
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
+
 #include "persistentData.hpp"
 
-if (!isServer) exitWith {nil;};
-
-private ["_man", "_killer", "_faction"];
-_man = _this select 0;
-_killer = _this select 1;
+if (!isServer) exitWith {};
+params ["_man", "_killer", "_value"];
+private ["_faction"];
 _faction = faction _man;
-
-lastKill = format ["%1 killed by %2", _man, _killer];
 
 if (_faction in ITD_server_faction_enemy) then {
 	if (!(_killer isKindOf "Man")) then {
 		_killer = effectiveCommander _killer;
 	};
 
-	// Kill value.
-	private ["_value"];
 	if (([position _man, ITD_server_civ_markers] call ITD_fnc_insideMarkers)) then {
 		_value = 2;
 	} else {
@@ -49,5 +47,3 @@ if (_faction in ITD_server_faction_enemy) then {
 		SET_DB_PROGRESS_KILLS(_kills);
 	};
 };
-
-nil;

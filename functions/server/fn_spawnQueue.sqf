@@ -8,9 +8,13 @@ scriptName "fn_spawnQueue";
 	Parameter(s):
 	None
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
+
 #define PUBLIC(var,value) var = value; publicVariable #var
 #define WAIT_TIME 15
 #define SLEEP_TIME 1
@@ -23,7 +27,6 @@ if (isNil "ITD_server_spawnQueue") then {
 // Spawn waves begin when all players are dead, and are no longer required
 // after a camp is built.
 while {!ITD_global_campExists} do {
-	// If all players are dead.
 	if (count ITD_global_playerList == 1 && {ITD_global_playerList select 0 == ITD_unit_invisibleMan}) then {
 		PUBLIC(ITD_global_canJoin,true);
 
@@ -35,7 +38,6 @@ while {!ITD_global_campExists} do {
 		_capacity = 0;
 		_maxPlayers = 0;
 
-		// Delete any old vehicles on a new spawn wave.
 		{deleteVehicle _x} forEach ITD_server_spawnVehicles;
 		ITD_server_spawnVehicles = [];
 
@@ -44,12 +46,10 @@ while {!ITD_global_campExists} do {
 			_player = ITD_server_spawnQueue select 0;
 			_newVehicleRequired = false;
 
-			// Take a max player count.
 			if (count ITD_server_spawnQueue > _maxPlayers) then {
 				_maxPlayers = count ITD_server_spawnQueue;
 			};
 
-			// Spawn a new vehicle if required.
 			if (_maxPlayers < 5) then {
 				if (_capacity < 4) then {
 					_newVehicleRequired = true;
@@ -69,19 +69,15 @@ while {!ITD_global_campExists} do {
 				ITD_server_spawnVehicles pushBack _vehicle;
 				_capacity = _vehicleInfo select 1;
 
-				// New vehicle, place player in driver.
 				[[_vehicle, true], "ITD_fnc_joinResponse", _player] call BIS_fnc_MP;
 			} else {
-				// Old vehicle, player in cargo.
 				[[_vehicle], "ITD_fnc_joinResponse", _player] call BIS_fnc_MP;
 			};
 
-			// Remove any old AI in player group.
 			{
 				if (!isPlayer _x) then {deleteVehicle _x;};
 			} forEach units group _player;
 
-			// Spawn AI if low player count.
 			if (_spawnAI) then {
 				for "_i" from 1 to 3 do {
 					private ["_unit"];
@@ -95,14 +91,11 @@ while {!ITD_global_campExists} do {
 				_capacity = _capacity - 1;
 			};
 
-			// Remove _player from the queue.
 			ITD_server_spawnQueue deleteAt 0;
 			sleep SLEEP_TIME;
 
-			// Add player to global player list.
 			[_player, "add"] call ITD_fnc_updatePlayerList;
 
-			// If the queue is empty, do a final wait for slow loaders.
 			if (count ITD_server_spawnQueue == 0) then {
 				sleep WAIT_TIME * 2;
 			};
@@ -113,5 +106,3 @@ while {!ITD_global_campExists} do {
 
 	sleep WAIT_TIME;
 };
-
-nil;

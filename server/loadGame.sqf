@@ -54,15 +54,15 @@ if (!isNil "_version") then {
 	if (_version > 1) then {
 		// Not backwards compatible.
 		while {true} do {
-			[["ResistanceMovement","MissionPersistence","VersionError"], true, true, false] call ITD_fnc_broadcastHint;
-			sleep 30;
+			[[["ITD_Persistence","Error_Version"]], "ITD_fnc_advHint"] call BIS_fnc_MP;
+			sleep 40;
 		};
 	};
 } else {
 	// Corrupt / missing data, or ALiVE data from another mission. (sharing pbo name etc.)
 	while {true} do {
-		[["ResistanceMovement","MissionPersistence","LoadError"], true, true, false] call ITD_fnc_broadcastHint;
-		sleep 30;
+		[[["ITD_Persistence","Error_Load"]], "ITD_fnc_advHint"] call BIS_fnc_MP;
+		sleep 40;
 	};
 };
 
@@ -71,7 +71,6 @@ ITD_server_db_progress = ["ITD_progress"] call ALiVE_fnc_getData;
 ITD_server_db_camps = ["ITD_camps"] call ALiVE_fnc_getData;
 ITD_server_db_objectives = ["ITD_objectives"] call ALiVE_fnc_getData;
 
-// Rebuild camps.
 ITD_global_camps = [];
 ITD_global_servicePoints = [];
 ITD_global_serviceData = [];
@@ -88,7 +87,6 @@ _campId = 1;
 	_service = _x select 3;
 	_recruit = _x select 4;
 
-	// Spawn camp HQ.
 	_building = ["hq", _pos, _rot, false] call ITD_fnc_spawnComposition;
 	{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
 
@@ -122,7 +120,6 @@ _campId = 1;
 	_campId = _campId + 1;
 } forEach ITD_server_db_camps;
 
-// If there are camps, delete the respawn markers.
 if (count ITD_server_db_camps > 0) then {
 	deleteMarker "respawn_west";
 	deleteMarker "respawn_east";
@@ -144,7 +141,6 @@ waitUntil {!isNil "ITD_server_objectivesLoaded"};
 	};
 } forEach ITD_server_db_objectives;
 
-// Broadcast variables that need to be global.
 publicVariable "ITD_global_camps";
 publicVariable "ITD_global_servicePoints";
 publicVariable "ITD_global_serviceData";
@@ -160,7 +156,6 @@ if (count ITD_server_db_camps > 0) then {
 	[] spawn ITD_fnc_spawnQueue;
 };
 
-// Start the objective manager.
 ["manage"] spawn ITD_fnc_objectiveManager;
 
-[["ResistanceMovement","MissionPersistence","LoadedSave"]] call ITD_fnc_broadcastHint;
+[[["ITD_Persistence","Info_Resumed"]], "ITD_fnc_advHint"] call BIS_fnc_MP;

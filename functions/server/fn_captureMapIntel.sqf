@@ -8,13 +8,16 @@ scriptName "fn_captureMapIntel";
 	Parameter(s):
 	#0 BOOL - True for captured, false for lost
 
+	Example:
+	n/a
+
 	Returns:
-	nil
+	Nothing
 */
+
 #define RADIUS_MULTIPLIER 500
 
-private ["_captured"];
-_captured = _this select 0;
+if (!params [["_captured", false, [true]]]) exitWith {["Invalid params"] call BIS_fnc_error};
 
 if (isNil "ITD_server_mapIntel") then {
 	ITD_server_mapIntel = false;
@@ -36,5 +39,3 @@ if (_captured) then {
 };
 
 [ITD_server_mapIntelCount * RADIUS_MULTIPLIER] call ITD_fnc_setMapIntel;
-
-nil;

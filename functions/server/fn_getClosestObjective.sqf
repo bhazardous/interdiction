@@ -9,21 +9,22 @@ scriptName "fn_getClosestObjective";
 	#0 OBJECT - OPCOM module
 	#1 POSITION - Position to search
 
+	Example:
+	_objective = [opcom_module, _pos] call ITD_fnc_getClosestObjective;
+
 	Returns:
-	? - TRUE when done
+	Array - ALiVE objective
 */
 
-private ["_opcom", "_position", "_handler", "_objectives", "_result"];
-_opcom = [_this, 0, objNull, [objNull]] call BIS_fnc_param;
-_position = [_this, 1, [], [[]], [2,3]] call BIS_fnc_param;
-
-if (isNull _opcom) exitWith {
-	["_opcom is null"] call BIS_fnc_error;
+if (!params [["_opcom", objNull, [objNull]], ["_position", [], [[]], [2,3]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error;
 };
+
+private ["_handler", "_objectives", "_result"];
+if (isNull _opcom) exitWith {["Null OPCOM"] call BIS_fnc_error};
 
 _handler = _opcom getVariable "handler";
 _objectives = [_handler, "objectives"] call ALiVE_fnc_hashGet;
-// Thanks highhead xD.
-_result = ([_objectives, [_position], {_input0 distance ([_x, "center"] call ALiVE_fnc_hashGet)}, "ASCEND"] call BIS_fnc_sortBy) select 0;
 
-_result;
+// Thanks highhead xD.
+(([_objectives, [_position], {_input0 distance ([_x, "center"] call ALiVE_fnc_hashGet)}, "ASCEND"] call BIS_fnc_sortBy) select 0)

@@ -10,7 +10,6 @@ scriptName "clientPreInit";
 while {isNil "ITD_global_persistence"} do {};
 
 if (!isServer && ITD_global_persistence) then {
-	// Set player options module settings before it inits client side.
 	ITD_module_alive_playerOptions setVariable ["enablePlayerPersistence", "true"];
 	ITD_module_alive_playerOptions setVariable ["saveLoadout", "true"];
 	ITD_module_alive_playerOptions setVariable ["saveAmmo", "true"];
