@@ -18,12 +18,15 @@ scriptName "fn_simulateComposition";
 	Nothing
 */
 
-if (!params [
-	["_composition", [], [[]]],
-	["_sim", true, [true]],
-	["_damage", true, [true]],
-	["_global", false, [true]]]) exitWith {["Invalid params"] call BIS_fnc_error};
-if (count _composition == 0) exitWith {};
+if (!params [["_composition", [], [[]]]]) exitWith {
+	["Invalid params"] call BIS_fnc_error
+};
+if (count _composition == 0) exitWith {["Empty composition"] call BIS_fnc_error};
+
+private ["_sim", "_damage", "_global"];
+_sim = param [1, true, [true]];
+_damage = param [2, true, [true]];
+_global = param [3, false, [true]];
 
 if (!_global) then {
 	{_x enableSimulation _sim} forEach _composition;
