@@ -88,6 +88,7 @@ if (ITD_global_buildingEnabled) then {
 
 	private ["_building"];
 	_building = [_type, _pos, _rot, false] call ITD_fnc_spawnComposition;
+	[_building, false, false, true] call ITD_fnc_simulateComposition;
 
 	if (!_fort) then {
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
