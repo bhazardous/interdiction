@@ -27,7 +27,7 @@ scriptName "fn_addSupport";
 if (!params [
 	["_vehicle", objNull, [objNull]],
 	["_type", "", [""]],
-	["_player", objNull, [objNull]]]) exitWith ["Invalid params"] call BIS_fnc_error;
+	["_player", objNull, [objNull]]]) exitWith {["Invalid params"] call BIS_fnc_error};
 
 private ["_success", "_callsign", "_turrets"];
 _success = false;
@@ -132,7 +132,7 @@ switch (_type) do {
 				_transportArray pushBack [_vehicle, _group, _callsign];
 				NEO_radioLogic setVariable [_variable, _transportArray, true];
 
-				[_vehicle, _group, _callsign, _pos, _dir, FLIGHT_HEIGHT, _class, CS_RESPAWN] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\transport.fsm";
+				[_vehicle, _group, _callsign, _pos, _dir, FLIGHT_HEIGHT, _class, CS_RESPAWN, {}] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\transport.fsm";
 
 				_vehicle lock 0;
 				_success = true;
@@ -148,7 +148,7 @@ switch (_type) do {
 				_casArray pushBack [_vehicle, _group, _callsign];
 				NEO_radioLogic setVariable [_variable, _casArray, true];
 
-				[_vehicle, _group, _callsign, _pos, _airport, _dir, FLIGHT_HEIGHT, _class, CS_RESPAWN] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\cas.fsm";
+				[_vehicle, _group, _callsign, _pos, _airport, _dir, FLIGHT_HEIGHT, _class, CS_RESPAWN, {}] execFSM "\x\alive\addons\sup_combatSupport\scripts\NEO_radio\fsms\cas.fsm";
 
 				_success = true;
 		};
