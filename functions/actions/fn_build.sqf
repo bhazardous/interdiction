@@ -57,6 +57,7 @@ if (!_valid) exitWith {};
 
 _building = [_type, _pos, _dir] call ITD_fnc_spawnComposition;
 if (count _building == 0) exitWith {};
+[_building, false, false] call ITD_fnc_simulateComposition;
 ITD_local_building = true;
 ITD_local_building_object = _building;
 [["ITD_Hints","Info_Building"], -1, true] call ITD_fnc_advHint;

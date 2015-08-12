@@ -183,6 +183,11 @@ class CfgHints
 			displayName = "Unarmed Vehicle";
 			description = "You cannot create combat support using a non-combat vehicle.";
 		};
+		class Error_NoCargo
+		{
+			displayName = "Support Transport";
+			description = "This vehicle has no cargo capacity."
+		};
 	};
 
 	class ITD_Persistence

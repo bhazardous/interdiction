@@ -35,9 +35,9 @@ if (_type == "hq" && {ITD_global_campsAvailable == 0}) exitWith {};
 
 private ["_valid", "_id"];
 _valid = false;
+_id = [_player, ITD_global_camps] call ITD_fnc_closestPosition;
 if (_type in ["service","recruitment"]) then {
 	if ([_pos, ITD_global_camps, MAX_DISTANCE] call ITD_fnc_nearby) then {
-		_id = [_player, ITD_global_camps] call ITD_fnc_closestPosition;
 		if (_type == "service") then {
 			_valid = count (DB_CAMPS_SERVICE) == 0;
 		} else {
@@ -88,6 +88,7 @@ if (ITD_global_buildingEnabled) then {
 
 	private ["_building"];
 	_building = [_type, _pos, _rot, false] call ITD_fnc_spawnComposition;
+	[_building, false, false, true] call ITD_fnc_simulateComposition;
 
 	if (!_fort) then {
 		{_x setVariable ["ALiVE_SYS_LOGISTICS_DISABLE", true];} forEach _building;
