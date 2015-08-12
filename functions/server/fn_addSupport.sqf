@@ -39,32 +39,43 @@ if (ITD_global_crewAvailable <= 0) exitWith {
 	[[["ITD_CombatSupport","Error_NoCrew", 5]], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
 };
 
-ITD_global_crewAvailable = ITD_global_crewAvailable - 1;
-publicVariable "ITD_global_crewAvailable";
-SET_DB_PROGRESS_CREW_AVAILABLE(ITD_global_crewAvailable);
-
 switch (_type) do {
-		case "transport": {
-				_callsign = CALLSIGN;
+	case "transport": {
+		private ["_cargo"];
+		_cargo = (configFile >> "CfgVehicles" >> (typeOf _vehicle) >> "transportSoldier");
+		if (!isClass _cargo || {getNumber _cargo <= 0}) exitWith {
+			[[["ITD_CombatSupport","Error_NoCargo"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
+			_type = "abort";
+		};
+		_callsign = CALLSIGN;
+	};
+
+	case "combat": {
+		if (count _turrets == 0) exitWith {
+			[[["ITD_CombatSupport","Error_NonCombat"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
+			_type = "abort";
 		};
 
-		case "combat": {
-				// ALiVE only supports CAS, ground vehicles are added to transport.
-				_callsign = CALLSIGN_C;
-				if (!(_vehicle isKindOf "Air")) then {
-					_type = "transport";
-				} else {
-					_type = "cas";
-				};
-
-				if (count _turrets == 0) then {
-					[[["ITD_CombatSupport","Error_NonCombat"], 5], "ITD_fnc_advHint", _player] call BIS_fnc_MP;
-					_type = "abort";
-				};
+		// ALiVE only supports CAS, ground vehicles are added to transport.
+		_callsign = CALLSIGN_C;
+		if (!(_vehicle isKindOf "Air")) then {
+			_type = "transport";
+		} else {
+			_type = "cas";
 		};
+	};
+
+	default {
+		["Invalid support type: %1", _type] call BIS_fnc_error;
+		_type = "abort";
+	};
 };
 
 if (_type == "abort") exitWith {};
+
+ITD_global_crewAvailable = ITD_global_crewAvailable - 1;
+publicVariable "ITD_global_crewAvailable";
+SET_DB_PROGRESS_CREW_AVAILABLE(ITD_global_crewAvailable);
 
 private ["_pos", "_dir", "_class"];
 _pos = getPosATL _vehicle;
@@ -152,8 +163,6 @@ switch (_type) do {
 
 				_success = true;
 		};
-
-		default {["Invalid support type: %1", _type] call BIS_fnc_error};
 };
 
 if (_success) then {
