@@ -15,6 +15,8 @@ scriptName "fn_spawnConvoy";
 	Nothing
 */
 
+#define DEBUG false
+
 private ["_spawnPositions"];
 _spawnPositions = [];
 {
@@ -42,13 +44,33 @@ _crewGroup addWaypoint [_dest, 0];
 	params ["_grp", "_vehicle"];
 	private ["_pos"];
 
-	waitUntil {!alive _vehicle || currentWaypoint _grp == 2};
+	waitUntil {!alive _vehicle ||
+		{currentWaypoint _grp == 2} ||
+		{{alive _x} count units _grp == 0}};
 	if (!alive _vehicle) exitWith {};
 
 	_pos = getPos _vehicle;
 	if ([_pos, 2000] call ALiVE_fnc_anyPlayersInRange == 0) then {
 		deleteVehicle _vehicle;
+		{deleteVehicle _x} forEach units _grp;
 	} else {
-		// TODO: Profile vehicle.
+		(units _grp) orderGetIn false;
+		sleep 1;
+		[false, [_grp], [_vehicle]] call ALiVE_fnc_createProfilesFromUnitsRuntime;
 	};
+};
+
+if (DEBUG) then {
+	ITD_server_debug_convoyGroup = _crewGroup;
+	ITD_server_debug_convoyVehicle = _vehicle;
+
+	if (markerColor "ITD_mkr_convoyStart" == "") then {
+		createMarker ["ITD_mkr_convoyStart", [0,0]];
+		createMarker ["ITD_mkr_convoyFinish", [0,0]];
+		"ITD_mkr_convoyStart" setMarkerType "mil_start";
+		"ITD_mkr_convoyFinish" setMarkerType "mil_end";
+	};
+
+	"ITD_mkr_convoyStart" setMarkerPos _position;
+	"ITD_mkr_convoyFinish" setMarkerPos _dest;
 };
