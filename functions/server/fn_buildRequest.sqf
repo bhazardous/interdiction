@@ -155,6 +155,10 @@ if (ITD_global_buildingEnabled) then {
 			clearMagazineCargoGlobal _crate;
 			clearItemCargoGlobal _crate;
 			[ITD_module_alive_required, "updateObject", _crate] call ALiVE_fnc_logistics;
+
+			// Add spawn vehicles as persistent profiles.
+			[false, [], ITD_server_spawnVehicles] call ALiVE_fnc_createProfilesFromUnitsRuntime;
+			ITD_server_spawnVehicles = [];
 		};
 
 		case "service": {
