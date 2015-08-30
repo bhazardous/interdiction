@@ -46,12 +46,12 @@ ITD_server_reinforceQueue = [];			// Player queue for requested reinforcements.
 PUBLIC(ITD_global_buildingEnabled,true);// Global toggle for building.
 PUBLIC(ITD_global_playerList,[ITD_unit_invisibleMan]);
 
-// TODO: (TEMPORARY) Random convoy spawner.
+// Convoy spawner.
 [] spawn {
 	scriptName "serverInit_convoy";
 	while {true} do {
 		private ["_sleepTime"];
-		_sleepTime = 10 + floor (random (20));
+		_sleepTime = 5 + floor (random (15));
 		_sleepTime = _sleepTime * 60;
 		sleep _sleepTime;
 		[] call ITD_fnc_spawnConvoy;
