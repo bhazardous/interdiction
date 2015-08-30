@@ -29,40 +29,56 @@ _spawnPositions = [];
 } forEach ITD_server_location_markers;
 if (count _spawnPositions < 2) exitWith {};
 
-private ["_posIndex", "_position", "_dest", "_vehicleClass", "_vehicle", "_crewGroup", "_driver"];
+private ["_posIndex", "_position", "_dest", "_vehicleCount", "_vehicles", "_crewGroup"];
 _posIndex = floor (random (count _spawnPositions));
 _position = _spawnPositions deleteAt _posIndex;
 _dest = _spawnPositions select (floor (random (count _spawnPositions)));
-_vehicleClass = (ITD_server_opfor_supply select (floor (random (count ITD_server_opfor_supply))));
-_vehicle = _vehicleClass createVehicle _position;
+_vehicleCount = (floor (random 3)) + 1;
+_vehicles = [];
 _crewGroup = createGroup ITD_server_side_opfor;
-_driver = _crewGroup createUnit [ITD_server_opfor_unit, _position, [], 0, "NONE"];
-_driver moveInDriver _vehicle;
 
+for "_i" from 1 to _vehicleCount do {
+	private ["_vehicleClass", "_vehicle", "_driver"];
+	_vehicleClass = (ITD_server_opfor_supply select (floor (random (count ITD_server_opfor_supply))));
+	_vehicle = _vehicleClass createVehicle _position;
+	_vehicles pushBack _vehicle;
+
+	_driver = _crewGroup createUnit [ITD_server_opfor_unit, _position, [], 0, "NONE"];
+	_driver moveInDriver _vehicle;
+};
+
+_crewGroup setFormation "COLUMN";
 _crewGroup addWaypoint [_dest, 0];
-[_crewGroup, _vehicle] spawn {
-	params ["_grp", "_vehicle"];
+
+[_crewGroup, _vehicles] spawn {
+	params ["_grp", "_vehicles"];
 	private ["_pos"];
 
-	waitUntil {!alive _vehicle ||
+	waitUntil {
+		{alive _x} count _vehicles == 0 ||
 		{currentWaypoint _grp == 2} ||
 		{{alive _x} count units _grp == 0}};
-	if (!alive _vehicle) exitWith {};
+	if ({alive _x} count _vehicles == 0) exitWith {};
 
-	_pos = getPos _vehicle;
+	{
+		if (alive _x) exitWith {
+			_pos = getPos _x;
+		};
+	} forEach _vehicles;
+
 	if ([_pos, 2000] call ALiVE_fnc_anyPlayersInRange == 0) then {
-		deleteVehicle _vehicle;
+		{deleteVehicle _x} forEach _vehicles;
 		{deleteVehicle _x} forEach units _grp;
 	} else {
 		(units _grp) orderGetIn false;
-		sleep 1;
-		[false, [_grp], [_vehicle]] call ALiVE_fnc_createProfilesFromUnitsRuntime;
+		sleep 3;
+		[false, [_grp], _vehicles] call ALiVE_fnc_createProfilesFromUnitsRuntime;
 	};
 };
 
 if (DEBUG) then {
 	ITD_server_debug_convoyGroup = _crewGroup;
-	ITD_server_debug_convoyVehicle = _vehicle;
+	ITD_server_debug_convoyVehicles = _vehicles;
 
 	if (markerColor "ITD_mkr_convoyStart" == "") then {
 		createMarker ["ITD_mkr_convoyStart", [0,0]];
