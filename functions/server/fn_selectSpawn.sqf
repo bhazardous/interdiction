@@ -15,6 +15,8 @@ scriptName "fn_selectSpawn";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 private ["_marker", "_position"];
 _marker = format ["ITD_mkr_spawn%1", floor(random ITD_server_spawn_markers)];
 _position = [_marker] call BIS_fnc_randomPosTrigger;

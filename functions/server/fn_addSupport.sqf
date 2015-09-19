@@ -19,6 +19,8 @@ scriptName "fn_addSupport";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 #include "persistentData.hpp"
 #define FLIGHT_HEIGHT 100
 #define CALLSIGN "RESISTANCE TRANSPORT"

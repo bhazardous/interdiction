@@ -20,6 +20,8 @@ scriptName "fn_buildRequest";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 #include "persistentData.hpp"
 #define MAX_DISTANCE 100		// Max distance a building can be from HQ.
 

@@ -17,6 +17,8 @@ scriptName "fn_reinforceRequest";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_player", objNull, [objNull]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

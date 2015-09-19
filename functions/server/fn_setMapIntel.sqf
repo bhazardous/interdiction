@@ -15,6 +15,8 @@ scriptName "fn_setMapIntel";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_radius", 0, [0]]]) exitWith {["Invalid params"] call BIS_fnc_error};
 private ["_jobs", "_intelJob", "_args"];
 waitUntil {!isNil "ALiVE_liveAnalysis"};

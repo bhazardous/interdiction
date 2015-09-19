@@ -23,6 +23,8 @@ scriptName "fn_serviceRequest";
 
 #include "persistentData.hpp"
 
+if (!isServer) exitWith {};
+
 params [
 	["_player", objNull, [objNull]],
 	["_action", "", [""]],

@@ -25,6 +25,8 @@ scriptName "fn_triggerOpcomObjective";
 	Bool - true if trigger was created
 */
 
+if (!isServer) exitWith {};
+
 if (!params [
 	["_factionList", [], [[]]],
 	["_triggerRadius", 400, [0]],

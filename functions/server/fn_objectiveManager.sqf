@@ -16,6 +16,8 @@ scriptName "fn_objectiveManager";
 	Bool - success
 */
 
+if (!isServer) exitWith {};
+
 #include "persistentData.hpp"
 #define SLEEP_TIME 1
 #define STATUS_ENEMY		0

@@ -15,6 +15,8 @@ scriptName "fn_captureMapIntel";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 #define RADIUS_MULTIPLIER 500
 
 if (!params [["_captured", false, [true]]]) exitWith {["Invalid params"] call BIS_fnc_error};

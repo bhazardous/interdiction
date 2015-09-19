@@ -17,6 +17,8 @@ scriptName "fn_setSectorIntel";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_enabled", false, [true]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

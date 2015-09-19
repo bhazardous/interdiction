@@ -17,6 +17,8 @@ scriptName "fn_captureFOB";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 // TODO: Use objective name instead of unique ID, remove ID's completely
 
 if (!params [["_captured", false, [true]], ["_id", 0, [0]]]) exitWith {
