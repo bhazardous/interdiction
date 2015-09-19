@@ -24,6 +24,8 @@ scriptName "fn_addObjective";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [
 	["_objName", "", [""]],
 	["_position", [], [[]], [2,3]],

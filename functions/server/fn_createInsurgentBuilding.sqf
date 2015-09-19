@@ -17,6 +17,8 @@ scriptName "fn_createInsurgentBuilding";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 // Check: Not in use.
 
 if (!params [["_type", "", [""]], ["_building", 0, [0]], ["_objective", [], [[]]]]) exitWith {

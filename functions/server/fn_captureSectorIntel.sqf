@@ -15,6 +15,8 @@ scriptName "fn_captureSectorIntel";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_captured", false, [true]]]) exitWith {["Invalid params"] call BIS_fnc_error};
 
 if (isNil "ITD_server_sectorIntel") then {

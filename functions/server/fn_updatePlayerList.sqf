@@ -16,6 +16,8 @@ scriptName "fn_updatePlayerList";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_player", objNull, [objNull]], ["_action", "", [""]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

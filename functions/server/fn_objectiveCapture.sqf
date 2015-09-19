@@ -16,6 +16,8 @@ scriptName "fn_objectiveCapture";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 #define SLEEP_TIME 2
 #define LOOPS 10
 #define STATUS_ENEMY		0

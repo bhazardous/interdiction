@@ -15,6 +15,8 @@ scriptName "fn_spawnConvoy";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 #define DEBUG false
 
 private ["_spawnPositions"];

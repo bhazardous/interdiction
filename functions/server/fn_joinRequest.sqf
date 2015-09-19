@@ -17,6 +17,8 @@ scriptName "fn_joinRequest";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_player", objNull, [objNull]]]) exitWith {["Invalid params"] call BIS_fnc_error};
 if (isNull _player) exitWith {["Null player"] call BIS_fnc_error};
 

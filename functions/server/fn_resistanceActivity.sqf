@@ -15,6 +15,8 @@ scriptName "fn_resistanceActivity";
 	nil
 */
 
+if (!isServer) exitWith {};
+
 #include "persistentData.hpp"
 
 if (!params [["_reason", "", [""]]]) exitWith {["Invalid params"] call BIS_fnc_error};

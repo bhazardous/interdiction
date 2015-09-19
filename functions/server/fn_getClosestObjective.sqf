@@ -16,6 +16,8 @@ scriptName "fn_getClosestObjective";
 	Array - ALiVE objective
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_opcom", objNull, [objNull]], ["_position", [], [[]], [2,3]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

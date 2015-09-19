@@ -15,6 +15,8 @@ scriptName "fn_selectSpawnVehicle";
 	Array - [vehicle classname, capacity]
 */
 
+if (!isServer) exitWith {};
+
 private ["_class", "_index", "_capacity"];
 waitUntil {!isNil "ITD_server_spawn_type"};
 

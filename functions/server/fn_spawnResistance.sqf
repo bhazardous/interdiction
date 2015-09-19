@@ -15,6 +15,8 @@ scriptName "fn_spawnResistance";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (count ITD_server_reinforceQueue == 0) then {
 	[] spawn {
 		waitUntil {!isNil "ITD_global_campExists"};

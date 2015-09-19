@@ -16,6 +16,8 @@ scriptName "fn_checkBuildings";
 	Bool - all buildings destroyed (true), buildings alive (false)
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_buildings", [], [[]]], ["_position", [], [[]], [2,3]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

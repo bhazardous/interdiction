@@ -15,6 +15,8 @@ scriptName "fn_spawnQueue";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 #define PUBLIC(var,value) var = value; publicVariable #var
 #define WAIT_TIME 15
 #define SLEEP_TIME 1

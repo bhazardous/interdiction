@@ -21,6 +21,8 @@ scriptName "fn_addOpcomObjective";
 	Nothing
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_opcomList", [], [[], objNull]], ["_objectiveParams", [], [[]], [5]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

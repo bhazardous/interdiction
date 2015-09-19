@@ -18,6 +18,8 @@ scriptName "fn_checkPresence";
 	Bool - Is present
 */
 
+if (!isServer) exitWith {};
+
 if (!params [["_side", west, [west]], ["_position", [], [[]], [2,3]], ["_radius", 0, [0]]]) exitWith {
 	["Invalid params"] call BIS_fnc_error;
 };

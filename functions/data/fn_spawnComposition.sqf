@@ -29,6 +29,9 @@ _objects = [];
 _fort = ([_name, "fort_"] call CBA_fnc_find != -1);
 _composition = [_name] call ITD_fnc_getComposition;
 
+if (!isServer && {!_local}) exitWith {
+	["Client attempted to spawn composition globally"] call BIS_fnc_error;
+};
 if (count _composition == 0) exitWith {[]};
 
 {
